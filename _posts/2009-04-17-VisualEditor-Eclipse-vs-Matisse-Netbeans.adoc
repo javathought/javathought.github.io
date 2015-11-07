@@ -1,0 +1,21 @@
+= VisualEditor (Eclipse) vs Matisse (Netbeans)
+:published_at: 2009-04-17
+:hb_tags: eclipse, ide, netbeans
+
+Writing my precedent post, I decided to take back a look at VE. So I installed last version (1.4) of VE on my 3.4 eclipse.
+
+So, is VE up to Matisse features ? The response is quickly given : No !
+
+VE does not give you the rapid placement of components you have in Netbeans. In Eclipse, you have to place exactly the component where you want it to be to have a professional form.
+
+In Netbeans, magnetism is active and place component in a professional way with the GroupLayout. Spacing is automatic, so field text drop perfectly behind labels. Components can be "attached" to borders, so that they grow with the containing panel. A component can have the width of a group of others components. Indentation of components is given, and so on ...
+
+You'll not have this rapid form design in VE.
+
+But, what makes Netbeans rules in GUI design against VE is the implementation of JSR-295 Beans Binding ! You simply drag a bean class on the form to have it available for binding. Right-click on a component, then bind and you'll have it binded to the property you want. You can start learn beansbinding with this http://www.netbeans.org/kb/60/java/gui-binding.html[introduction].
+
+Opposite, Eclipse gives you nothing. You'll really spare time developing your GUI in netbeans. In 1 or 2 day you can design an effective form that works, not only a mock-up but a full funtionnal GUI ready to deliver.
+
+_edit :_ And the other advantage of Netbeans is the ease of internationalizing your application. No code to write, just write your strings in any language. The IDE can automatically set up the code to load localized labels.
+
+Next time, I'll speak about the debugging.
