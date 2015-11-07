@@ -1,0 +1,9 @@
+= Oracle will buy Sun
+:published_at: 2009-04-20
+:hp-tags: oracle, sun
+
+Finally, that's Oracle that will buy Sun, surprisingly ahead of others companies, after persistant rumors of exchange with IBM.
+
+Thus, Oracle will acquire new activities to concurrence their competitors. Especially, the sun server activity as Oracle didn't ship hardware before. A good news to Sun's customers. They will also acquire concurrent activity of their actual solutions, as MySql.
+
+Personally, I'm particularly interested in the future of Netbeans, of course. And also, the raise of VirtualBox. Will they improve the solution to compete with VMWare ?
