@@ -1,0 +1,21 @@
+= Eclipse or Netbeans ?
+:published_at: 2009-04-16
+:hp-tags: ide, eclipse, netbeans 
+
+When developing with Java, one of the first question is what IDE to used.  As I have worked with Eclipse and netbeans, I'll give my feedback on them.
+
+Both are good at editing source code (fortunately). There's no major difference on basic tasks to develop an application. I'll give you the major differences I've found using them to develop J2SE applications. You'll have all what you need to develop, make unit tests (with JUnit), package (create jar files), automate your builds (with ant). And you'll find additional plugins to help you. So on which feature will you make your choice.
+
+First, it seems Netbeans has better integration of some java technologies. E. g., I've develop some applications manipulating xml data files. I choose JAXB to handle the xml-object binding. Netbeans natively supports JAXB. You create your schemas and Netbeans is ready to generate your classes mapping your xml datas. Under Eclipse you'll have to install JAXB and the associated plugin. Quite a minor disagreement.
+
+Further, Netbeans is from far better when profiling Java applications. You launch your application by the profiling menu : a screen ask you parameters to specify what you want to profile, you click run and ... this is all. Your application is being profiled as the result is there quickly. Under Eclipse, you'll have to install an agent outside of eclipse, laucnh the agent (outside of eclipse again), and laucnh the profiling. And the bad news is : it's very slow. The overhead of profiling under eclipse is just unbearable. I've never been able to wait the end of the profiling.
+
+And what about developing desktop applications ? What about Swing GUI builder and beansbing. I've been waiting too long for a GUI builder in Eclipse. VisualEditor (VE) seems to have been quite inactive for a while (see <a title="Visual Editor Project" href="http://www.eclipse.org/vep/WebContent/main.php">VE project page</a>) , but is back active (you'll have to search deeper to find new versions on the <a title="Installing VE" href="http://wiki.eclipse.org/VE/Installing">wiki page of VE</a>). But I didn't tried it (when you disappoint and loose a client, it's difficult to get it back). Perhaps I'll try it again and give it a chance. There's also a new alternative  on eclipse : <a href="http://code.google.com/p/visualswing4eclipse/">VisualSwing4Eclipse</a>. I ddn't tried it. But facing this situation, Netbeans comes with embedded <a title="Netbeans Swing GUI Builder" href="http://www.netbeans.org/features/java/swing.html">Swing GUI Builder</a> (formerly Project Matisse). It comes with great wizards; you'll find very goods <a title="Matisse tutorials" href="http://www.netbeans.org/kb/trails/matisse.html">tutorials on netbeans.org</a>. It comes with BeansBinding integration, creates well design Swing application implementing JSR-296 Swing Application Framework to provide responsive desktop applications.  You rapidly build professional GUI for your applications (I personally build the desktop client of an application with MQ-Series middleware in one day).
+
+So, is Netbeans the winner ?
+
+On the other hand, in a professionnal environment, you work with other tools to achieve my tasks and goals. So the integrations with them is an important part in the choice of the ideal (not perfect) IDE. In my case, I work with SCM (software configuration management), code analysis tool, and issue tracking software, which of them have plugins for eclipse but not for Netbeans. SCM is the most important part in the integration aspect. This fact is perhaps due to the relationship with WSAD/RAD.
+
+Will this change if, finally, IBM buys SUN ?
+
+So, I'll continue to develop on Eclipse and keep Netbeans for GUI and profiling.
