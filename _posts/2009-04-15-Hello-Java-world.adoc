@@ -1,5 +1,11 @@
-= Migrating to HubPress
-:published-at: 2015-02-12
-:hp-tags: blogging
+= Hello Java world!
+:published_at: 2009-04-15
 
-Hi, I'm migrating my blog to gh-pages with http://hubpress.io. My next ticket will be about the migration from wordpress (hope I'll success).
+
+Welcome to http://javathought.github.io[JavaThought].
+
+I'm Pascal and this blog is a new one where I'll post all my notes about Java. I could also write old stuff about Java that I wrote elsewhere to keep only one place for my writings about Java.
+
+This will also be a place to stock my sniplets.
+
+Hope I'll see you soon back here.
