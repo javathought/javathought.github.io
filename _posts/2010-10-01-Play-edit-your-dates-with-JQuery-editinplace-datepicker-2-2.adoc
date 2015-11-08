@@ -1,0 +1,248 @@
+= Play! edit your dates with JQuery (editinplace + datepicker) 2/2
+:published_at: 2010-10-01
+
+So, continue this tutorial.
+
+First we'll add http://code.google.com/p/jquery-in-place-editor/[JQuery edit in place] to our task action. Download it from the google code site and extract it from the lib folder of the zip file. Copy it ito the javascripts folder (under public).
+
+Add an editable field
+~~~~~~~~~~~~~~~~~~~~~
+
+We can now add an editable field to our project. First modify main.html to include the script, adding this line :
+
+[code language="html"]
+
+<script src="@\{'public/javascripts/jquery.editinplace.js'}" type="text/javascript" charset="utf-8"></script>
+
+[/code]
+
+Then modify the templacte index.html. We will add some class tag to identify the field on which to apply edit in place capability. We will also an an id on the tag (it will be explained below). Is his the news record template :
+
+[code language="html"]
+
+<tr class="task">
+
+<td class="editable" id="action-$\{task.id}">$\{task.action}</td>
+
+<td>$\{task.due?.format('dd-MM-yyyy')}</td>
+
+<td>&gt;</td>
+
+</tr>
+
+[/code]
+
+We've also tagged the _tr_ tag : a goog practice to anticipate the presence of other datas in rows int the same screen. Next step is to apply the capability to the field, with a default callback function (no save to the model), in the script section of the template :
+
+[code language="html"]
+
+// In place edition
+
+$(".task td.editable").editInPlace(\{
+
+bg_over: 'transparent',
+
+callback: function(unused, enteredText) \{ return enteredText; }
+
+});
+
+[/code]
+
+Try the modify an action in a row : it's ok but refresh the screen, the previous value is showned and your modification is lost.But we want to save our changes to the model (and so to be persistence). So we will modify the callback function to save data with AJAX.
+
+We will try to be generic, making a single JQuery editinplace _declaration_ to handled multiple data property (more than one column) been saved with one script.
+
+What we have to do is
+
+- get the new value
+
+- get the internal identifier of the object displayed (remember we've add an id with the groovy tag $\{task.id})
+
+- post the data a fonction to save modifications.
+
+Here is the new script code :
+
+[code language="html"]
+
+// In place edition
+
+$(".task td.editable").editInPlace(\{
+
+bg_over: 'transparent',
+
+callback: function(el, enteredText, o) \{
+
+var m = /([a-z]+)-(\d+)/.exec(el), data = \{}
+
+data['task.id'] = m[2]
+
+data['task.' + m[1]] = enteredText
+
+// Save result
+
+$.ajax(\{
+
+url: '@\{add()}',
+
+type: 'POST',
+
+data: data,
+
+success: function() \{$('#' + el).html(n)},
+
+error: function() \{$('#' + el).html(o)}
+
+})
+
+return true
+
+}
+
+});
+
+[/code]
+
+A little explaination of the callback function :
+
+- the _enteredText_ parameter is the text entered
+
+- the _el_ is the element id of the html tag. So it is action-$\{task.id}.so we extract the data identifier with a regular expression (m = ...) and the id is in m[2], and m[1] is the field modified : so tag all your field in a row with fieldname-object.id to handle all your fields.
+
+- we construct a map of the values of the task object data[task.id]=m[2] and data[task.__fieldname__=m[1]
+
+- and send them with call to $.ajax. Just call our already created method in Application : add. You see that we can use the same method to add a new object or to save a modified object. We could have named it save, which is nearer of the role of the method.
+
+and we have a success and error actions to give feedback to the user.
+
+image::screenshot-20.jpg[image,title="Edit-in-place in action"]]
+
+Combine edit-in-place and datepicker
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Now, ashttp://anibalpacheco.com/blog/post/p-47-jquery-ui-datepicker-jquery-editinplace/[suggested here], we will make the date field editable and add a separate field (an hidden input) to handle the datepicker.
+
+First we add a class to the date field, different from the previous (__editable__) as we will have an additionnal action from the standard editable behaviour (refresh the datepicker value when the date is update) :
+
+[code language="html"]
+
+<td class="date-editable" id="due-$\{task.id}">$\{task.due?.format('dd-MM-yyyy')}</td>
+
+[/code]
+
+and make it editable
+
+[code language="html"]
+
+$(".task td.date-editable").editInPlace(\{
+
+bg_over: 'transparent',
+
+element_id: 'element_id',
+
+callback: function(el, n, o) \{
+
+var m = /([a-z]+)-(\d+)/.exec(el), data = \{}
+
+data['task.id'] = m[2]
+
+data['task.' + m[1]] = n
+
+// Save result
+
+$.ajax(\{
+
+url: '@\{add()}',
+
+type: 'POST',
+
+data: data,
+
+success: function() \{$('#' + el).html(n)},
+
+error: function() \{$('#' + el).html(o)}
+
+})
+
+return true
+
+}
+
+});
+
+[/code]
+
+Here is the new behaviour :
+
+image::screenshot-21.jpg[image,title="edit-in-place for the date"]]
+
+Now add the datepicker; So we will replace the column value _>_ with an icon to call the datepicker :
+
+[code language="html"]
+
+<td> <input type="hidden" class="datepicker" id="datepicker-$\{task.id}" value="$\{task.due?.format('dd-MM-yyyy')}" /></td>
+
+[/code]
+
+and add the associated JQuery code :
+
+[code language="html"]
+
+$(".datepicker").datepicker(\{dateFormat:'dd-mm-yy', showAnim:'fadeIn',
+
+showOn: 'button',
+
+buttonImage: '/public/images/calendar.png',
+
+buttonImageOnly: true,
+
+onClose: function(dateText, inst)\{
+
+var m = /([a-z]+)-(\d+)/.exec($(this).attr('id'));
+
+sp = $('#due-'+m[2]); // take the editInPlace widget
+
+sp.text(dateText);
+
+// Make the Ajax call : should fire blur on origibal field
+
+var data = \{};
+
+data['task.id'] = m[2];
+
+data['task.due'] = dateText;
+
+$.ajax(\{
+
+url: '@\{add()}',
+
+type: 'POST',
+
+data: data,
+
+success: function() \{$('#' + el).html(n)},
+
+error: function() \{$('#' + el).html(o)}
+
+});
+
+}
+
+})
+
+[/code]
+
+After copying the value selected in the date picker to the original date field, I make an ajax call.
+
+On this datepicker, we should not make an ajax call, but update the date field and click then blur to activate the ajax call on the field value (and so write once the ajax call). But I have some problems make it run it this how-to, though it works prefectly in one of my projects. Here the code of my prject when it runs :
+
+[code language="html"]
+
+sp = $('#due-'+m[2]); // take the editInPlace widget
+
+sp.text(dateText).click(); // set the date and trigger a click
+
+$(':input', sp).blur();
+
+[/code]
+
+The code is far shorter and factorized. I've post event if I can't make it run on my how-to project to share it and I'll updated this post when I'll find the problem.

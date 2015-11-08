@@ -1,0 +1,35 @@
+= SD card, RAW and Ubuntu
+:published_at: 2012-12-25
+:hp-tags: linux, nautilus, raw, SD card, ubuntu
+
+I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them
+
+\1. The SD card is not detected when inserting it in the reader.
+
+The trick is simple :
+
+[code language="bash"]
+
+sudo su -l
+
+echo 1 > /sys/bus/pci/rescan
+
+[/code]
+
+\2. RAW are not readable
+
+I had to actions to do it :
+
+- install the package : `gnome-raw-thumbnailer` (By the way, unable to add `apt://` link in Wordpress :-( )
+
+- if missing create the following file <code>/usr/share/thumbnailers/raw.thumbnailer</code>, that seems not included in the package, with this content :
+
+[code language="text"]
+
+[Thumbnailer Entry]
+
+Exec=/usr/bin/gnome-raw-thumbnailer -s %s %u %o
+
+MimeType=image/x-3fr;image/x-adobe-dng;image/x-arw;image/x-bay;image/x-canon-cr2;image/x-canon-crw;image/x-cap;image/x-cr2;image/x-crw;image/x-dcr;image/x-dcraw;image/x-dcs;image/x-dng;image/x-drf;image/x-eip;image/x-erf;image/x-fff;image/x-fuji-raf;image/x-iiq;image/x-k25;image/x-kdc;image/x-mef;image/x-minolta-mrw;image/x-mos;image/x-mrw;image/x-nef;image/x-nikon-nef;image/x-nrw;image/x-olympus-orf;image/x-orf;image/x-panasonic-raw;image/x-pef;image/x-pentax-pef;image/x-ptx;image/x-pxn;image/x-r3d;image/x-raf;image/x-raw;image/x-rw2;image/x-rwl;image/x-rwz;image/x-sigma-x3f;image/x-sony-arw;image/x-sony-sr2;image/x-sony-srf;image/x-sr2;image/x-srf;image/x-x3f;[/code]
+
+- then restart Nautilus via the menu (File -> Close all windows) or `nautilus -q`

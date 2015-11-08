@@ -1,0 +1,4 @@
+= Play!> & JSon : How-to select fields to expose 
+:published_at: 2012-06-24
+
+

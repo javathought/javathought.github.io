@@ -1,0 +1,27 @@
+= Hudson vs Continuum
+:published_at: 2009-04-23
+:hp-tags: continuous integration, continuum, hudson
+
+I've installed http://continuum.apache.org/[Continuum] to compare to https://hudson.dev.java.net/[Hudson].
+
+As Hudson, you just uncompress the archive wher you want (for a standalone deployment), run and it works. Then you create your project, choose your build configuration (there's default configuration for ant, maven 1 and 2, and console).
+
+Just a think to now : you have to specify your SCM url in the maven format (even if you use ant) : for subversion, it will look like <code> scm:svn:https://host:8443/svn/Repository/trunk </code>, otherwise you'll have a message like *Provider* message: *No* *such* **provider**: 's'.
+
+First impressions testing it, compared to Hudson : at first sight, I prefer the dashboard of Hudson, which have a better view of the past builds with a meteo indicator computed on past 5 builds.This give you a view of the stability of the builds.
+
+image::hudson-1.png[Hudson's view of builds,title="hudson-1"]]
+
+Continuum is organized ny projects groups, So you have a first view on the group with counters on successful project, with a counter (a project counts for one).
+
+image::continuum-1.png[The project groups view of continuum,title="continuum-1"]]
+
+When you click on a group you then have a view on the projects of the group :
+
+image::continuum-2.png[the view of the projects in the group,title="continuum-2"]]
+
+There's a release button on each group in the main view, and on each project in a group view. You'll find the http://continuum.apache.org/docs/1.2.3/user_guides/release/prepare.html[documentation on the release functionality] on http://continuum.apache.org/[Continuum website]. I should try this soon. For the moment, I've not been able to get the prepare options to continue the process.
+
+I find the navigation in Hudson more intutuive, but it's quick to findhow to navigate in Hudson. The organisation of project in groups should also be useful in a large organisation, matching groups of project with the team's organisation.
+
+I'll also try integration with Jira later.

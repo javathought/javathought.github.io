@@ -1,0 +1,49 @@
+= Play!> framework : binding checkbox to POJO
+:published_at: 2012-02-26
+:hp-tags: boolean field, controller code, data binding, play framework
+
+I've been quite a long time to find the good way to bind checkboxes in my views to boolean properties of my POJO. The only way I was able to handle the checkboxes was to pass explicitly the field to the save method of the controller and explicitly set the property to the value of the argument in the controller. Otherwise, only changes from unset to set were save to the model.
+
+[code language="html"]
+
+#\{form @Domains.save(isPublic), id:'form', method:'POST', enctype:'multipart/form-data'}
+
+...
+
+<input type="checkbox" id="domain_isPublic" name="isPublic" $\{domain?.isPublic ? 'checked':''} />
+
+...
+
+#\{form}
+
+[/code]
+
+and this additional line is present in the _save_ of the controller :
+
+[code language="java"]
+
+domain.isPublic = isPublic;
+
+[/code]
+
+I finally found the solution in http://groups.google.com/group/play-framework/browse_thread/thread/1f2810b981776bc1[this discussion of the play-framework group]. As said by
+
+Guillaume Bort, an hidden field must be added *after* the checkbox field to have the binding done when the checkbox is unset : when unset, the value is null and so no binding is done. So the hidden field is used to binf the false value.
+
+[code language="html"]
+
+#\{form @Domains.save(), id:'form', method:'POST', enctype:'multipart/form-data'}
+
+...
+
+<input type="checkbox" id="domain_isPublic" name="domain.isPublic" value="true" $\{domain?.isPublic ? 'checked':''} />
+
+<input type="hidden" name="domain.isPublic" value="false" />
+
+...
+
+#\{form}
+
+[/code]
+
+And you can now remove the setting of the boolean field in your controller.

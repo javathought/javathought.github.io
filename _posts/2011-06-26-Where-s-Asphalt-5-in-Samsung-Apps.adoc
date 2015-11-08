@@ -1,0 +1,9 @@
+= Where's Asphalt 5 in Samsung Apps
+:published_at: 2011-06-26
+:hp-tags: Android, asphalt, free, game, gameloft
+
+As said in my previous post, I've made a factory reset to my Galaxy S. So I want to reinstall my apps ... and Aspahtl 5 from SamsungApps. But it's not in the list of apps.
+
+In fact, it's a bit hidden. You have to go to Menu -> Download, and you'll see previous installed apps, included Aspahalt 5.
+
+*Edit* : by the way, I found it now on the market and there's a free version !

@@ -1,0 +1,9 @@
+= Hudson and accessibility : don't use green ball plugin
+:published_at: 2009-12-04
+:hp-tags: accessibility, continuous integration, GUI, hudson, plugin
+
+Generally, and not only in Hudson, you should install a plugin to a tool you use only if it really brings a feature.
+
+About Green ball plugin, not only, there's no feature enhancement, but it's an accessibility regression : color blind person don't easily differentiate red and green. To have an idea of how blid color persons "see" this two colors, just take a look at this post : http://community.devexpress.com/blogs/markmiller/archive/2009/02/26/great-ui-clarity-and-color-on-the-presentation-layer.aspx[Great UI: Clarity and Color on the Presentation Layer], and learn good use of colors for your UIs.
+
+So, just keep Hudson with blue ball and really useful plugins.

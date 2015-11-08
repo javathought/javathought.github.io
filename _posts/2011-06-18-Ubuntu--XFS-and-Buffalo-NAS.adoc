@@ -1,0 +1,46 @@
+= Ubuntu, XFS and Buffalo NAS
+:published_at: 2011-06-18
+
+[caption id="" align="alignright" width="300" caption="Image via Wikipedia"]http://commons.wikipedia.org/wiki/File:Hdd.jpg[image:http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Hdd.jpg/300px-Hdd.jpg[Image of a Western Digital 250Gb SATA Hard Dri...,title="Image of a Western Digital 250Gb SATA Hard Dri..."]][/caption]
+
+I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But my Buffallo crashed a disk for the second time (the same one,  I think it's corrupted and I'll try to have it replaced by the support).
+
+But before sending it back to consumer's service, I want to have my datas back on a rescue disk. So I wanted to use the safe disk to copy files on a third drive. The problem is that the disks use http://en.wikipedia.org/wiki/XFS[XFS] filesystem. No way to copy files from Winows. Fortunately, I have a dual boot with http://www.ubuntu.com/[Ubuntu], that natively can read XFS ;) . so below are the steps to achieve the copy process :
+
+Get the packages to support XFS :
+
+[sourcecode language="bash" gutter="false"]
+
+# sudo apt-get install xfsprogs
+
+# sudo apt-get install xfsdump
+
+# sudo apt-get install gparted
+
+[/sourcecode]
+
+Now you have to identify the partition to mount : use gparted
+
+[caption id="attachment_363" align="aligncenter" width="300" caption="Gparted utility"]http://javathought.files.wordpress.com/2011/06/screenshot-dev-sdd-gparted.png[image:http://javathought.files.wordpress.com/2011/06/screenshot-dev-sdd-gparted.png?w=300[image,title="Screenshot--dev-sdd - GParted"]][/caption]
+
+You can use the drop down list on the top right to select your hard drive, then you'll see the list of partition; just identify your partition with XFS filesystem (/dev/sdd6 in my case).
+
+So next step is  to edit /etc/fstab to specify the mount characteristic (filesystem type : xfs and associated http://en.wikipedia.org/wiki/Mount_%28computing%29[mount point] : /media/whatYouWant ) ; just add the line above
+
+[sourcecode language="text" gutter="false"]
+
+/dev/sdd6    /media/MyXFSDrive xfs defaults 0 0
+
+[/sourcecode]
+
+No create the mount point for your drive and mount it :
+
+[sourcecode language="bash" gutter="false"]
+
+# sudo mkdir/media/MyXFSDrive
+
+# sudo mount /dev/sdd6
+
+[/sourcecode]
+
+It's finished, you can access your drive and make your backups.

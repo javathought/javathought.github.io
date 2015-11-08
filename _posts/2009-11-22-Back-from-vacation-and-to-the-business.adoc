@@ -1,0 +1,6 @@
+= Back from vacation and to the business
+:published_at: 2009-11-22
+
+It's a while since my last post (July). I've been on vacation on August and due to a new objective and the deadline of my project, I didn't have much time to share more on the blog.
+
+However, I've been using Java and XML on the prject and experienced more on JAXB. So, I'll tell more soon.

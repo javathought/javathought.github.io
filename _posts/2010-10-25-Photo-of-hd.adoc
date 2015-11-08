@@ -1,0 +1,6 @@
+= Photo of hd
+:published_at: 2010-10-25
+
+image:http://javathought.files.wordpress.com/2010/10/wpid-2010-10-25-23-48-15.jpg[image]
+
+Posted from WordPress for Android

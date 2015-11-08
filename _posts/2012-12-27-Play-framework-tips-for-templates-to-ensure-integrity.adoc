@@ -1,0 +1,71 @@
+= Play !> framework - tips for templates to ensure integrity 
+:published_at: 2012-12-27
+:hp-tags: data integrity, play framework, templates
+
+https://github.com/javathought/Code-Board[codeboard] has a configuration with use of default values. If these default values are not present, errors can occur on some pages. The example of the tips are on the model class Domain. To ensure that this default values are always present in the configuration, I use 3 tips to be sure defaults datas are always present in the database :
+
+\1. it's not possible to delete defaults datas
+
+The `delete` button is not present if the object is the default one.
+
+[code language="html"]
+
+#\{if !domain.isDefault}
+
+<a href="/admin/domains/$\{domain.id}" class="icon icon-del delete" >&\{'delete'}</a>
+
+#\{/if}
+
+[/code]
+
+\2. it is not possible to uncheck a default value
+
+Editing an object, the default attribute is read-only (shown with an image in my code) if it's a default one; else a standard default check box is shown.
+
+[code language="html"]
+
+#\{if domain.isDefault }
+
+<img alt="Toggle_check" src="@\{'/public/images/toggle_check.png'}" />
+
+#\{/if}
+
+#\{else}
+
+<input type="checkbox" id="domain_isDefault" name="domain.isDefault" value="true" $\{domain?.isDefault ? 'checked':''} />
+
+<input type="hidden" name="domain.isDefault" value="false" />
+
+<span class="errorExplanation">#\{error 'admin' /}</span></p>
+
+#\{/else}
+
+[/code]
+
+To complete these tips on template, a third tip
+
+\3. it is not possible to have twice object being checked as default
+
+So if we're setting an object to default, we must uncheck the old one. This control is done in the controller (and not in templates).
+
+[code language="java"]
+
+if (domain.isDefault) \{
+
+Domain defaultDomain = Domain.find("isDefault = ?", true).first();
+
+if (defaultDomain != null) \{
+
+defaultDomain.isDefault = false;
+
+defaultDomain.save();
+
+}
+
+}
+
+domain.save();
+
+[/code]
+
+*[to be continued ...]*

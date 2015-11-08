@@ -1,0 +1,7 @@
+= Hudson blue ball
+:published_at: 2009-06-29
+:hp-tags: continuous integration, hudson, plugin, tip
+
+The Hudson choice of a blue ball for successful build isn't a classic choice. You'd prefer a class green ball (like traffic light) : just use http://wiki.hudson-ci.org/display/HUDSON/Green+Balls[green ball plugin] !
+
+To have a http://wiki.hudson-ci.org/display/HUDSON/Plugins[list of Hudson plugin], just visit the http://wiki.hudson-ci.org/display/HUDSON/Home[hudson wiki].

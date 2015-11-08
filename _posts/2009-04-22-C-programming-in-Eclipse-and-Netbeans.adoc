@@ -1,0 +1,9 @@
+= C programming in Eclipse and Netbeans
+:published_at: 2009-04-22
+:hp-tags: C
+
+You may sometimes misc C programs with your java development. So I could be a good solution to develop them in the same IDE as your Java develoment. Both Eclipse and Netbeans provide plugins/environment to devellop in C.
+
+so it's really possible and you really have a good C IDE. I've used Eclipse C environment for a while and it's really good C environment. I've tried Netbeans since I'm developing parts of my Java projects in Netbeans, but I stopped for the moment : I could not be able to use the debugger in Netbeans, quite a hige issue for an IDE.
+
+So, until I try it again and resolve that issue in Netbeans, Eclipse is for me the "Java IDE" for C development.

@@ -1,0 +1,7 @@
+= Wordpress for android
+:published_at: 2010-10-17
+:hp-tags: Java; android;
+
+I just installed Wordpress for Android : really great app, a good example of android ui.
+
+Posted from WordPress for Android

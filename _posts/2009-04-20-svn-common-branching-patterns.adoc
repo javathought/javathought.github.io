@@ -1,0 +1,7 @@
+= svn : common branching patterns
+:published_at: 2009-04-20
+:hp-tags: branching, change request, mercurial, SCM, svn
+
+In my previous post (link:../2009/04/19/installing-a-developer-suite/[Installing a developer “Suite”]), I talk about the flexibility of __svn__. As I anticipated, to achieve the integration of  tested and "validated" request, the way to use _svn_ is to use the feature branching pattern. You can read more about it in the book link:../2009/04/19/installing-a-developer-suite/[“]http://svnbook.red-bean.com/en/1.5/svn-book.pdf[Version Control with Subversion]link:../2009/04/19/installing-a-developer-suite/[”] (see chapter 4 - page 137).
+
+So to achieve this pattern, the has to follow the process, with the cost overhead. I think the distibuted model of http://www.selenic.com/mercurial/[mercurial] as a smaller overhead in managing feature changes. This process is much simplier with a SCM that implements the process : developers summit their changes attached to a change request, all in the same trunk. Before a release the SCM manager just pick the validated chage requests. In such SCM, branchs are used to maintain releases, not the features.

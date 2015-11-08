@@ -1,0 +1,5 @@
+= My twitter account opened
+:published_at: 2010-09-18
+:hp-tags: java, twitter
+
+I've opened a twitter account, you'll find my tweets at the bottom where I'll send small messages like links related to subject I talk about here.

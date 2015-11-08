@@ -1,0 +1,37 @@
+= First step after installing Eclipse
+:published_at: 2009-12-03
+:hp-tags: ant, Eclipse
+
+Do you know what you should do, immediatly after installing Eclipse ?
+
+Setting your file ecnoding charset : by default, Eclipse uses cp1252, wihch is not quite ideal if you have to deal with internationalisation and character manipulation in your datas with differents charset.
+
+Just go to the _window- preferences_ menu and select General - Workspace in the tree. Then change the "Text file encoding" parameter :
+
+http://javathought.files.wordpress.com/2009/12/eclipse-charset.png[image:http://javathought.files.wordpress.com/2009/12/eclipse-charset.png[Default charset under eclipse,title="eclipse-charset"]]
+
+Then select Other and choose UTF-8.
+
+Don't forget to set the encoding parameter to your javac javadoc target in your ant tasks :
+
+[sourcecode language="xml"]
+
+<javac srcdir="$\{src.dir}" destdir="$\{build.dir}" encoding="UTF-8" >
+
+<classpath>
+
+<fileset dir="$\{lib.dir}">
+
+<include name="**/*.jar"/>
+
+</fileset>
+
+</classpath>
+
+</javac>
+
+<javadoc encoding="UTF-8" .../>
+
+[/sourcecode]
+
+That's all.

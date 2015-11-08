@@ -1,0 +1,15 @@
+= Ubuntu server & keyboard
+:published_at: 2011-06-17
+:hp-tags: ubuntu
+
+I installed ubuntu 11.04 server but the keyboard was 'us'. Not quite efficient with my french one.
+
+Searching on the web, it's often said to use :
+
+dpkg-reconfigure console-setup
+
+But in fact, I didn't found a keyboard option.
+
+Just launch :
+
+sudo loadkeys fr

@@ -1,0 +1,9 @@
+= Receive file on MacOs via bluetooth
+:published_at: 2014-06-22
+:hp-tags: Bluetooth, MacOs
+
+A usefull link to a tip (in French) on MacOs :
+
+http://www.journaldulapin.com/2012/11/15/recevoir-des-fichiers-en-bluetooth-sur-un-mac/
+
+By default, you can't receive files via BT on MacOs. You have to activate it in System Preferences/share.

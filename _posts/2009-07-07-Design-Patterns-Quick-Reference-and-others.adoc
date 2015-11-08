@@ -1,0 +1,9 @@
+= Design Patterns Quick Reference (and others)
+:published_at: 2009-07-07
+:hp-tags: design patterns, Eclipse, Netbeans, svn
+
+Ever wanted a poster of Design Patterns ? Here is link:Jason%20McDonald[one for free on Jason McDonald's blog].
+
+You can also find many useful poster or http://refcardz.dzone.com/["Refcardz" on dzone.com]. The Design Patterns one is also made by Jason. ou'll find others on Java, Netbeans, eclipse or others.
+
+Take onaother look at devirtuoso.com to find http://www.devirtuoso.com/2009/07/10-must-have-cheat-sheets-for-developers/[9 more ones quick card] with one on subversion (from  http://www.addedbytes.com/)

@@ -1,0 +1,21 @@
+= Swing or SWT
+:published_at: 2009-06-19
+:hp-tags: matisse, Netbeans, swing, swt
+
+When programming GUI with Java, the question of the choice between Swing and SWT .
+
+My personal choice is Swing, first af all because I use it for a while. For example, I worked on a simple application in 2003 to created thumbnails images for http://jimmac.musichall.cz/original.php3[original] (a web photo gallery) written by http://jimmac.musichall.cz/[jimmac].
+
+Developing this application, I developed some Swing widgets (a splashscreen, status bar, a toolbar with outlook behaviour) you can find on http://banks.free.fr/stuff/java.php[my old java page] and http://banks.free.fr/stuff/java.php[download here].
+
+image::ss_components.png[Enhanced Swing components,title="ss_components"]
+
+So, I prefer Swing because :
+
+- I know it's API. I should learn SWT, and what I saw of it make me think it won't be simple.
+
+- You can make enhanced widgets with Swing and even impressive UI. You can read http://www.curious-creature.org/category/swing/[old posts on Romain Guy's web page] about Swing : really good stuff to learn. He now work for google on Android.
+
+- Netbeans can help you quickly develop your GUI with it's GUI builder (previously called Matisse). I really appreciate the way it helps you place components on you UI. I also enhanced components (one from Romain Guy's) to be full Java beans Swing components to be able to use them with Matisse (I'll talk about them later).
+
+The last reason will definitly confirm my choice of Swing. And really take a look at Romain's blog to his impressive Swing GUI notes (and even his photos).

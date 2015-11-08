@@ -1,0 +1,233 @@
+= Play! edit your dates with JQuery (editinplace + datepicker) 1/2
+:published_at: 2010-09-21
+:hp-tags: AJAX, datepicker, editinplace, JQuery, play framework
+
+On my first tweet, I posted a link on a sniplet (http://anibalpacheco.com/blog/post/p-47-jquery-ui-datepicker-jquery-editinplace/) explaining how to mix editinplace and datepicker in JQuery.
+
+Here, I'll explain how to finish the job of ths sniplet (update the date picker on date field update) and integrate it in a Play! application listing a set of object (each having a date field - a very simple task example).
+
+Create a Task model :
+
+[code language="java"]
+
+package models;
+
+import play.*;
+
+import play.db.jpa.*;
+
+import javax.persistence.*;
+
+import java.util.*;
+
+@Entity
+
+public class Task extends Model \{
+
+public String action;
+
+public Date due;
+
+}
+
+[/code]
+
+Review the index method in Application
+
+[code language="java"]
+
+public static void index() \{
+
+List tasks = Task.findAll();
+
+render(tasks);
+
+}
+
+[/code]
+
+And list the tasks in a table (modifiy the template : view/index.html) with a form to add a new task (last line of the table)
+
+[code language="html"]
+
+#\{extends 'main.html' /}
+
+#\{set title:'Home' /}
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Action</th>
+
+<th>Due date</th>
+
+<th></th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+#\{list tasks, as:'task'}
+
+<tr>
+
+<td>$\{task.action}</td>
+
+<td>$\{task.due}</td>
+
+<td>&gt;</td>
+
+</tr>
+
+#\{/list}
+
+<tr> #\{form @add()}
+
+<td><input type="text" name="task.action"></td>
+
+<td><input type="text" name="task.due"></td>
+
+<td><input type="submit" value="+"></td>
+
+#\{/form}
+
+</tr>
+
+</tbody>
+
+</table>
+
+[/code]
+
+And add the add action in Application
+
+[code language="java"]
+
+public static void add(final Task task) \{
+
+task.save();
+
+index();
+
+}
+
+[/code]
+
+and don't forget to activate the database settings in conf/application.conf
+
+[code language="text"]
+
+db=mem
+
+[/code]
+
+Now you have a basic play! application to save tasks.
+
+image::screenshot-4.jpg[image,title="Tasks in action"]]
+
+Looking at the state, the date field is not well formated. Just replace the field showing the date with the following code and we'll just see the day part of the date without time.
+
+[code language="html"]
+
+<td>$\{task.due.format('dd-MM-yyyy')}</td>
+
+[/code]
+
+image::screenshot-5.jpg[image,title="Tasks with a formatted due date"]]
+
+Let's begin adding our Ajax behaviour.
+
+Look at /public/javascripts : there's already JQuery installed (jquery-1.4.2.min.js, which is now the lastest version; You'll can http://docs.jquery.com/Downloading_jQuery[get latest version of JQuery] to upgrade your site later). Now look at the main.html template (under app/views), the script is already included.
+
+Adding a datepicker
+~~~~~~~~~~~~~~~~~~~
+
+To add a datepicker, we need to http://jqueryui.com/download[getJQuery UI].
+
+The page is well designed :
+
+1.  you choose the components you want to included, so you can just pick the ones you want for your site and have a lightweight version that just fits your needs. For this example, we just need the core (obviously) and datepicker in Widget section.
+2.  you can choose the theme you want to embed in your package, on the right of the page. I've choose __smoothness__.
+
+Once you've downloaded the pack, get the script (jquery-ui-1.8.5.custom.min.js) from the js folder and put it on public/javascripts one of your application and get your theme folder (the whole folder) under css in the package and copy it to /public/stylesheets.
+
+Add the following lines just below the ones of JQuery (css and javascript ones) in app/views/main.html :
+
+[code language="html"]
+<link rel="stylesheet" type="text/css" media="screen" href="@\{'public/stylesheets/smoothness/jquery-ui-1.8.5.custom.css'}" />
+
+<script src="@\{'/public/javascripts/jquery-ui-1.8.5.custom.min.js'}" type="text/javascript" charset="utf-8"></script>
+
+[/code]
+
+Your main.html template should now look like this :
+
+[code language="html"]
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>#\{get 'title' /}</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link rel="stylesheet" type="text/css" media="screen" href="@\{'/public/stylesheets/main.css'}">
+
+<link rel="stylesheet" type="text/css" media="screen" href="@\{'public/stylesheets/smoothness/jquery-ui-1.8.5.custom.css'}" />
+
+#\{get 'moreStyles' /}
+
+<link rel="shortcut icon" type="image/png" href="@\{'/public/images/favicon.png'}">
+
+<script src="@\{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+
+<script src="@\{'/public/javascripts/jquery-ui-1.8.5.custom.min.js'}" type="text/javascript" charset="utf-8"></script>
+
+#\{get 'moreScripts' /}
+
+</head>
+
+<body>
+
+#\{doLayout /}
+
+</body>
+
+</html>
+
+[/code]
+
+Now we have to associate a datepicker with the field date in the form : first add a class tag the the field :
+
+[code language="html"]
+
+<td><input class="due" type="text" name="task.due"></td>
+
+[/code]
+
+and add the JQuery code to associate it with a datepicker :
+
+[code language="html"]
+
+<script type="text/javascript" charset="utf-8">
+
+$(".due").datepicker(\{dateFormat:'dd-mm-yy', showAnim:'fadeIn'})
+
+</script>
+
+[/code]
+
+Now you have the basic application with a datepicker.
+
+image::screenshot-6.jpg[image,title="task with datepicker"]]
+
+Next step is to add editinplace on existing tasks and associate a datepicker on thme for the date. All this in next post...
+
+

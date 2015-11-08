@@ -1,0 +1,51 @@
+= Play!> framework design pattern #2 : avoid code duplication to render same objects in differents views
+:published_at: 2012-02-18
+:hp-tags: design patterns, play framework
+
+If you have common code in your controllers to render objects in differents views, you'll duplicate your code to instanciate your java objects in each method and pass them to the render method.
+
+The goal of this pattern is to avoid code duplication using the @Before/@After annotations even for objects to be rendered. The trick is that these methods can also contains calls to the render method !
+
+To avoid code duplication, you must use the @After annotation to a private method which will have the common code of your controllers and call render on these objects. And the "main" controller method of each view will render the specific objects of the view.
+
+The example below render the same view on edition and creation of an object ( of http://javathought.github.io/2012/02/16/play-framework-design-pattern-1/[design pattern #1]), nut could be used on different views.
+
+[code language="java"]
+
+@After(only=\{"newIssue", "editIssue"})
+
+private static void loadCombos() \{
+
+List<Tracker> trackers = Tracker.find("order by position asc").fetch();
+
+List<User> users = User.find("login <> 'root' order by login").fetch();
+
+List<State> states = State.find("order by position").fetch();
+
+List<Enumeration> priorities = Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch();
+
+render("@issue", trackers, users, states, priorities);
+
+}
+
+public static void newIssue(String identifier) \{
+
+Project project = Project.find("identifier", identifier).first();
+
+Issue issue = new Issue(project);
+
+render("@issue", issue);
+
+}
+
+public static void editIssue(Long id) \{
+
+Issue issue = Issue.findById(id);
+
+render("@issue", issue);
+
+}
+
+[/code]
+
+As you can see in this example, this pattern is particularly useful for combos that can appear in many views of an application.

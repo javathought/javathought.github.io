@@ -1,0 +1,43 @@
+= Play!> 2.0 Install it to /opt anyway
+:published_at: 2012-03-14
+:hp-tags: play framework, ubuntu
+
+I don't understand the new install of play!> framework 2.0
+
+The documentation says :
+
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+[...]extract the archive to a location where you have both read and write access. (Running play writes some files to directories within the archive, so don’t install to /opt, /usr/local or anywhere else you’d need special permission to write to.)
+______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+For example, the 'play' command writes a lock file in dir.
+
+WHY ?
+
+So how do you share the installation between users ? How do you ensure nobody broke the installation ? I don't like that choice. Here are the commands to still install to `/opt` (or other irectory of you choice).
+
+[code language="bash"]
+
+groupadd play
+
+sudo chgrp play play-2.0
+
+sudo chmod -R g+w play-2.0/
+
+sudo usermod -a -G play username
+
+[/code]
+
+What I'd like from the play team :
+
+- the pros and cons of the choice
+
+- a release strategy explanation :
+
+Play 2.0 is out but 1.x branch is not dead. Really ?
+
+Issue #1304 is, in my opinion, a critical defect (absolutely impossible to use version 1.2.4 with PotgreSQL). It was opened on December 7th, 2011 and resolved on December 12th, 2011 : but no new release as been published since.
+
+What kind of support of the framework can an enterprise expect ?
+
+Play! is a great framework, but must have a clearer and better support policy for enterprise that use it in critical businesses.

@@ -1,0 +1,41 @@
+= Play !> and 3-tier, n-tier architecture - Part II
+:published_at: 2012-07-04
+:hp-tags: Application programming interface, java, json, Multitier architecture, play framework
+
+In http://javathought.github.io/2012/07/04/play-and-3-tier-n-tier-architecture-part-i/[Part I], I introduced the use of Play! framework on 3-tier architecture. In this one, we will see how to use the native  features of Play! to implement a 3-tier application.
+
+As we saw, the implementation of the *Logic tier* is easy with Play!. In this implementation, you can remove http://javathought.github.io/2011/12/04/cross-origin-resource-sharing-with-play-framework/[CORS] on the tier.
+
+The *Presentation tier* will also be relatively easy; the Logic tier will be considered as the model of the Presentation tier : the diagram below illustrated the architecture.
+
+image::3tier_play.png[image,title="3tier_play"]] Play! on a 3-tier architecture
+
+Instead of making calls to a classic Play! model (such as <code>Account.findAll()</code>), the  controller will  call the REST API of the logic tier, and render a view as a response :
+
+[code language="java"]
+
+public static void accounts() \{
+
+String url = "http://localhost:9011/api/accounts";
+
+HttpResponse response = WS.url(url).get();
+
+JsonElement accounts = response.getJson();
+
+render(accounts);
+
+[/code]
+
+The view code will be a classic html template code. There's just a trick, as strings will be surrounded by quotes ("). The code will be <code>$\{object.property.getAsString()}</code> instead of <code>$\{object.property.getAsString()}</code>.
+
+[code language="groovy"]
+
+$\{account.number.getAsString()}
+
+[/code]
+
+And that's all. Really simple to make a 3-tier application with Play!
+
+Related articles
+
+* http://dotnetspice.wordpress.com/2012/06/12/2-tier-architecture-vs-3-tier-architecture-4/[2 Tier architecture Vs 3 Tier architecture] (dotnetspice.wordpress.com)

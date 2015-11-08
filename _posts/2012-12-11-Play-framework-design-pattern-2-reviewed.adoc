@@ -1,0 +1,80 @@
+= Play!> framework design pattern #2 reviewed
+:published_at: 2012-12-11
+:hp-tags: design patterns, play framework
+
+http://javathought.github.io/2012/02/18/play-framework-design-pattern-2/[I]n this http://javathought.github.io/2012/02/18/play-framework-design-pattern-2/[post] I write about a pattern to avoid code duplication for rendering the same objects (like combo boxes and so) in different views (a view to create an item or a view to edit existing ones). It has 2 things that couldn't be done with the example code :
+
+1.  use the objects on the view of different objects (2 methods rendering different objects) thus needing different template (the existing example uses 2 views, creation and edition on the same template)
+2.  change the view of an object on rules in the code, for example on ACL (Access Control List) a user will not have the same view or will not have access to the datas.
+
+To enable the two behaviours, the use of the `render` method, that needed to identify a template, is replace by the `renderArgs.put` that is independant of the template.
+
+So here is the example updated to enable rendering the objects on view of different datas of on different templates of the same datas
+
+[code language="java"]
+
+@SuppressWarnings("unused")
+
+@Before(only=\{"newIssue", "editIssue"})
+
+private static void loadCombos() \{
+
+renderArgs.put("trackers", Tracker.find("order by position asc").fetch());
+
+renderArgs.put("users", User.find("login <> 'root' order by login").fetch());
+
+renderArgs.put("states", State.find("order by position").fetch());
+
+renderArgs.put("priorities", Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch());
+
+}
+
+@SuppressWarnings("unused")
+
+@Before(only=\{"myIssues"})
+
+private static void checkAccess() \{
+
+if (Security.connected() == null)
+
+try \{
+
+Secure.login();
+
+} catch (Throwable e) \{
+
+Logger.error(e, "Error loading Login page");
+
+}
+
+}
+
+public static void newIssue(String identifier) \{
+
+Project project = Project.find("identifier", identifier).first();
+
+Issue issue = new Issue(project);
+
+render("@issue", issue);er
+
+}
+
+public static void editIssue(Long id) \{
+
+Issue issue = Issue.findById(id);
+
+if (! issue.project.isVisible()) \{
+
+render("@deny", issue);
+
+} else \{
+
+render("@issue", issue);
+
+}
+
+}
+
+[/code]
+
+In the example, due to ACL, if the user have no rights to view an issue, an "Access denied" page is shown in place of the standard view to edit the issue.

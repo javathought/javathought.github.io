@@ -1,0 +1,15 @@
+= My personal home on my smartphone
+:published_at: 2011-05-19
+:hp-tags: Android, Galaxy S, Samsung, UI
+
+My personal home on my http://en.wikipedia.org/wiki/Samsung_Galaxy_S[Galaxy S] (WIP) :
+
+*Details* : Go Launcher with 3 more icons (for a total of 15) made by me for the dock (GTalk, TweetDeck & Facebook) - Wallpaper from LP.
+
+- Screen 1 : TypoClockText - Battery Widget (may be later replaced by BattStatt) - MinimalistText
+
+- Screen 2 : Google widgetCalWidget
+
+- Screen 3 : Smooth Calendar - Games icons (from iPhone theme) resized by me - Go LauncherImage folders - Dektop Visualizer (contact link) - 4 icons for apps by me
+
+http://banks.free.fr/images/Home1-Screen1.png[image:http://banks.free.fr/images/Home1-Screen1.png[image,title="Screen 1"]]http://banks.free.fr/images/Home1-Screen2.png[image:http://banks.free.fr/images/Home1-Screen2.png[image,title="Screen 2"]]http://banks.free.fr/images/Home1-Screen3.png[image:http://banks.free.fr/images/Home1-Screen3.png[image,title="Screen3"]]

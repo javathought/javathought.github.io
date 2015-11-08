@@ -1,0 +1,15 @@
+= HD is up
+:published_at: 2010-10-25
+:hp-tags: Passport, Western Digital
+
+That was just the SATA-USB2 adapter that was KO. Just open the WD box, extract the HDD, extract the usb card from the sata port. You can many videos of these steps on youtube :
+
+[youtube=http://www.youtube.com/watch?v=cQ0bgz3tyNk&fs=1&hl=fr_FR]
+
+Then put it back in a nice new box (mine can host odd and sata) and plug the new plug via USB : you WD passport is back with all tour datas.
+
+image::wpid-2010-10-25-23-48-15.jpg[image,title="wpid-2010-10-25-23.48.15.jpg"]]
+
+Posted from WordPress for Android
+
+

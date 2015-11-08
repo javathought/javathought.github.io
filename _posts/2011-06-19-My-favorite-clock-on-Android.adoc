@@ -1,0 +1,11 @@
+= My favorite clock on Android
+:published_at: 2011-06-19
+:hp-tags: Android, typocock, widget
+
+As I've to do a factory reset, I'm re-installing my apps and widgets. Searching my clock's widget, I (re)discovered that it was not on the market.
+
+So, if as me your favorite clock is TypoClock, here it is (as a reminder for me) : http://forum.xda-developers.com/showthread.php?t=814054[the thread on xda]
+
+Related articles
+
+* http://www.androidguys.com/2011/04/06/review-typo-clock-widget/[Review: Typo Clock (Widget)] (androidguys.com)

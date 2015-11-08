@@ -1,0 +1,5 @@
+= HD out of service
+:published_at: 2010-10-13
+:hp-tags: Passport, Western Digital
+
+My external HD with the tutorials does not work any more. I'll try with a double USB cable to verify if this is due to insufficient electric power. Otherwise, I'll have to admit that it is definitly Out Of Order :-(

@@ -1,0 +1,52 @@
+= XML binding with JAXB 2/3 : customisation
+:published_at: 2009-04-26
+:hp-tags: jaxb, xml binding
+
+This article is part 2 of the series on JAXB. On http://javathought.github.io/2009/04/26/xml-binding-with-jaxb-13/[part 1], I exposed the basis of using JAXB.
+
+But you can go further with JAXB. You can heavily customize JAXB with annotations. Using the same phonebook example, you can introduce annotations in your schema to make JAXB meet your needs.
+
+A phonebook is made of contacts, so developing the mockup presented in part 1, we will add the contacts in our schema :
+
+[sourcecode language="xml"]
+
+maxOccurs="unbounded">
+
+[/sourcecode]
+
+What JAXB will generate with this schema. A new class will be generated : `Contact`. It's what we wanted, but take a look at Phonebook class. There will be a new field and an associated get method :
+
+[sourcecode language="java"]
+
+protected List contact;
+
+...
+
+public List getContact() \{
+
+if (contact == null) \{
+
+contact = new ArrayList();
+
+}
+
+return this.contact;
+
+}
+
+[/sourcecode]
+
+Not quite what we expected has the get method returns a list, so we expected the get method to be `getContacts` which is clearer : the method does not return one contact.
+
+To correct this we'll use annotations, to have a `Contact` class and a `getContacts` method :
+
+[sourcecode language="java"]
+
+maxOccurs="unbounded">
+
+[/sourcecode]
+
+You can use those annotations for more structural customisations :
+
+* you can specify the Java type to use for the list of elements (by default a List is return) and choose to have lists handed in an Array for example (use the attribute collectionType of tag jxb:property).
+* You can also specify the generated class to be sub-class of a super-class or extend an interface (with tag `xjc:superClass` or `xjc:superIterface`, see https://jaxb.dev.java.net/nonav/2.0.2/docs/vendorCustomizations.html[vendor customizations]).

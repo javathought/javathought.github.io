@@ -1,0 +1,19 @@
+= No rotation on Samsung Galaxy S Froyo 2.2.1  : how to restore it
+:published_at: 2011-05-23
+:hp-tags: Android, root, rotation, Samsung Galaxy S
+
+I recently lost the rotation auto on my Galaxy S, and it was not to toggle on the button "rotation auto" in the status bar. Even "calling" the *#0*# menu to Sensor item did not detected the sensor. So, thanks http://forum.xda-developers.com/showthread.php?t=816131&page=2[xda-developers for the solution]. The hard part was to foun a way to get root on a 2.2.1 SGS.
+
+The full answer is :
+
+- Set the USB debug mode on your phone and connect it to your PC
+
+- you'll have to be root to restore it : the problem is that firmware 2.2.1 check the signature of update.zip files. So I can't install them with adb. The solution was to install http://forum.xda-developers.com/showthread.php?t=803682[SuperOneClickv1.9.1-ShortFuse (again on xda)] to get the phone rooted.It will also install busybox if not found
+
+Then you can run a terminal and call **su**. Now you can run the last two steps in the shell
+
+- the second step is to remove (or rename) the file in */data/system/ms3c_yamaha.cfg*
+
+- the third is to run */system/bin/sensorcalibutil_yamaha*
+
+And Voilà! No reboot.  You'll have the rotation on Google, the compass will work again and you'll can play your favorites games (eg car race games). And personally, my clock I launch when I go to bed (it's the way I noticed there was no more auto rotation).

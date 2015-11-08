@@ -1,0 +1,14 @@
+= Activate telnet on Windows 7
+:published_at: 2011-05-10
+
+image::21545v2-max-450x450.png[Image representing Windows as depicted in Crun...,title="Image representing Windows as depicted in Crun..."]]
+
+By default Telnet is not available in Windows 7. Just type the two following commands and the command will be "back" in your new Windows version :
+
+[sourcecode language="powershell"]
+
+pkgmgr /iu:TelnetClient
+
+pkgmgr /iu:TelnetServer
+
+[/sourcecode]

@@ -1,0 +1,18 @@
+= Ubuntu, XFS and Buffalo NAS - Part 2
+:published_at: 2011-07-01
+:hp-tags: Fstab, GParted, Mount, ubuntu, Universally unique identifier
+
+In part 1, I explained how to mount the drive one time, but you'll have to comment the params in http://en.wikipedia.org/wiki/Fstab[/etc/fstab] in order to disabled a block at startup when the drive is not present, and as an USB drive, if the number of drives connected at boot time is not the same, the drive will not have the same partition definition (the /dev/sdd will perhaps be /dev/sdc next time).
+
+So a better option is to use the UUID of the drive and set the auto mount option. To gert the UUID, launch http://gparted.sourceforge.net[gparted] again and right click on the partition. In the dialog box you'll have a item will the UUID of the partition. Just copy the value. Edit again /etc/fstab and set the line of mount point the the code below this time :
+
+[code language="text"]
+
+UUID=&lt;value copied&gt;       /media/MyXFSDrive xfs user,auto 0 0
+
+[/code]
+
+Related articles
+
+* http://sandeepbhalla.wordpress.com/2011/05/21/uuids-in-ubuntu-unix-tutorial/[UUIDs in Ubuntu | Unix Tutorial] (sandeepbhalla.wordpress.com)
+* http://computerandu.wordpress.com/2011/05/12/how-to-mount-a-windows-partition-on-linux-automatically-on-each-start-up/[How to mount a windows partition on Linux automatically on each start up] (computerandu.wordpress.com)

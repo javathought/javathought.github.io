@@ -1,0 +1,17 @@
+= Let's play!
+:published_at: 2010-09-15
+:hp-tags: java, JavaScript, JQuery, play framework
+
+image:http://www.playframework.org/images/play.png[image,title="Play! framework"]
+
+Working on a personal project, I was looking for a java framework to develop a web interface. I didn't want to use a "full stack" java framework and searched for a RAD  approach and found some information on wicket and trapestry and finally found http://www.playframework.org/[Play!].
+
+I first take a look at the live coding demo and was impressed : exactly (or almost) what I was looking for. Java and simple page templates (with groovy). Watch the video and take a look at the samples in the package and you'll have a good idea of the power of the framework.
+
+I'm just trying it since a week and can already create some application : I've already one done (just having to add some entities but the core is already done).
+
+Most of my work was learning http://jquery.com/[JQuery] (that I didn't know before) to make a dynamic web application : edit in place, ajax, ... I've for example mix an editinplace on a date with a datepicker. So Play! made me discover JQuery I already heard but never get a try in the forest a javascript frameworks (http://http://www.prototypejs.org/[prototype], http://mootools.net[mootools], http://script.aculo.us[script. aculo.us], ... didn't know where to begin).
+
+There already some great modules as CRUD and Secure, to make the admin part of your application for example, as in the blog sample.
+
+Perhaps more about Play! and JQuery soon ?

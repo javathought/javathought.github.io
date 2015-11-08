@@ -1,0 +1,188 @@
+= Play!> framework How-To : binding @ManyToMany to views (without CRUD) and differents UI
+:published_at: 2012-03-03
+:hp-tags: data binding, HowTo, JPA, ManyToMany, play framework
+
+This is a little How-To for binding @ManyToMany relationship in Play!> views. The model for this very simple : a Domain model , and a User model. Users can belong to many domains and domains can have many models.
+
+So, the Models are simple :
+
+[code language="java"]
+
+@Entity
+
+public class Domain extends Model \{
+
+public String name;
+
+public String toString() \{
+
+return name;
+
+}
+
+}
+
+[/code]
+
+[code language="java"]
+
+@Entity
+
+public class User extends Model \{
+
+@Required
+
+public String firstname;
+
+@Required
+
+public String lastname;
+
+@ManyToMany
+
+public List<Domain> domains = new ArrayList<Domain>();
+
+public String toString() \{
+
+return firstname + " " + lastname;
+
+}
+
+}
+
+[/code]
+
+The relationship will be handle by the User view : the deafult component to handle this is the <select> form tag. So here is the basic code to make the binding.
+
+[code language="html"]
+
+#\{form @Users.save(), id:'userCreationForm', enctype:'multipart/form-data'}
+
+<input name='user.id' id='id-$\{user?.id}' type='hidden' value="$\{user?.id}"/>
+
+#\{input for:'user.firstname', id:'firstname-$\{user.id}' /}
+
+#\{input for:'user.lastname', id:'lastname-$\{user.id}' /}
+
+<select id="user_domains" name="user.domains.id" value="" size="1" id="select" multiple>
+
+#\{list domains, as:'domain'}
+
+<option value="$\{domain.id}" $\{user.domains.contains(domain) ? 'selected' : ''} >$\{domain.name}</option>
+
+#\{/list}
+
+</select>
+
+<input type="submit" value="Save">
+
+#\{/form }
+
+[/code]
+
+This will reproduce the same UI as in CRUDSs views. Note this two importants things :
+
+* the `name` of the `select` tag is : user.domains.id
+* to bind selected domains in the options, use the ternary operator and the `contains` method : $\{user.domains.contains(domain) ? 'selected' : ''}
+
+Changing the UI
+~~~~~~~~~~~~~~~
+
+I don't really like this UI choice. As in the Yabe blog demo, we can change the UI of this view : we will user the same design as on the demo. We will use the same styles and javascript :
+
+[code language="html"]
+
+<style type="text/css">
+
+.domains-list .domain \{
+
+cursor: pointer;
+
+padding: 1px 4px;
+
+}
+
+.domains-list .selected \{
+
+background: #222;
+
+color: #fff;
+
+}
+
+</style>
+
+<script type="text/javascript">
+
+var toggle = function(domainEl) \{
+
+var input = document.getElementById('h'+domainEl.id);
+
+if(domainEl.className.indexOf('selected') > -1) \{
+
+domainEl.className = 'domain';
+
+input.value = '';
+
+} else \{
+
+domainEl.className = 'domain selected';
+
+input.value = domainEl.id;
+
+}
+
+}
+
+</script>
+
+[/code]
+
+And then adapt the form components :
+
+[code language="html"]
+
+<div class="domains-list">
+
+#\{list domains, as:'domain'}
+
+<span id="$\{domain.id}" onclick="toggle(this)"
+
+class="domain $\{user.domains.contains(domain) ? 'selected' : ''}">
+
+$\{domain}
+
+</span>
+
+<input id="h$\{domain.id}" type="hidden" name="user.domains.id"
+
+value="$\{user.domains.contains(domain) ? domain.id : ''}" />
+
+#\{/list}
+
+</div>
+
+[/code]
+
+USing checkboxes
+~~~~~~~~~~~~~~~~
+
+Another choice is to use checkboxes. The use is really simple. The important thing is the same, use the good name on the form component : `name="user.domains.id"`
+
+[code language="html"]
+
+#\{list domains, as:'domain'}
+
+<input id="$\{domain.id}" type="checkbox" name="user.domains.id"
+
+$\{user.domains.contains(domain) ? 'checked' : ''} value=$\{domain.id}>$\{domain}</input>
+
+#\{/list}
+
+<input type="hidden" name="user.domains.id" value="" />
+
+[/code]
+
+*Updated* : It's important to not forgot the last `<input />` to handle when no checkbox is selected, otherwise no changes will be made.
+
+

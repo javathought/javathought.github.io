@@ -1,0 +1,20 @@
+= Debugging in Eclipse vs Netbeans
+:published_at: 2009-04-18
+:hp-tags: debugging, Eclipse, Netbeans
+
+This subject was suggested when talking about Eclipse and Netbeans at work. The question was does Netbeans implements hot code replace (HCR or hot method replace). As this feature is available since JDK 1.4.x, it should be possible under Netbeans, the Sun IDE.
+
+First, what is HCR ? The precision, because you may think it does not work, but there's some limitation in what you can change in your code to fiw it while debugging; it is not possible to do the following :
+
+* change a modifier of a field, method or class
+* add or remove methods or fields
+* change the hierarchy of classes
+* change classes that have not been loaded
+
+To summarize, you can change "internal" code of methods.
+
+Now, how does it works on these two IDEs :
+
+In Eclipse, you just save your code, then your code is recompiled (assuming automatic build is set - see menu Project -> Build automatically). Then the modified code is available in the current debugging session, the instruction pointer is back at the beginning of your method.
+
+The difference in Netbeans is that you have to explicit specify that you want your modified code to be "pushed" in the debugging sessions through the menu Debug -> Apply code changes. By the way, if you search more information on the net, search for Hot Code Replace for Eclipse and Apply Code Changes for Netbeans.

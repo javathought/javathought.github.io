@@ -1,0 +1,101 @@
+= JAXB and ObservableList
+:published_at: 2009-11-30
+:hp-tags: beans binding, design patterns, GUI, jaxb, xml binding
+
+If you don't customize your schemas with JAXB, your generated classes will not handle correctly the list in your UI (using beans binding functionnality).
+
+If you have lists in your xml, you'll probably handle them with Jtable or JList in your UI. Modifications of objects (from the edition form if you don't edit directly in your list) will be seen in your table, but creation or deletion of an element in the list will not be seen. To see creation or deletion events in your UI lists, your object list have to be observable, i.e. implements ObservableList.
+
+JAXB generate the following code for xml lists :
+
+[sourcecode language="java"]
+
+protected List<E> listElements = new ArrayList<E>();
+
+[/sourcecode]
+
+The way to create an an observable list is below; beans binding library contains a factory :
+
+[sourcecode language="java"]
+
+org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<E>());
+
+[/sourcecode]
+
+I would appreciate a way to modify the creation method in JAXB, but didn't find it. So I created a class which implements the ObservableList interface (with an almost Decorator Pattern) and specify to JAXB to use this class to handle lists :
+
+So, first step, create your own class for lists, that implements all method of ObservableList :
+
+[sourcecode language="java"]
+
+package my.package;
+
+import java.util.ArrayList;
+
+import java.util.Collection;
+
+import java.util.Iterator;
+
+import java.util.List;
+
+import java.util.ListIterator;
+
+import org.jdesktop.observablecollections.ObservableCollections;
+
+import org.jdesktop.observablecollections.ObservableList;
+
+import org.jdesktop.observablecollections.ObservableListListener;
+
+public class MyObservableList<E> implements
+
+ObservableList<E> \{
+
+private ObservableList<E> l= ObservableCollections.observableList(new ArrayList<E>());
+
+public AdretObservableList() \{
+
+}
+
+public void addObservableListListener(ObservableListListener arg0) \{
+
+l.addObservableListListener(arg0);
+
+}
+
+public void removeObservableListListener(ObservableListListener arg0) \{
+
+l.removeObservableListListener(arg0);
+
+}
+
+//... and so one for all methods
+
+}
+
+[/sourcecode]
+
+Then specify xjc to use a custom bindings settings. Use -b file.xjb, the file containing the following instructions :
+
+[sourcecode language="xml"]
+
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<globalBindings
+
+collectionType="my.package.MyObservableList" >
+
+</globalBindings>
+
+</bindings>
+
+[/sourcecode]
+
+This way, JAXB will call
+
+[sourcecode language="java"]
+
+protected List<E> listElements = new MyObservableList<E>();
+
+[/sourcecode]
+
+The http://www.no0ne.org/[plugin from no0ne] handle this UI requirement (with the library CollectionBeanProperty).

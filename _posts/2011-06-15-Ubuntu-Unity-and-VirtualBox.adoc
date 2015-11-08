@@ -1,0 +1,7 @@
+= Ubuntu Unity and VirtualBox
+:published_at: 2011-06-15
+:hp-tags: ubuntu, unity, virtualbox
+
+I have a dual boot Windows7 / Ubuntu 11 on my recent laptop and I started enjoying Unity. I also installed VirtualBox on W7 to make tests on n-tier servers.
+
+On these virtual installations of Ubuntu I couldn't have the Unity interface : the reason is simple, Unity need graphic acceleration, so do not forget to check the graphic acceleration in the configuration of your virtual machine.

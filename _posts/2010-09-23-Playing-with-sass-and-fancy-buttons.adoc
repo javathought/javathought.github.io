@@ -1,0 +1,53 @@
+= Playing with sass and fancy-buttons
+:published_at: 2010-09-23
+:hp-tags: play framework, sass
+
+Before giving the second part of [my last post, a quick how-to to add great looking buttons in your applications with http://sass-lang.com/[sass] (an extension of CSS3) and http://brandonmathis.com/blog/2009/11/19/fancy-buttons-are-here/[fancy-buttons] (an easy way to design CSS buttons in seconds) .
+
+there a sass module in play. Just type the following line to get the module. It comes with fancy-buttons embedded.
+
+[code laguage="ksh"]
+
+play install sass
+
+[/code]
+
+Don't forget to run eclipsify (or the command of your IDE) again and refresh Eclipse (your IDE). I'll make this how-to on my datepicker project (from previous post).
+
+Add the module to your application in conf/application.conf :
+
+[code language="ini"]
+
+module.sass=$\{play.path}/modules/sass-head
+
+[/code]
+
+Not you just have two files to modify.
+
+Create the sass stylesheet (main.sass) in /public/stylesheets. Import fancy-buttons and "style" your submit button :
+
+[code language="css"]
+
+@import fancy_buttons.sass
+
+input[type="submit"]
+
++fancy-button
+
+[/code]
+
+Really simple, isn't it ?
+
+Add the call to the stylesheet in main.html :
+
+[code language="html"]
+
+<link rel="stylesheet" href="@\{'public/stylesheets/main.sass'}" type="text/css">
+
+[/code]
+
+And, _voilà_ :
+
+image::screenshot-12.jpg[image,title="A form with fancy-buttons"]]
+
+I'll let your change the look : http://brandonmathis.com/projects/fancy-buttons/[see more on author site].

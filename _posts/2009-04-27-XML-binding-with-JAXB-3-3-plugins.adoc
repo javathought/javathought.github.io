@@ -1,0 +1,80 @@
+= XML binding with JAXB 3/3 : plugins
+:published_at: 2009-04-27
+:hp-tags: ant, beans binding, jaxb, matisse, maven, Netbeans, xml binding
+
+Once you'll have been working with JAXB basis, you'll want to enhance what your doing. For example, in my case, I want to bind my datas with a GUI. For that, I'll need to use beans binding (JSR 295) with netbeans. You can begin to design your GUI, and test it. It will almost work.
+
+But you'll see that your data changes are not propaged on your GUI components. The reason is that JAXB didn't generate the firePropertyChanged calls in the set methods of your beans. And you don't want to change manually the generated code.
+
+The solution is in the plugins. If your search on internet, your find to user the https://jaxb2-commons.dev.java.net/property-listener-injector/[property listener (AKA bound properties) injector plugin]. Trying it, I discovered that this plugin generates fireVetoableChange calls, not exactly what I expected.
+
+Fortunately, a hack of this plugin, http://www.no0ne.org/general-purpose/index.html#PropListInjector[Enhanced Property Listener Injection plugin], is available and make what I want.
+
+You know just have to plug it in your build script.
+
+ant
+^^^
+
+You'll have to add the plugin jar in the library path of your xjc task :
+
+[sourcecode language="xml"]
+
+<target name="xjc-typedef-target" depends="-init-project">
+
+<typedef classname="com.sun.tools.xjc.XJCTask" name="xjc" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig">
+
+<classpath>
+
+<pathelement path="$\{jaxbwiz.xjcdef.classpath}" />
+
+<pathelement location="lib/proplistinjector-0.1.1.jar" />
+
+</classpath>
+
+</typedef>
+
+</target>
+
+[/sourcecode]
+
+and add the argument option to xjc target :
+
+[sourcecode language="xml"]
+
+<xjc package="package.name" destdir="build/generated/jaxbCache/SchemaName" catalog="catalog.xml">
+
+<classpath>
+
+<pathelement location="$\{src.dir}"/>
+
+<pathelement path="$\{jaxbwiz.xjcrun.classpath}"/>
+
+</classpath>
+
+<arg value="-xmlschema"/>
+
+<arg value="-extension"/>
+
+<arg value="<span style="font-family: Consolas; font-size: x-small;">-Xinject-prop-listeners</span>" />
+
+<schema file="xml-resources/jaxb/SchemaName/schemaname.xsd"/>
+
+<produces dir="build/generated/jaxbCache/schemaname"/>
+
+</xjc>
+
+[/sourcecode]
+
+maven
+^^^^^
+
+First, using http://maven.apache.org/[Maven] you'll have to place your schema files in `src/main/resources/`.
+
+You'll find here (https://maven-jaxb2-plugin.dev.java.net/[maven-jaxb2-plugin]) how to configure your pom.xml file for JAXB (information you could find elsewhere), and more important how to link:enabling%20JAXB%202%20plugins[enable JAXB 2 plugin].
+
+Unfortunately, I haven't been able to configure JAXB plugin with maven. So I'll go back using ant.
+
+If you want to go further using JAXB, here are two goods links for improving our knowledge :
+
+1.  https://jaxb.dev.java.net/tutorial/[A JAXB Tutorial] on glassfish website
+2.  https://jaxb2-commons.dev.java.net/[JAXB commons] where you'll find useful plugins

@@ -1,0 +1,14 @@
+= More on JAXB plugin
+:published_at: 2009-11-25
+:hp-tags: beans binding, jaxb
+
+I've been talking about Java beans binding with JAXB on http://javathought.github.io/2009/04/27/xml-binding-with-jaxb-33-plugins/[my old post]. But trying it on my professionnal project, I've not been able to make it work. I encountered the following error :unrecognized parameter -Xinject-prop-listeners.
+
+So I used another plugin, a mod of the original from jaxb-commons found on http://moscaville.com/jaxb2-commons/index.html[http://moscaville.com/]. This one replace the vetoable events by fireChange events. It is less complete than the one from http://www.no0ne.org/general-purpose/index.html[http://www.no0ne.org/], but interesting for learning more on JAXB.
+
+First, this plugin has a two bugs :
+
+* boolean fields do not more generate _is_ method but _get_ method in the generated java source. Not very smart
+* it does not generate the firePropertyChange on _int_ fields but only on __Integer__. This is more annoying : from xml _xsd:int_ type, both int or Integer fields can be generated in Java : int are generated on required fields (minOccurence >= 1) and Integer are generated on optionnal field (minOccurence = 0). So you have to set minOccurence = 0 to your int fields in your schemas, even if in real case, there is always one occurence of the field.
+
+Then, this plugin does not handle the lists (what the plugin of noOne does). This will be the subject of the next post.
