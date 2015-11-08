@@ -35,7 +35,7 @@
     <meta property="og:description" content="codeboard has a configuration with use of default values. If these default values are not present, errors can occur on some pages. The example of the tips are on the model class Domain. To ensure that this default values are..." />
     <meta property="og:url" content="https://javathought.github.io/2012/12/27/Play-greater-framework-tips-for-templates-to-ensure-integrity.html" />
     <meta property="article:published_time" content="2012-12-26T23:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-08T21:18:56.881Z" />
+    <meta property="article:modified_time" content="2015-11-08T21:24:03.246Z" />
     <meta property="article:tag" content="data integrity" />
     <meta property="article:tag" content="play framework" />
     <meta property="article:tag" content="templates" />
@@ -60,7 +60,7 @@
     "headline": "Play !&gt; framework - tips for templates to ensure integrity",
     "url": "https://javathought.github.io/2012/12/27/Play-greater-framework-tips-for-templates-to-ensure-integrity.html",
     "datePublished": "2012-12-26T23:00:00.000Z",
-    "dateModified": "2015-11-08T21:18:56.881Z",
+    "dateModified": "2015-11-08T21:24:03.246Z",
     "keywords": "data integrity,  play framework,  templates",
     "description": "codeboard has a configuration with use of default values. If these default values are not present, errors can occur on some pages. The example of the tips are on the model class Domain. To ensure that this default values are..."
 }
@@ -172,17 +172,14 @@
 <div class="paragraph">
 <p>The <code>delete</code> button is not present if the object is the default one.</p>
 </div>
-<div class="paragraph">
-<p>#\{if !domain.isDefault}</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">#\{if !domain.isDefault}
+
+&lt;a href="/admin/domains/$\{domain.id}" class="icon icon-del delete" &gt;&amp;\{'delete'}&lt;/a&gt;
+
+#\{/if}</code></pre>
 </div>
-<div class="paragraph">
-<p>&lt;a href="/admin/domains/$\{domain.id}" class="icon icon-del delete" &gt;&amp;\{'delete'}&lt;/a&gt;</p>
-</div>
-<div class="paragraph">
-<p>#\{/if}</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>\2. it is not possible to uncheck a default value</p>
