@@ -8,15 +8,15 @@ https://github.com/javathought/Code-Board[codeboard] has a configuration with us
 
 The `delete` button is not present if the object is the default one.
 
-[code language="html"]
-
+[source,html]
+---------------------------------------------------------------------
 #\{if !domain.isDefault}
 
 <a href="/admin/domains/$\{domain.id}" class="icon icon-del delete" >&\{'delete'}</a>
 
 #\{/if}
 
-[/code]
+---------------------------------------------------------------------
 
 \2. it is not possible to uncheck a default value
 
