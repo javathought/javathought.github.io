@@ -35,7 +35,7 @@
     <meta property="og:description" content="In my last post about data integrity, I noticed that with the MVC model of Play, you tend to put many logic in the controller, even a part of the domain model, thus creating an Anemic Domain Model as described..." />
     <meta property="og:url" content="https://javathought.github.io/2013/01/20/Playgreater-framework-design-pattern-3-Avoid-Anemic-Domain-Model.html" />
     <meta property="article:published_time" content="2013-01-19T23:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-08T21:17:44.219Z" />
+    <meta property="article:modified_time" content="2015-11-08T21:25:35.952Z" />
     <meta property="article:tag" content="AnemicDomainModel" />
     <meta property="article:tag" content="design patterns" />
     <meta property="article:tag" content="java" />
@@ -61,7 +61,7 @@
     "headline": "Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model",
     "url": "https://javathought.github.io/2013/01/20/Playgreater-framework-design-pattern-3-Avoid-Anemic-Domain-Model.html",
     "datePublished": "2013-01-19T23:00:00.000Z",
-    "dateModified": "2015-11-08T21:17:44.219Z",
+    "dateModified": "2015-11-08T21:25:35.952Z",
     "keywords": "AnemicDomainModel,  design patterns,  java,  play framework",
     "description": "In my last post about data integrity, I noticed that with the MVC model of Play, you tend to put many logic in the controller, even a part of the domain model, thus creating an Anemic Domain Model as described..."
 }
@@ -176,179 +176,122 @@
 <div class="paragraph">
 <p>Now the controller class is lighter :</p>
 </div>
-<div class="paragraph">
-<p>public class Domains extends Admin \{</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">public class Domains extends Admin \{
+
+public static void list() \{
+
+List&lt;Domain&gt; domains = Domain.find("order by position asc").fetch();
+
+render(domains);
+
+}
+
+public static void create() \{
+
+Domain domain = new Domain();
+
+render("@edit", domain);
+
+}
+
+public static void edit(Long id) \{
+
+Domain domain = Domain.findById(id);
+
+render(domain);
+
+}
+
+public static void setDefault(Long id) \{
+
+Domain domain = Domain.findById(id);
+
+domain.setDefault();
+
+Map summary = new HashMap();
+
+summary.put(0, 1);
+
+summary.put(1, Messages.get("domain_as_default"));
+
+summary.put(2, id);
+
+renderJSON(summary);
+
+}
+
+public static void save(@Valid Domain domain) \{
+
+if (Validation.hasErrors()) \{
+
+params.flash(); // add http parameters to the flash scope
+
+validation.keep(); // keep the errors for the next request
+
+render("@edit", domain);
+
+}
+
+domain.save();
+
+list();
+
+}
+
+public static void delete(Long id) \{
+
+Domain domain_to_delete = Domain.findById(id);
+
+Map summary = new HashMap();
+
+try \{
+
+domain_to_delete.delete();
+
+summary.put(0, 1);
+
+summary.put(1, Messages.get("domain_deleted"));
+
+summary.put(2, domain_to_delete.id);
+
+} catch (UnsupportedOperationException e) \{
+
+summary.put(0, 0);
+
+summary.put(1, Messages.get(e.getMessage()));
+
+summary.put(2, domain_to_delete.id);
+
+}
+
+renderJSON(summary);
+
+}
+
+public static void move(Long id) \{
+
+String to = params.get("move_to");
+
+Domain domain_to_move = Domain.findById(id);
+
+domain_to_move.move(to);
+
+Map summary = new HashMap();
+
+summary.put(0, Messages.get("domain_moved"));
+
+summary.put(1, domain_to_move.id);
+
+summary.put(2, domain_to_move.position);
+
+renderJSON(summary);
+
+}
+
+}</code></pre>
 </div>
-<div class="paragraph">
-<p>public static void list() \{</p>
-</div>
-<div class="paragraph">
-<p>List&lt;Domain&gt; domains = Domain.find("order by position asc").fetch();</p>
-</div>
-<div class="paragraph">
-<p>render(domains);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void create() \{</p>
-</div>
-<div class="paragraph">
-<p>Domain domain = new Domain();</p>
-</div>
-<div class="paragraph">
-<p>render("@edit", domain);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void edit(Long id) \{</p>
-</div>
-<div class="paragraph">
-<p>Domain domain = Domain.findById(id);</p>
-</div>
-<div class="paragraph">
-<p>render(domain);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void setDefault(Long id) \{</p>
-</div>
-<div class="paragraph">
-<p>Domain domain = Domain.findById(id);</p>
-</div>
-<div class="paragraph">
-<p>domain.setDefault();</p>
-</div>
-<div class="paragraph">
-<p>Map summary = new HashMap();</p>
-</div>
-<div class="paragraph">
-<p>summary.put(0, 1);</p>
-</div>
-<div class="paragraph">
-<p>summary.put(1, Messages.get("domain_as_default"));</p>
-</div>
-<div class="paragraph">
-<p>summary.put(2, id);</p>
-</div>
-<div class="paragraph">
-<p>renderJSON(summary);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void save(@Valid Domain domain) \{</p>
-</div>
-<div class="paragraph">
-<p>if (Validation.hasErrors()) \{</p>
-</div>
-<div class="paragraph">
-<p>params.flash(); // add http parameters to the flash scope</p>
-</div>
-<div class="paragraph">
-<p>validation.keep(); // keep the errors for the next request</p>
-</div>
-<div class="paragraph">
-<p>render("@edit", domain);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>domain.save();</p>
-</div>
-<div class="paragraph">
-<p>list();</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void delete(Long id) \{</p>
-</div>
-<div class="paragraph">
-<p>Domain domain_to_delete = Domain.findById(id);</p>
-</div>
-<div class="paragraph">
-<p>Map summary = new HashMap();</p>
-</div>
-<div class="paragraph">
-<p>try \{</p>
-</div>
-<div class="paragraph">
-<p>domain_to_delete.delete();</p>
-</div>
-<div class="paragraph">
-<p>summary.put(0, 1);</p>
-</div>
-<div class="paragraph">
-<p>summary.put(1, Messages.get("domain_deleted"));</p>
-</div>
-<div class="paragraph">
-<p>summary.put(2, domain_to_delete.id);</p>
-</div>
-<div class="paragraph">
-<p>} catch (UnsupportedOperationException e) \{</p>
-</div>
-<div class="paragraph">
-<p>summary.put(0, 0);</p>
-</div>
-<div class="paragraph">
-<p>summary.put(1, Messages.get(e.getMessage()));</p>
-</div>
-<div class="paragraph">
-<p>summary.put(2, domain_to_delete.id);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>renderJSON(summary);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void move(Long id) \{</p>
-</div>
-<div class="paragraph">
-<p>String to = params.get("move_to");</p>
-</div>
-<div class="paragraph">
-<p>Domain domain_to_move = Domain.findById(id);</p>
-</div>
-<div class="paragraph">
-<p>domain_to_move.move(to);</p>
-</div>
-<div class="paragraph">
-<p>Map summary = new HashMap();</p>
-</div>
-<div class="paragraph">
-<p>summary.put(0, Messages.get("domain_moved"));</p>
-</div>
-<div class="paragraph">
-<p>summary.put(1, domain_to_move.id);</p>
-</div>
-<div class="paragraph">
-<p>summary.put(2, domain_to_move.position);</p>
-</div>
-<div class="paragraph">
-<p>renderJSON(summary);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>and the model class is no more "empty" :</p>
