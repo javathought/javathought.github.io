@@ -10,8 +10,8 @@ So, I started replace domain code in the domain classes.
 
 Now the controller class is lighter :
 
-[code language="java"]
-
+[source,java]
+---------------------------------------------------------------------
 public class Domains extends Admin \{
 
 public static void list() \{
@@ -126,7 +126,7 @@ renderJSON(summary);
 
 }
 
-[/code]
+---------------------------------------------------------------------
 
 and the model class is no more "empty" :
 
