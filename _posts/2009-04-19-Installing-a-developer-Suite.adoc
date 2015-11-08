@@ -12,7 +12,7 @@ svn is not the more mature VCS I used (I wouldn't tell it's a SCM), but linked w
 
 I decided to use a continuous integration (CI) tool also. The list I tried was http://cruisecontrol.sourceforge.net/[CruiseControl]and https://hudson.dev.java.net/[Hudson]. I selected Hudson, because it's was simpler to install and configure. The configuration is intuitive, not the one for CC. And it simply integrates with Jira too. So in Jira, you track the changeset that fixes your request and the successful build that integrates your request. I began to look at http://continuum.apache.org/[apache continuum], but hudson was already configured and it seems it has not the simplicity of hudson. Perhaps I'll try it more later.
 
-[caption id="attachment_38" align="aligncenter" width="418" caption="Hudson CI tool"]image::hudson-1.png[Hudson CI tool,title="hudson-1"][/caption]
+image::hudson-1.png[Hudson CI tool,title="hudson-1"]
 
 So here is my "developer suite" :
 
