@@ -1,6 +1,6 @@
 = VisualEditor (Eclipse) vs Matisse (Netbeans)
 :published_at: 2009-04-17
-:hb_tags: eclipse, ide, netbeans
+:hp-tags: Eclipse, GUI builder, Netbeans
 
 Writing my precedent post, I decided to take back a look at VE. So I installed last version (1.4) of VE on my 3.4 eclipse.
 

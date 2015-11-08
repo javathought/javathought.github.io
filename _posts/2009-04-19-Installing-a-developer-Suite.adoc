@@ -1,0 +1,24 @@
+= Installing a developer "Suite"
+:published_at: 2009-04-19
+:hp-tags: CMM, continuous integration, hudson, jira, Netbeans, svn
+
+I'm installing an environment to support a project that will illustrate my writing about Java.
+
+As I'll write a desktop application, I'll Netbeans for the IDE.
+
+Next, I need a SCM (which is a Key Process Area of CMM Level 2) or rather a version control system. But to choose it, before I got my request/issue tracker. It's http://www.atlassian.com/software/jira/[Jira]. My short list was http://subversion.tigris.org/[svn] (subversion) and link:distributed%20version%20control%20system[mercurial] (hg), the later is a distributed version control system (VCS), which differ from traditional centralised ones. I elected svn, though mercurial principlpe is interesting, but svn intregration in Jira is simplier (the plugin is mature).
+
+svn is not the more mature VCS I used (I wouldn't tell it's a SCM), but linked with Jira, we get a missing feature. Correctly used, the changeset are linked to requests, but I found some lack of flexibility (how to decide which request will integrate a release, if the last changeset cumulates all requests ?), though I need to learn more about svn. I think to achieve flexibility, you have to work with branches; but this is harder than in others SCM.
+
+I decided to use a continuous integration (CI) tool also. The list I tried was http://cruisecontrol.sourceforge.net/[CruiseControl]and https://hudson.dev.java.net/[Hudson]. I selected Hudson, because it's was simpler to install and configure. The configuration is intuitive, not the one for CC. And it simply integrates with Jira too. So in Jira, you track the changeset that fixes your request and the successful build that integrates your request. I began to look at http://continuum.apache.org/[apache continuum], but hudson was already configured and it seems it has not the simplicity of hudson. Perhaps I'll try it more later.
+
+[caption id="attachment_38" align="aligncenter" width="418" caption="Hudson CI tool"]image:hudson-1.png[Hudson CI tool,title="hudson-1"][/caption]
+
+So here is my "developer suite" :
+
+* netbeans
+* jira
+* svn
+* hudson
+
+I'll have a look at natbeans' code coverage plugin next time and compare it to JTest (which does not only do code coverage analysys).

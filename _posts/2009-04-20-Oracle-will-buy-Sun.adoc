@@ -1,6 +1,6 @@
 = Oracle will buy Sun
 :published_at: 2009-04-20
-:hp-tags: oracle, sun
+:hp-tags: Oracle, Sun
 
 Finally, that's Oracle that will buy Sun, surprisingly ahead of others companies, after persistant rumors of exchange with IBM.
 
