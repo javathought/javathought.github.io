@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model - Java Thoughts</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model">
+    <meta property="og:description" content="">
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link rel="stylesheet" type="text/css" href="//javathought.github.io/themes/uno/assets/css/uno.css?v=1.0.0" />
+
+    <link rel="canonical" href="https://javathought.github.io/2013/01/20/Playgreater-framework-design-pattern-3-Avoid-Anemic-Domain-Model.html" />
+    
+    <meta property="og:site_name" content="Java Thoughts" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model" />
+    <meta property="og:description" content="In my last post about data integrity, I noticed that with the MVC model of Play, you tend to put many logic in the controller, even a part of the domain model, thus creating an Anemic Domain Model as described..." />
+    <meta property="og:url" content="https://javathought.github.io/2013/01/20/Playgreater-framework-design-pattern-3-Avoid-Anemic-Domain-Model.html" />
+    <meta property="article:published_time" content="2013-01-19T23:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-11-08T21:17:44.219Z" />
+    <meta property="article:tag" content="AnemicDomainModel" />
+    <meta property="article:tag" content="design patterns" />
+    <meta property="article:tag" content="java" />
+    <meta property="article:tag" content="play framework" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model" />
+    <meta name="twitter:description" content="In my last post about data integrity, I noticed that with the MVC model of Play, you tend to put many logic in the controller, even a part of the domain model, thus creating an Anemic Domain Model as described..." />
+    <meta name="twitter:url" content="https://javathought.github.io/2013/01/20/Playgreater-framework-design-pattern-3-Avoid-Anemic-Domain-Model.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Java Thoughts",
+    "author": {
+        "@type": "Person",
+        "name": null,
+        "image": "https://avatars.githubusercontent.com/u/1075135?v=3",
+        "url": "undefined/author/undefined",
+        "sameAs": null
+    },
+    "headline": "Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model",
+    "url": "https://javathought.github.io/2013/01/20/Playgreater-framework-design-pattern-3-Avoid-Anemic-Domain-Model.html",
+    "datePublished": "2013-01-19T23:00:00.000Z",
+    "dateModified": "2015-11-08T21:17:44.219Z",
+    "keywords": "AnemicDomainModel,  design patterns,  java,  play framework",
+    "description": "In my last post about data integrity, I noticed that with the MVC model of Play, you tend to put many logic in the controller, even a part of the domain model, thus creating an Anemic Domain Model as described..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="Java Thoughts" href="https://javathought.github.io/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+
+</head>
+<body class="post-template tag-AnemicDomainModel tag-design-patterns tag-java tag-play-framework no-js">
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    <header class="panel-cover panel-cover--collapsed " >
+      <div class="panel-main">
+    
+        <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+    
+            <a href="https://javathought.github.io" title="link to homepage for Java Thoughts"><img src="https://avatars2.githubusercontent.com/u/1075135?v=3&amp;s=460" width="80" alt="Java Thoughts logo" class="panel-cover__logo logo" /></a>
+            <h1 class="panel-cover__title panel-title"><a href="https://javathought.github.io" title="link to homepage for Java Thoughts">Java Thoughts</a></h1>
+            <hr class="panel-cover__divider" />
+            <p class="panel-cover__description">Just another Java blog.</p>
+            <hr class="panel-cover__divider panel-cover__divider--secondary" />
+    
+            <div class="navigation-wrapper">
+    
+              <nav class="cover-navigation cover-navigation--primary">
+                <ul class="navigation">
+                  <li class="navigation__item"><a href="https://javathought.github.io/#blog" title="link to Java Thoughts blog" class="blog-button">Blog</a></li>
+                </ul>
+              </nav>
+    
+              
+              
+              <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+              
+              
+                  <!-- Twitter -->
+                  <li class="navigation__item">
+                    <a href="https://twitter.com/javathought" title="Twitter account">
+                      <i class='icon icon-social-twitter'></i>
+                      <span class="label">Twitter</span>
+                    </a>
+                  </li>
+              
+              
+                  <!-- Github -->
+                  <li class="navigation__item">
+                    <a href="http://www.github.com/javathought" title="Github account">
+                      <i class='icon icon-social-github'></i>
+                      <span class="label">Github</span>
+                    </a>
+                  </li>
+                  </li>
+              
+              
+              
+              
+              
+                  <!-- Email -->
+                  <li class="navigation__item">
+                    <a href="mailto:banks@free.fr" title="Email banks@free.fr">
+                      <i class='icon icon-mail'></i>
+                      <span class="label">Email</span>
+                    </a>
+                  </li>
+              
+                </ul>
+              </nav>
+              
+    
+            </div>
+    
+          </div>
+    
+        </div>
+    
+        <div class="panel-cover--overlay"></div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            
+
+  <article class="post-container post-container--single">
+
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime="20 Jan 2013" class="post-meta__date date">20 Jan 2013</time> &#8226; <span class="post-meta__tags tags">on <a href="https://javathought.github.io/tag/AnemicDomainModel">AnemicDomainModel</a>, <a href="https://javathought.github.io/tag/design-patterns"> design patterns</a>, <a href="https://javathought.github.io/tag/java"> java</a>, <a href="https://javathought.github.io/tag/play-framework"> play framework</a></span>
+        <span class="post-meta__author author"><img src="https://avatars.githubusercontent.com/u/1075135?v=3" alt="profile image for " class="avatar post-meta__avatar" /> by </span>
+      </div>
+      <h1 class="post-title">Play!&gt; framework design pattern #3 : Avoid Anemic Domain Model</h1>
+    </header>
+
+    <section class="post tag-AnemicDomainModel tag-design-patterns tag-java tag-play-framework">
+      <div class="paragraph">
+<p>In my last <a href="http://javathought.github.io/2012/12/27/play-framework-tips-for-templates-to-ensure-integrity/">post about data integrity</a>, I noticed that with the MVC model of Play, you tend to put many logic in the controller, even a part of the domain model, thus creating an <a href="http://www.martinfowler.com/bliki/AnemicDomainModel.html">Anemic Domain Model</a> as described by Martin Fowler.</p>
+</div>
+<div class="paragraph">
+<p>And it&#8217;s what I made in my Codebaord Project to test Play! Framework. In my model, I have a class <code>Domain</code> that is only a database wrapper (with only annotations), and a controller <code>Domains</code> that has code that should be in the model (see <a href="https://github.com/javathought/Code-Board/blob/699086fb0860a0c14b53e32b092f5a3ccfe1c29d/app/controllers/Domains.java">old controller source</a> with this wrong choice).</p>
+</div>
+<div class="paragraph">
+<p>So, I started replace domain code in the domain classes.</p>
+</div>
+<div class="paragraph">
+<p>Now the controller class is lighter :</p>
+</div>
+<div class="paragraph">
+<p>public class Domains extends Admin \{</p>
+</div>
+<div class="paragraph">
+<p>public static void list() \{</p>
+</div>
+<div class="paragraph">
+<p>List&lt;Domain&gt; domains = Domain.find("order by position asc").fetch();</p>
+</div>
+<div class="paragraph">
+<p>render(domains);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public static void create() \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain = new Domain();</p>
+</div>
+<div class="paragraph">
+<p>render("@edit", domain);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public static void edit(Long id) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain = Domain.findById(id);</p>
+</div>
+<div class="paragraph">
+<p>render(domain);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public static void setDefault(Long id) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain = Domain.findById(id);</p>
+</div>
+<div class="paragraph">
+<p>domain.setDefault();</p>
+</div>
+<div class="paragraph">
+<p>Map summary = new HashMap();</p>
+</div>
+<div class="paragraph">
+<p>summary.put(0, 1);</p>
+</div>
+<div class="paragraph">
+<p>summary.put(1, Messages.get("domain_as_default"));</p>
+</div>
+<div class="paragraph">
+<p>summary.put(2, id);</p>
+</div>
+<div class="paragraph">
+<p>renderJSON(summary);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public static void save(@Valid Domain domain) \{</p>
+</div>
+<div class="paragraph">
+<p>if (Validation.hasErrors()) \{</p>
+</div>
+<div class="paragraph">
+<p>params.flash(); // add http parameters to the flash scope</p>
+</div>
+<div class="paragraph">
+<p>validation.keep(); // keep the errors for the next request</p>
+</div>
+<div class="paragraph">
+<p>render("@edit", domain);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>domain.save();</p>
+</div>
+<div class="paragraph">
+<p>list();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public static void delete(Long id) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain_to_delete = Domain.findById(id);</p>
+</div>
+<div class="paragraph">
+<p>Map summary = new HashMap();</p>
+</div>
+<div class="paragraph">
+<p>try \{</p>
+</div>
+<div class="paragraph">
+<p>domain_to_delete.delete();</p>
+</div>
+<div class="paragraph">
+<p>summary.put(0, 1);</p>
+</div>
+<div class="paragraph">
+<p>summary.put(1, Messages.get("domain_deleted"));</p>
+</div>
+<div class="paragraph">
+<p>summary.put(2, domain_to_delete.id);</p>
+</div>
+<div class="paragraph">
+<p>} catch (UnsupportedOperationException e) \{</p>
+</div>
+<div class="paragraph">
+<p>summary.put(0, 0);</p>
+</div>
+<div class="paragraph">
+<p>summary.put(1, Messages.get(e.getMessage()));</p>
+</div>
+<div class="paragraph">
+<p>summary.put(2, domain_to_delete.id);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>renderJSON(summary);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public static void move(Long id) \{</p>
+</div>
+<div class="paragraph">
+<p>String to = params.get("move_to");</p>
+</div>
+<div class="paragraph">
+<p>Domain domain_to_move = Domain.findById(id);</p>
+</div>
+<div class="paragraph">
+<p>domain_to_move.move(to);</p>
+</div>
+<div class="paragraph">
+<p>Map summary = new HashMap();</p>
+</div>
+<div class="paragraph">
+<p>summary.put(0, Messages.get("domain_moved"));</p>
+</div>
+<div class="paragraph">
+<p>summary.put(1, domain_to_move.id);</p>
+</div>
+<div class="paragraph">
+<p>summary.put(2, domain_to_move.position);</p>
+</div>
+<div class="paragraph">
+<p>renderJSON(summary);</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>[/code]</p>
+</div>
+<div class="paragraph">
+<p>and the model class is no more "empty" :</p>
+</div>
+<div class="paragraph">
+<p>@Entity</p>
+</div>
+<div class="paragraph">
+<p>public class Domain extends Model \{</p>
+</div>
+<div class="paragraph">
+<p>public String name;</p>
+</div>
+<div class="paragraph">
+<p>public long position;</p>
+</div>
+<div class="paragraph">
+<p>public boolean isPublic;</p>
+</div>
+<div class="paragraph">
+<p>public boolean isDefault;</p>
+</div>
+<div class="paragraph">
+<p>public String toString() \{</p>
+</div>
+<div class="paragraph">
+<p>return name;</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public Domain delete() \{</p>
+</div>
+<div class="paragraph">
+<p>if (! isDefault) \{</p>
+</div>
+<div class="paragraph">
+<p>super.delete();</p>
+</div>
+<div class="paragraph">
+<p>} else \{</p>
+</div>
+<div class="paragraph">
+<p>throw new UnsupportedOperationException("dont_delete_default");</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>List&lt;Domain&gt; domains = Domain.find("position &gt; ?", position).fetch();</p>
+</div>
+<div class="paragraph">
+<p>for (Iterator iterator = domains.iterator(); iterator.hasNext(); ) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain = (Domain) iterator.next();</p>
+</div>
+<div class="paragraph">
+<p>domain.position = domain.position - 1;</p>
+</div>
+<div class="paragraph">
+<p>domain.save();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>return this;</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public Domain setDefault() \{</p>
+</div>
+<div class="paragraph">
+<p>Domain defaultDomain = Domain.find("isDefault = ?", true).first();</p>
+</div>
+<div class="paragraph">
+<p>if (defaultDomain != null) \{</p>
+</div>
+<div class="paragraph">
+<p>defaultDomain.isDefault = false;</p>
+</div>
+<div class="paragraph">
+<p>defaultDomain.save();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>isDefault = true;</p>
+</div>
+<div class="paragraph">
+<p>save();</p>
+</div>
+<div class="paragraph">
+<p>return this;</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>public void move(String to) \{</p>
+</div>
+<div class="paragraph">
+<p>if (to.equals("highest")) \{</p>
+</div>
+<div class="paragraph">
+<p>List&lt;Domain&gt; domains = Domain.find("position &lt; ?", position).fetch();</p>
+</div>
+<div class="paragraph">
+<p>for (Iterator iterator = domains.iterator(); iterator.hasNext();) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain = (Domain) iterator.next();</p>
+</div>
+<div class="paragraph">
+<p>domain.position = domain.position +1;</p>
+</div>
+<div class="paragraph">
+<p>domain.save();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>position = 1;</p>
+</div>
+<div class="paragraph">
+<p>} else if (to.equals("higher")) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain_to_swap = Domain.find("position = ?", position - 1).first();</p>
+</div>
+<div class="paragraph">
+<p>domain_to_swap.position = position;</p>
+</div>
+<div class="paragraph">
+<p>position = position - 1;</p>
+</div>
+<div class="paragraph">
+<p>domain_to_swap.save();</p>
+</div>
+<div class="paragraph">
+<p>} else if (to.equals("lower")) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain_to_swap = Domain.find("position = ?", position + 1).first();</p>
+</div>
+<div class="paragraph">
+<p>domain_to_swap.position = position;</p>
+</div>
+<div class="paragraph">
+<p>position = position + 1;</p>
+</div>
+<div class="paragraph">
+<p>domain_to_swap.save();</p>
+</div>
+<div class="paragraph">
+<p>} else if (to.equals("lowest")) \{</p>
+</div>
+<div class="paragraph">
+<p>List&lt;Domain&gt; domains = Domain.find("position &gt; ?", position).fetch();</p>
+</div>
+<div class="paragraph">
+<p>for (Iterator iterator = domains.iterator(); iterator.hasNext();) \{</p>
+</div>
+<div class="paragraph">
+<p>Domain domain = (Domain) iterator.next();</p>
+</div>
+<div class="paragraph">
+<p>domain.position = domain.position - 1;</p>
+</div>
+<div class="paragraph">
+<p>domain.save();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>position = Domain.count();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>save();</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>}</p>
+</div>
+<div class="paragraph">
+<p>[/code]</p>
+</div>
+    </section>
+
+  </article>
+
+  
+  <section class="post-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'javathought'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+  
+
+
+
+            <footer class="footer">
+                <span class="footer__copyright">&copy; 2015. All rights reserved.</span>
+                <span class="footer__copyright"><a href="http://uno.daleanthony.com" title="link to page for Uno Ghost theme">Uno theme</a> by <a href="http://daleanthony.com" title="link to website for Dale-Anthony">Dale-Anthony</a></span>
+                <span class="footer__copyright">Proudly published with <a href="http://hubpress.io" title="link to Hubpress website">Hubpress</a></span>
+            </footer>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//javathought.github.io/themes/uno/assets/js/main.js?v=1.0.0"></script>
+    
+
+</body>
+</html>
