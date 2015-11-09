@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>XML binding with JAXB 1/3 - Java Thoughts</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="XML binding with JAXB 1/3">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="XML binding with JAXB 1/3">
+    <meta property="og:description" content="">
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link rel="stylesheet" type="text/css" href="//javathought.github.io/themes/uno/assets/css/uno.css?v=1.0.0" />
+
+    <link rel="canonical" href="https://javathought.github.io/2009/04/25/XML-binding-with-JAXB-13.html" />
+    
+    <meta property="og:site_name" content="Java Thoughts" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="XML binding with JAXB 1/3" />
+    <meta property="og:description" content="I&amp;#8217;ve been watching for an XML binding tool for one of my projects, which make use of XML to store datas. I looked at hibernate, which now make XML bindings, but, from what I&amp;#8217;ve seen, the..." />
+    <meta property="og:url" content="https://javathought.github.io/2009/04/25/XML-binding-with-JAXB-13.html" />
+    <meta property="article:published_time" content="2009-04-24T22:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-11-09T23:14:14.425Z" />
+    <meta property="article:tag" content="jaxb" />
+    <meta property="article:tag" content="xml binding" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="XML binding with JAXB 1/3" />
+    <meta name="twitter:description" content="I&amp;#8217;ve been watching for an XML binding tool for one of my projects, which make use of XML to store datas. I looked at hibernate, which now make XML bindings, but, from what I&amp;#8217;ve seen, the..." />
+    <meta name="twitter:url" content="https://javathought.github.io/2009/04/25/XML-binding-with-JAXB-13.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Java Thoughts",
+    "author": {
+        "@type": "Person",
+        "name": null,
+        "image": "https://avatars.githubusercontent.com/u/1075135?v=3",
+        "url": "undefined/author/undefined",
+        "sameAs": null
+    },
+    "headline": "XML binding with JAXB 1/3",
+    "url": "https://javathought.github.io/2009/04/25/XML-binding-with-JAXB-13.html",
+    "datePublished": "2009-04-24T22:00:00.000Z",
+    "dateModified": "2015-11-09T23:14:14.425Z",
+    "keywords": "jaxb,  xml binding",
+    "description": "I&amp;#8217;ve been watching for an XML binding tool for one of my projects, which make use of XML to store datas. I looked at hibernate, which now make XML bindings, but, from what I&amp;#8217;ve seen, the..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="Java Thoughts" href="https://javathought.github.io/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+
+</head>
+<body class="post-template tag-jaxb tag-xml-binding no-js">
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    <header class="panel-cover panel-cover--collapsed " >
+      <div class="panel-main">
+    
+        <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+    
+            <a href="https://javathought.github.io" title="link to homepage for Java Thoughts"><img src="https://avatars2.githubusercontent.com/u/1075135?v=3&amp;s=460" width="80" alt="Java Thoughts logo" class="panel-cover__logo logo" /></a>
+            <h1 class="panel-cover__title panel-title"><a href="https://javathought.github.io" title="link to homepage for Java Thoughts">Java Thoughts</a></h1>
+            <hr class="panel-cover__divider" />
+            <p class="panel-cover__description">Just another Java blog.</p>
+            <hr class="panel-cover__divider panel-cover__divider--secondary" />
+    
+            <div class="navigation-wrapper">
+    
+              <nav class="cover-navigation cover-navigation--primary">
+                <ul class="navigation">
+                  <li class="navigation__item"><a href="https://javathought.github.io/#blog" title="link to Java Thoughts blog" class="blog-button">Blog</a></li>
+                </ul>
+              </nav>
+    
+              
+              
+              <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+              
+              
+                  <!-- Twitter -->
+                  <li class="navigation__item">
+                    <a href="https://twitter.com/javathought" title="Twitter account">
+                      <i class='icon icon-social-twitter'></i>
+                      <span class="label">Twitter</span>
+                    </a>
+                  </li>
+              
+              
+                  <!-- Github -->
+                  <li class="navigation__item">
+                    <a href="http://www.github.com/javathought" title="Github account">
+                      <i class='icon icon-social-github'></i>
+                      <span class="label">Github</span>
+                    </a>
+                  </li>
+                  </li>
+              
+              
+              
+              
+              
+                  <!-- Email -->
+                  <li class="navigation__item">
+                    <a href="mailto:banks@free.fr" title="Email banks@free.fr">
+                      <i class='icon icon-mail'></i>
+                      <span class="label">Email</span>
+                    </a>
+                  </li>
+              
+                </ul>
+              </nav>
+              
+    
+            </div>
+    
+          </div>
+    
+        </div>
+    
+        <div class="panel-cover--overlay"></div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            
+
+  <article class="post-container post-container--single">
+
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime="25 Apr 2009" class="post-meta__date date">25 Apr 2009</time> &#8226; <span class="post-meta__tags tags">on <a href="https://javathought.github.io/tag/jaxb">jaxb</a>, <a href="https://javathought.github.io/tag/xml-binding"> xml binding</a></span>
+        <span class="post-meta__author author"><img src="https://avatars.githubusercontent.com/u/1075135?v=3" alt="profile image for " class="avatar post-meta__avatar" /> by </span>
+      </div>
+      <h1 class="post-title">XML binding with JAXB 1/3</h1>
+    </header>
+
+    <section class="post tag-jaxb tag-xml-binding">
+      <div class="paragraph">
+<p>I&#8217;ve been watching for an XML binding tool for one of my projects, which make use of XML to store datas.</p>
+</div>
+<div class="paragraph">
+<p>I looked at hibernate, which now make XML bindings, but, from what I&#8217;ve seen, the binding is managed by the relational mapping. As I do not have a database in my application, I had to search elsewhere.</p>
+</div>
+<div class="paragraph">
+<p>So I took a look at JAXB. It&#8217;s the tool I needed : you specify your xml schema, run xjc and you have your object mapping done. As example, I&#8217;ll use a schema I&#8217;m writing at the moment (phonebook.xsd). Now, all you have to write, once the classes are generated is 4 lines of code (plus catching the exceptions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        Phonebook phonebook = null;
+        JAXBContext jc;
+
+        try {
+
+            // Create the context with package containing mapping classes
+            jc = JAXBContext.newInstance(BINDING_ID);
+
+            // Load the xml file
+            Unmarshaller u = jc.createUnmarshaller();
+
+            u.setSchema(SchemaFactory.newInstance(
+                    XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(
+                    new File("phonebook.xsd")));
+
+          phonebook  =
+                    (Phonebook)u.unmarshal( new FileInputStream( phonebookFilename ) );
+
+            // Do some work ...
+
+            // Save the modified datas (here writes on stdout)
+            Marshaller m = jc.createMarshaller();
+             m.marshal( b, System.out);
+
+        } catch (SAXException e) {
+            logger.log(Level.ERROR, "Altered schema file.", e);
+            throw new Exception("Schema file has been altered.", e);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.ERROR, "Phonebook file not found.", e);
+            throw new Exception("Phonebook file not found.");
+        } catch (JAXBException e) {
+            logger.log(Level.ERROR, "Corrupted phonebook file ", e);
+            throw new Exception("Corrupted phonebook file ");
+        }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s comment the source :</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a context : the constant BINDING_ID is the package name of the generated xml binding classes.</p>
+</li>
+<li>
+<p>Create the unmarshaller : the object that will read the xml file and bind it to objects</p>
+</li>
+<li>
+<p>Set the schema of the xml file read to assume xml validation</p>
+</li>
+<li>
+<p>Unmarshal : load the file in the objects</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>But you have three things to know to better use it : first if you want to directly unmarshal to your root class and to write an object representation to an xml file, the master object class has to be tagged @xmlRootElement, if you want to write simplier code.</p>
+</div>
+<div class="paragraph">
+<p>Take the following schema, that does not generate the @XmlRootElement annotation :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&amp;lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &amp;gt;
+
+    &amp;lt;xsd:element name="phonebook" type="Phonebook" /&amp;gt;;
+
+    &amp;lt;xsd:complexType name="Phonebook"&amp;gt;
+    ...
+    &amp;lt;/xsd:complexType&amp;gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you use that schema, you&#8217;ll have an error (<code>java.lang.ClassCastException: javax.xml.bind.JAXBElement cannot be cast to package.name.Phonebook</code>) when unmarshalling and an other (<code>unable to marshal type "package.name.Phonebook" as an element because it is missing an @XmlRootElement annotation</code>) when marshalling. You&#8217;ll have to write the following java code to unmarshall and marshall without errors with the schema above :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">phonebook  =
+     (Phonebook) ((JAXBElement)u.unmarshal( new FileInputStream( phonebookFilename ) )).getValue;
+
+     m.marshal( new JAXBElement( new QName("", "phonebook"), Phonebook.class, phonebook ), System.out);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Instead, a better way to declare your schema (and have simplier java code) is :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&amp;lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &amp;gt;
+
+    &amp;lt;xsd:element name="phonebook" &amp;gt;;
+
+    &amp;lt;xsd:complexType &amp;gt;
+    ...
+    &amp;lt;/xsd:complexType&amp;gt;
+    &amp;lt;/xsd:element&amp;gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The two others tips to knows will be the subjects of the next posts.</p>
+</div>
+    </section>
+
+  </article>
+
+  
+  <section class="post-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'javathought'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+  
+
+
+
+            <footer class="footer">
+                <span class="footer__copyright">&copy; 2015. All rights reserved.</span>
+                <span class="footer__copyright"><a href="http://uno.daleanthony.com" title="link to page for Uno Ghost theme">Uno theme</a> by <a href="http://daleanthony.com" title="link to website for Dale-Anthony">Dale-Anthony</a></span>
+                <span class="footer__copyright">Proudly published with <a href="http://hubpress.io" title="link to Hubpress website">Hubpress</a></span>
+            </footer>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//javathought.github.io/themes/uno/assets/js/main.js?v=1.0.0"></script>
+    
+
+</body>
+</html>
