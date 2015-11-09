@@ -6,9 +6,12 @@ Though there is a Hudson plugin for PVCS, there's none for Serena Dimensions. I 
 
 Fortunaltely, there's a quick and easy way to add a project in Hudson with source control under Dimensions. Just add a step to the build with shell script or Windows batch command and use the Dimensions command line `dmcli` :
 
-[sourcecode language="xml"] dmcli -user -pass
+[source,xml]
 
--host -dbname -dsn download /WORKSET=CATAL:WS_PHONEBOOK /DIRECTORY=Phonebook [/sourcecode]
+-----------------------
+ dmcli -user <user> -pass
+<pass> -host <host:port> -dbname <dbname> -dsn <SID> download /WORKSET=CATAL:WS_PHONEBOOK /DIRECTORY=Phonebook 
+-----------------------
 
 You should be able to use the option -file also (which i didn't try) : see http://community.serena.com/posts/54287b495d[this post on Serena forum] for more information.
 
