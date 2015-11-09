@@ -4,7 +4,7 @@
 
 I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them
 
-\1. The SD card is not detected when inserting it in the reader.
+1. The SD card is not detected when inserting it in the reader.
 
 The trick is simple :
 
@@ -15,7 +15,7 @@ sudo su -l
 echo 1 &gt; /sys/bus/pci/rescan
 -------------------------------
 
-\2. RAW are not readable
+2. RAW are not readable
 
 I had to actions to do it :
 
