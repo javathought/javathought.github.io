@@ -32,10 +32,10 @@
     <meta property="og:site_name" content="Java Thoughts" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="SD card, RAW and Ubuntu" />
-    <meta property="og:description" content="I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them The SD card is not detected when inserting it in the reader. The trick is simple : sudo su -l echo 1 &amp;amp;..." />
+    <meta property="og:description" content="I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them The SD card is not detected when inserting it in the reader. The trick is simple : sudo su -l echo 1 &amp;gt;..." />
     <meta property="og:url" content="https://javathought.github.io/2012/12/25/SD-card-RAW-and-Ubuntu.html" />
     <meta property="article:published_time" content="2012-12-24T23:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-09T22:59:45.017Z" />
+    <meta property="article:modified_time" content="2015-11-09T23:02:44.046Z" />
     <meta property="article:tag" content="linux" />
     <meta property="article:tag" content="nautilus" />
     <meta property="article:tag" content="raw" />
@@ -44,7 +44,7 @@
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="SD card, RAW and Ubuntu" />
-    <meta name="twitter:description" content="I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them The SD card is not detected when inserting it in the reader. The trick is simple : sudo su -l echo 1 &amp;amp;..." />
+    <meta name="twitter:description" content="I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them The SD card is not detected when inserting it in the reader. The trick is simple : sudo su -l echo 1 &amp;gt;..." />
     <meta name="twitter:url" content="https://javathought.github.io/2012/12/25/SD-card-RAW-and-Ubuntu.html" />
     
     <script type="application/ld+json">
@@ -62,9 +62,9 @@
     "headline": "SD card, RAW and Ubuntu",
     "url": "https://javathought.github.io/2012/12/25/SD-card-RAW-and-Ubuntu.html",
     "datePublished": "2012-12-24T23:00:00.000Z",
-    "dateModified": "2015-11-09T22:59:45.017Z",
+    "dateModified": "2015-11-09T23:02:44.046Z",
     "keywords": "linux,  nautilus,  raw,  SD card,  ubuntu",
-    "description": "I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them The SD card is not detected when inserting it in the reader. The trick is simple : sudo su -l echo 1 &amp;amp;..."
+    "description": "I wanted to upload some photos on my Dell XPS 17, but encountered some issues to view them The SD card is not detected when inserting it in the reader. The trick is simple : sudo su -l echo 1 &amp;gt;..."
 }
     </script>
 
@@ -181,7 +181,7 @@
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">sudo su -l
-echo 1 &amp;gt; /sys/bus/pci/rescan</code></pre>
+echo 1 &gt; /sys/bus/pci/rescan</code></pre>
 </div>
 </div>
 <div class="olist arabic">
@@ -197,7 +197,7 @@ echo 1 &amp;gt; /sys/bus/pci/rescan</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>install the package : <code>gnome-raw-thumbnailer</code> (By the way, unable to add <code>apt://</code> link in Wordpress :-( )</p>
+<p>install the package : <code>apt://gnome-raw-thumbnailer</code> (By the way, unable to add <code>apt://</code> link in Wordpress :-( )</p>
 </li>
 <li>
 <p>if missing create the following file &lt;code&gt;/usr/share/thumbnailers/raw.thumbnailer&lt;/code&gt;, that seems not included in the package, with this content :</p>
