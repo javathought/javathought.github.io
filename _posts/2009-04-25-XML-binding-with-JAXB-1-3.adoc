@@ -8,61 +8,44 @@ I looked at hibernate, which now make XML bindings, but, from what I've seen, th
 
 So I took a look at JAXB. It's the tool I needed : you specify your xml schema, run xjc and you have your object mapping done. As example, I'll use a schema I'm writing at the moment (phonebook.xsd). Now, all you have to write, once the classes are generated is 4 lines of code (plus catching the exceptions:
 
-[sourcecode language="java"]
+[source,java]
 
-Phonebook phonebook = null;
+---------------------------------------------------------------------------------------
+        Phonebook phonebook = null;
+        JAXBContext jc;
 
-JAXBContext jc;
+        try {
 
-try \{
+            // Create the context with package containing mapping classes
+            jc = JAXBContext.newInstance(BINDING_ID);
 
-// Create the context with package containing mapping classes
+            // Load the xml file
+            Unmarshaller u = jc.createUnmarshaller();
 
-jc = JAXBContext.newInstance(BINDING_ID);
+            u.setSchema(SchemaFactory.newInstance(
+                    XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(
+                    new File("phonebook.xsd")));
 
-// Load the xml file
+          phonebook  =
+                    (Phonebook)u.unmarshal( new FileInputStream( phonebookFilename ) );
 
-Unmarshaller u = jc.createUnmarshaller();
+            // Do some work ...
 
-u.setSchema(SchemaFactory.newInstance(
+            // Save the modified datas (here writes on stdout)
+            Marshaller m = jc.createMarshaller();
+             m.marshal( b, System.out);
 
-XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(
-
-new File("phonebook.xsd")));
-
-phonebook =
-
-(Phonebook)u.unmarshal( new FileInputStream( phonebookFilename ) );
-
-// Do some work ...
-
-// Save the modified datas (here writes on stdout)
-
-Marshaller m = jc.createMarshaller();
-
-m.marshal( b, System.out);
-
-} catch (SAXException e) \{
-
-logger.log(Level.ERROR, "Altered schema file.", e);
-
-throw new Exception("Schema file has been altered.", e);
-
-} catch (FileNotFoundException e) \{
-
-logger.log(Level.ERROR, "Phonebook file not found.", e);
-
-throw new Exception("Phonebook file not found.");
-
-} catch (JAXBException e) \{
-
-logger.log(Level.ERROR, "Corrupted phonebook file ", e);
-
-throw new Exception("Corrupted phonebook file ");
-
-}
-
-[/sourcecode]
+        } catch (SAXException e) {
+            logger.log(Level.ERROR, "Altered schema file.", e);
+            throw new Exception("Schema file has been altered.", e);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.ERROR, "Phonebook file not found.", e);
+            throw new Exception("Phonebook file not found.");
+        } catch (JAXBException e) {
+            logger.log(Level.ERROR, "Corrupted phonebook file ", e);
+            throw new Exception("Corrupted phonebook file ");
+        }
+---------------------------------------------------------------------------------------
 
 Let's comment the source :
 
@@ -75,38 +58,44 @@ But you have three things to know to better use it : first if you want to direct
 
 Take the following schema, that does not generate the @XmlRootElement annotation :
 
-[sourcecode language="xml"]
+[source,xml]
 
-xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" >
+----------------------------------------------------------------------
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
 
-;
+    &lt;xsd:element name="phonebook" type="Phonebook" /&gt;;
 
-...
-
-[/sourcecode]
+    &lt;xsd:complexType name="Phonebook"&gt;
+    ...
+    &lt;/xsd:complexType&gt;
+----------------------------------------------------------------------
 
 If you use that schema, you'll have an error (`java.lang.ClassCastException: javax.xml.bind.JAXBElement cannot be cast to package.name.Phonebook`) when unmarshalling and an other (`unable to marshal type "package.name.Phonebook" as an element because it is missing an @XmlRootElement annotation`) when marshalling. You'll have to write the following java code to unmarshall and marshall without errors with the schema above :
 
-[sourcecode language="java"]
+[source,java]
 
-phonebook =
+-------------------------------------------------------------------------------------------------------
+phonebook  =
+     (Phonebook) ((JAXBElement)u.unmarshal( new FileInputStream( phonebookFilename ) )).getValue;
 
-(Phonebook) ((JAXBElement)u.unmarshal( new FileInputStream( phonebookFilename ) )).getValue;
-
-m.marshal( new JAXBElement( new QName("", "phonebook"), Phonebook.class, phonebook ), System.out);
-
-[/sourcecode]
+     m.marshal( new JAXBElement( new QName("", "phonebook"), Phonebook.class, phonebook ), System.out);
+-------------------------------------------------------------------------------------------------------
 
 Instead, a better way to declare your schema (and have simplier java code) is :
 
-[sourcecode language="xml"]
+[source,xml]
 
-xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" >
+----------------------------------------------------------------------
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
 
-;
+    &lt;xsd:element name="phonebook" &gt;;
 
-...
-
-[/sourcecode]
+    &lt;xsd:complexType &gt;
+    ...
+    &lt;/xsd:complexType&gt;
+    &lt;/xsd:element&gt;
+----------------------------------------------------------------------
 
 The two others tips to knows will be the subjects of the next posts.
