@@ -17,53 +17,37 @@ ant
 
 You'll have to add the plugin jar in the library path of your xjc task :
 
-[sourcecode language="xml"]
+[source,xml]
 
-<target name="xjc-typedef-target" depends="-init-project">
+-----------------------
+    <target name=&quot;xjc-typedef-target&quot; depends=&quot;-init-project&quot;>
+        <typedef classname=&quot;com.sun.tools.xjc.XJCTask&quot; name=&quot;xjc&quot; xmlns:s=&quot;http://xml.netbeans.org/schema/JAXBWizConfig&quot;>
+            <classpath>
+<pathelement path=&quot;${jaxbwiz.xjcdef.classpath}&quot; />
+<pathelement location=&quot;lib/proplistinjector-0.1.1.jar&quot; />
 
-<typedef classname="com.sun.tools.xjc.XJCTask" name="xjc" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig">
-
-<classpath>
-
-<pathelement path="$\{jaxbwiz.xjcdef.classpath}" />
-
-<pathelement location="lib/proplistinjector-0.1.1.jar" />
-
-</classpath>
-
-</typedef>
-
-</target>
-
-[/sourcecode]
+            </classpath>
+        </typedef>
+    </target>
+-----------------------
 
 and add the argument option to xjc target :
 
-[sourcecode language="xml"]
+[source,xml]
 
-<xjc package="package.name" destdir="build/generated/jaxbCache/SchemaName" catalog="catalog.xml">
-
-<classpath>
-
-<pathelement location="$\{src.dir}"/>
-
-<pathelement path="$\{jaxbwiz.xjcrun.classpath}"/>
-
-</classpath>
-
-<arg value="-xmlschema"/>
-
-<arg value="-extension"/>
-
-<arg value="<span style="font-family: Consolas; font-size: x-small;">-Xinject-prop-listeners</span>" />
-
-<schema file="xml-resources/jaxb/SchemaName/schemaname.xsd"/>
-
-<produces dir="build/generated/jaxbCache/schemaname"/>
-
-</xjc>
-
-[/sourcecode]
+-----------------------
+        <xjc package=&quot;package.name&quot; destdir=&quot;build/generated/jaxbCache/SchemaName&quot; catalog=&quot;catalog.xml&quot;>
+            <classpath>
+<pathelement location=&quot;${src.dir}&quot;/>
+<pathelement path=&quot;${jaxbwiz.xjcrun.classpath}&quot;/>
+            </classpath>
+            <arg value=&quot;-xmlschema&quot;/>
+            <arg value=&quot;-extension&quot;/>
+            <arg value=&quot;<span style=&quot;font-family: Consolas; font-size: x-small;&quot;>-Xinject-prop-listeners</span>&quot; />
+            <schema file=&quot;xml-resources/jaxb/SchemaName/schemaname.xsd&quot;/>
+<produces dir=&quot;build/generated/jaxbCache/schemaname&quot;/>
+        </xjc>
+-----------------------
 
 maven
 ^^^^^
