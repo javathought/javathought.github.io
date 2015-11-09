@@ -10,7 +10,7 @@ So I took a look at JAXB. It's the tool I needed : you specify your xml schema, 
 
 [source,java]
 
----------------------------------------------------------------------------------------
+-----------------------
         Phonebook phonebook = null;
         JAXBContext jc;
 
@@ -45,7 +45,7 @@ So I took a look at JAXB. It's the tool I needed : you specify your xml schema, 
             logger.log(Level.ERROR, "Corrupted phonebook file ", e);
             throw new Exception("Corrupted phonebook file ");
         }
----------------------------------------------------------------------------------------
+-----------------------
 
 Let's comment the source :
 
@@ -60,42 +60,42 @@ Take the following schema, that does not generate the @XmlRootElement annotation
 
 [source,xml]
 
-----------------------------------------------------------------------
+-----------------------
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" >
 
-    &lt;xsd:element name="phonebook" type="Phonebook" /&gt;;
+    <xsd:element name="phonebook" type="Phonebook" />;
 
-    &lt;xsd:complexType name="Phonebook"&gt;
+    <xsd:complexType name="Phonebook">
     ...
-    &lt;/xsd:complexType&gt;
-----------------------------------------------------------------------
+    </xsd:complexType>
+-----------------------
 
 If you use that schema, you'll have an error (`java.lang.ClassCastException: javax.xml.bind.JAXBElement cannot be cast to package.name.Phonebook`) when unmarshalling and an other (`unable to marshal type "package.name.Phonebook" as an element because it is missing an @XmlRootElement annotation`) when marshalling. You'll have to write the following java code to unmarshall and marshall without errors with the schema above :
 
 [source,java]
 
--------------------------------------------------------------------------------------------------------
+-----------------------
 phonebook  =
      (Phonebook) ((JAXBElement)u.unmarshal( new FileInputStream( phonebookFilename ) )).getValue;
 
      m.marshal( new JAXBElement( new QName("", "phonebook"), Phonebook.class, phonebook ), System.out);
--------------------------------------------------------------------------------------------------------
+-----------------------
 
 Instead, a better way to declare your schema (and have simplier java code) is :
 
 [source,xml]
 
-----------------------------------------------------------------------
-&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
+-----------------------
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" >
 
-    &lt;xsd:element name="phonebook" &gt;;
+    <xsd:element name="phonebook" >;
 
-    &lt;xsd:complexType &gt;
+    <xsd:complexType >
     ...
-    &lt;/xsd:complexType&gt;
-    &lt;/xsd:element&gt;
-----------------------------------------------------------------------
+    </xsd:complexType>
+    </xsd:element>
+-----------------------
 
 The two others tips to knows will be the subjects of the next posts.
