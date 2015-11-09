@@ -35,7 +35,7 @@
     <meta property="og:description" content="Once you&amp;#8217;ll have been working with JAXB basis, you&amp;#8217;ll want to enhance what your doing. For example, in my case, I want to bind my datas with a GUI. For that, I&amp;#8217;ll need to..." />
     <meta property="og:url" content="https://javathought.github.io/2009/04/27/XML-binding-with-JAXB-33-plugins.html" />
     <meta property="article:published_time" content="2009-04-26T22:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-09T23:50:58.530Z" />
+    <meta property="article:modified_time" content="2015-11-09T23:51:27.098Z" />
     <meta property="article:tag" content="ant" />
     <meta property="article:tag" content="beans binding" />
     <meta property="article:tag" content="jaxb" />
@@ -64,7 +64,7 @@
     "headline": "XML binding with JAXB 3/3 : plugins",
     "url": "https://javathought.github.io/2009/04/27/XML-binding-with-JAXB-33-plugins.html",
     "datePublished": "2009-04-26T22:00:00.000Z",
-    "dateModified": "2015-11-09T23:50:58.530Z",
+    "dateModified": "2015-11-09T23:51:27.098Z",
     "keywords": "ant,  beans binding,  jaxb,  matisse,  maven,  Netbeans,  xml binding",
     "description": "Once you&amp;#8217;ll have been working with JAXB basis, you&amp;#8217;ll want to enhance what your doing. For example, in my case, I want to bind my datas with a GUI. For that, I&amp;#8217;ll need to..."
 }
@@ -191,71 +191,36 @@
 <div class="paragraph">
 <p>You&#8217;ll have to add the plugin jar in the library path of your xjc task :</p>
 </div>
-<div class="paragraph">
-<p>&lt;target name="xjc-typedef-target" depends="-init-project"&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">    &lt;target name=&amp;quot;xjc-typedef-target&amp;quot; depends=&amp;quot;-init-project&amp;quot;&gt;
+        &lt;typedef classname=&amp;quot;com.sun.tools.xjc.XJCTask&amp;quot; name=&amp;quot;xjc&amp;quot; xmlns:s=&amp;quot;http://xml.netbeans.org/schema/JAXBWizConfig&amp;quot;&gt;
+            &lt;classpath&gt;
+&lt;pathelement path=&amp;quot;${jaxbwiz.xjcdef.classpath}&amp;quot; /&gt;
+&lt;pathelement location=&amp;quot;lib/proplistinjector-0.1.1.jar&amp;quot; /&gt;
+
+            &lt;/classpath&gt;
+        &lt;/typedef&gt;
+    &lt;/target&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>&lt;typedef classname="com.sun.tools.xjc.XJCTask" name="xjc" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;classpath&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;pathelement path="$\{jaxbwiz.xjcdef.classpath}" /&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;pathelement location="lib/proplistinjector-0.1.1.jar" /&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;/classpath&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;/typedef&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;/target&gt;</p>
-</div>
-<div class="paragraph">
-<p>[/sourcecode]</p>
 </div>
 <div class="paragraph">
 <p>and add the argument option to xjc target :</p>
 </div>
-<div class="paragraph">
-<p>&lt;xjc package="package.name" destdir="build/generated/jaxbCache/SchemaName" catalog="catalog.xml"&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">        &lt;xjc package=&amp;quot;package.name&amp;quot; destdir=&amp;quot;build/generated/jaxbCache/SchemaName&amp;quot; catalog=&amp;quot;catalog.xml&amp;quot;&gt;
+            &lt;classpath&gt;
+&lt;pathelement location=&amp;quot;${src.dir}&amp;quot;/&gt;
+&lt;pathelement path=&amp;quot;${jaxbwiz.xjcrun.classpath}&amp;quot;/&gt;
+            &lt;/classpath&gt;
+            &lt;arg value=&amp;quot;-xmlschema&amp;quot;/&gt;
+            &lt;arg value=&amp;quot;-extension&amp;quot;/&gt;
+            &lt;arg value=&amp;quot;&lt;span style=&amp;quot;font-family: Consolas; font-size: x-small;&amp;quot;&gt;-Xinject-prop-listeners&lt;/span&gt;&amp;quot; /&gt;
+            &lt;schema file=&amp;quot;xml-resources/jaxb/SchemaName/schemaname.xsd&amp;quot;/&gt;
+&lt;produces dir=&amp;quot;build/generated/jaxbCache/schemaname&amp;quot;/&gt;
+        &lt;/xjc&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>&lt;classpath&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;pathelement location="$\{src.dir}"/&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;pathelement path="$\{jaxbwiz.xjcrun.classpath}"/&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;/classpath&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;arg value="-xmlschema"/&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;arg value="-extension"/&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;arg value="&lt;span style="font-family: Consolas; font-size: x-small;"&gt;-Xinject-prop-listeners&lt;/span&gt;" /&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;schema file="xml-resources/jaxb/SchemaName/schemaname.xsd"/&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;produces dir="build/generated/jaxbCache/schemaname"/&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;/xjc&gt;</p>
-</div>
-<div class="paragraph">
-<p>[/sourcecode]</p>
 </div>
 </div>
 <div class="sect3">
