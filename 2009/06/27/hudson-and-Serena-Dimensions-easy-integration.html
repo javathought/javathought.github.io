@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>hudson and Serena Dimensions : easy integration - Java Thoughts</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="hudson and Serena Dimensions : easy integration">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="hudson and Serena Dimensions : easy integration">
+    <meta property="og:description" content="">
+
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
+
+    <link rel="stylesheet" type="text/css" href="//javathought.github.io/themes/uno/assets/css/uno.css?v=1.0.0" />
+
+    <link rel="canonical" href="https://javathought.github.io/2009/06/27/hudson-and-Serena-Dimensions-easy-integration.html" />
+    
+    <meta property="og:site_name" content="Java Thoughts" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="hudson and Serena Dimensions : easy integration" />
+    <meta property="og:description" content="Though there is a Hudson plugin for PVCS, there&amp;#8217;s none for Serena Dimensions. I searched how to use Hudson and Dimensions together but didn&amp;#8217;t find a,ything on Internet. So here&amp;#8217;s the solution I..." />
+    <meta property="og:url" content="https://javathought.github.io/2009/06/27/hudson-and-Serena-Dimensions-easy-integration.html" />
+    <meta property="article:published_time" content="2009-06-26T22:00:00.000Z" />
+    <meta property="article:modified_time" content="2015-11-09T23:55:46.585Z" />
+    <meta property="article:tag" content="continuous integration" />
+    <meta property="article:tag" content="hudson" />
+    <meta property="article:tag" content="SCM" />
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="hudson and Serena Dimensions : easy integration" />
+    <meta name="twitter:description" content="Though there is a Hudson plugin for PVCS, there&amp;#8217;s none for Serena Dimensions. I searched how to use Hudson and Dimensions together but didn&amp;#8217;t find a,ything on Internet. So here&amp;#8217;s the solution I..." />
+    <meta name="twitter:url" content="https://javathought.github.io/2009/06/27/hudson-and-Serena-Dimensions-easy-integration.html" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "publisher": "Java Thoughts",
+    "author": {
+        "@type": "Person",
+        "name": null,
+        "image": "https://avatars.githubusercontent.com/u/1075135?v=3",
+        "url": "undefined/author/undefined",
+        "sameAs": null
+    },
+    "headline": "hudson and Serena Dimensions : easy integration",
+    "url": "https://javathought.github.io/2009/06/27/hudson-and-Serena-Dimensions-easy-integration.html",
+    "datePublished": "2009-06-26T22:00:00.000Z",
+    "dateModified": "2015-11-09T23:55:46.585Z",
+    "keywords": "continuous integration,  hudson,  SCM",
+    "description": "Though there is a Hudson plugin for PVCS, there&amp;#8217;s none for Serena Dimensions. I searched how to use Hudson and Dimensions together but didn&amp;#8217;t find a,ything on Internet. So here&amp;#8217;s the solution I..."
+}
+    </script>
+
+    <meta name="generator" content="Ghost ?" />
+    <link rel="alternate" type="application/rss+xml" title="Java Thoughts" href="https://javathought.github.io/rss" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+
+</head>
+<body class="post-template tag-continuous-integration tag-hudson tag-SCM no-js">
+
+    <span class="mobile btn-mobile-menu">
+        <i class="icon icon-list btn-mobile-menu__icon"></i>
+        <i class="icon icon-x-circle btn-mobile-close__icon hidden"></i>
+    </span>
+
+    <header class="panel-cover panel-cover--collapsed " >
+      <div class="panel-main">
+    
+        <div class="panel-main__inner panel-inverted">
+        <div class="panel-main__content">
+    
+            <a href="https://javathought.github.io" title="link to homepage for Java Thoughts"><img src="https://avatars2.githubusercontent.com/u/1075135?v=3&amp;s=460" width="80" alt="Java Thoughts logo" class="panel-cover__logo logo" /></a>
+            <h1 class="panel-cover__title panel-title"><a href="https://javathought.github.io" title="link to homepage for Java Thoughts">Java Thoughts</a></h1>
+            <hr class="panel-cover__divider" />
+            <p class="panel-cover__description">Just another Java blog.</p>
+            <hr class="panel-cover__divider panel-cover__divider--secondary" />
+    
+            <div class="navigation-wrapper">
+    
+              <nav class="cover-navigation cover-navigation--primary">
+                <ul class="navigation">
+                  <li class="navigation__item"><a href="https://javathought.github.io/#blog" title="link to Java Thoughts blog" class="blog-button">Blog</a></li>
+                </ul>
+              </nav>
+    
+              
+              
+              <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+              
+              
+                  <!-- Twitter -->
+                  <li class="navigation__item">
+                    <a href="https://twitter.com/javathought" title="Twitter account">
+                      <i class='icon icon-social-twitter'></i>
+                      <span class="label">Twitter</span>
+                    </a>
+                  </li>
+              
+              
+                  <!-- Github -->
+                  <li class="navigation__item">
+                    <a href="http://www.github.com/javathought" title="Github account">
+                      <i class='icon icon-social-github'></i>
+                      <span class="label">Github</span>
+                    </a>
+                  </li>
+                  </li>
+              
+              
+              
+              
+              
+                  <!-- Email -->
+                  <li class="navigation__item">
+                    <a href="mailto:banks@free.fr" title="Email banks@free.fr">
+                      <i class='icon icon-mail'></i>
+                      <span class="label">Email</span>
+                    </a>
+                  </li>
+              
+                </ul>
+              </nav>
+              
+    
+            </div>
+    
+          </div>
+    
+        </div>
+    
+        <div class="panel-cover--overlay"></div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            
+
+  <article class="post-container post-container--single">
+
+    <header class="post-header">
+      <div class="post-meta">
+        <time datetime="27 Jun 2009" class="post-meta__date date">27 Jun 2009</time> &#8226; <span class="post-meta__tags tags">on <a href="https://javathought.github.io/tag/continuous-integration">continuous integration</a>, <a href="https://javathought.github.io/tag/hudson"> hudson</a>, <a href="https://javathought.github.io/tag/SCM"> SCM</a></span>
+        <span class="post-meta__author author"><img src="https://avatars.githubusercontent.com/u/1075135?v=3" alt="profile image for " class="avatar post-meta__avatar" /> by </span>
+      </div>
+      <h1 class="post-title">hudson and Serena Dimensions : easy integration</h1>
+    </header>
+
+    <section class="post tag-continuous-integration tag-hudson tag-SCM">
+      <div class="paragraph">
+<p>Though there is a Hudson plugin for PVCS, there&#8217;s none for Serena Dimensions. I searched how to use Hudson and Dimensions together but didn&#8217;t find a,ything on Internet. So here&#8217;s the solution I use.</p>
+</div>
+<div class="paragraph">
+<p>Fortunaltely, there&#8217;s a quick and easy way to add a project in Hudson with source control under Dimensions. Just add a step to the build with shell script or Windows batch command and use the Dimensions command line <code>dmcli</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml"> dmcli -user &lt;user&gt; -pass
+&lt;pass&gt; -host &lt;host:port&gt; -dbname &lt;dbname&gt; -dsn &lt;SID&gt; download /WORKSET=CATAL:WS_PHONEBOOK /DIRECTORY=Phonebook</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should be able to use the option -file also (which i didn&#8217;t try) : see <a href="http://community.serena.com/posts/54287b495d">this post on Serena forum</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p>To get more help on dmcli option, just call dmcli without command and use help to get more information on internal commands. The cons of this is that you won&#8217;t have changes informations in the hudson change log :(.</p>
+</div>
+<div class="paragraph">
+<p>On Windows, if you use Hudson as a service, the dmcli command won&#8217;t work directly : I suppose you must update the path before calling dmcli (or enter the full path to the command, but didn&#8217;t check it.</p>
+</div>
+    </section>
+
+  </article>
+
+  
+  <section class="post-comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'javathought'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </section>
+  
+
+
+
+            <footer class="footer">
+                <span class="footer__copyright">&copy; 2015. All rights reserved.</span>
+                <span class="footer__copyright"><a href="http://uno.daleanthony.com" title="link to page for Uno Ghost theme">Uno theme</a> by <a href="http://daleanthony.com" title="link to website for Dale-Anthony">Dale-Anthony</a></span>
+                <span class="footer__copyright">Proudly published with <a href="http://hubpress.io" title="link to Hubpress website">Hubpress</a></span>
+            </footer>
+        </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js?v="></script> <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js?v="></script> 
+      <script type="text/javascript">
+        jQuery( document ).ready(function() {
+          // change date with ago
+          jQuery('ago.ago').each(function(){
+            var element = jQuery(this).parent();
+            element.html( moment(element.text()).fromNow());
+          });
+        });
+
+        hljs.initHighlightingOnLoad();      
+      </script>
+
+    <script type="text/javascript" src="//javathought.github.io/themes/uno/assets/js/main.js?v=1.0.0"></script>
+    
+
+</body>
+</html>
