@@ -12,14 +12,14 @@ The trick is simple :
 
 -------------------------------
 sudo su -l
-echo 1 &gt; /sys/bus/pci/rescan
+echo 1 > /sys/bus/pci/rescan
 -------------------------------
 
 2. RAW are not readable
 
 I had to actions to do it :
 
-- install the package : `gnome-raw-thumbnailer` (By the way, unable to add `apt://` link in Wordpress :-( )
+- install the package : `apt://gnome-raw-thumbnailer` (By the way, unable to add `apt://` link in Wordpress :-( )
 
 - if missing create the following file <code>/usr/share/thumbnailers/raw.thumbnailer</code>, that seems not included in the package, with this content :
 
