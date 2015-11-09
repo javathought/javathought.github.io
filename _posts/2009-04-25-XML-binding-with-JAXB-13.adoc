@@ -1,0 +1,101 @@
+= XML binding with JAXB 1/3
+:published_at: 2009-04-25
+:hp-tags: jaxb, xml binding
+
+I've been watching for an XML binding tool for one of my projects, which make use of XML to store datas.
+
+I looked at hibernate, which now make XML bindings, but, from what I've seen, the binding is managed by the relational mapping. As I do not have a database in my application, I had to search elsewhere.
+
+So I took a look at JAXB. It's the tool I needed : you specify your xml schema, run xjc and you have your object mapping done. As example, I'll use a schema I'm writing at the moment (phonebook.xsd). Now, all you have to write, once the classes are generated is 4 lines of code (plus catching the exceptions:
+
+[source,java]
+
+---------------------------------------------------------------------------------------
+        Phonebook phonebook = null;
+        JAXBContext jc;
+
+        try {
+
+            // Create the context with package containing mapping classes
+            jc = JAXBContext.newInstance(BINDING_ID);
+
+            // Load the xml file
+            Unmarshaller u = jc.createUnmarshaller();
+
+            u.setSchema(SchemaFactory.newInstance(
+                    XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(
+                    new File("phonebook.xsd")));
+
+          phonebook  =
+                    (Phonebook)u.unmarshal( new FileInputStream( phonebookFilename ) );
+
+            // Do some work ...
+
+            // Save the modified datas (here writes on stdout)
+            Marshaller m = jc.createMarshaller();
+             m.marshal( b, System.out);
+
+        } catch (SAXException e) {
+            logger.log(Level.ERROR, "Altered schema file.", e);
+            throw new Exception("Schema file has been altered.", e);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.ERROR, "Phonebook file not found.", e);
+            throw new Exception("Phonebook file not found.");
+        } catch (JAXBException e) {
+            logger.log(Level.ERROR, "Corrupted phonebook file ", e);
+            throw new Exception("Corrupted phonebook file ");
+        }
+---------------------------------------------------------------------------------------
+
+Let's comment the source :
+
+1.  Create a context : the constant BINDING_ID is the package name of the generated xml binding classes.
+2.  Create the unmarshaller : the object that will read the xml file and bind it to objects
+3.  Set the schema of the xml file read to assume xml validation
+4.  Unmarshal : load the file in the objects
+
+But you have three things to know to better use it : first if you want to directly unmarshal to your root class and to write an object representation to an xml file, the master object class has to be tagged @xmlRootElement, if you want to write simplier code.
+
+Take the following schema, that does not generate the @XmlRootElement annotation :
+
+[source,xml]
+
+----------------------------------------------------------------------
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
+
+    &lt;xsd:element name="phonebook" type="Phonebook" /&gt;;
+
+    &lt;xsd:complexType name="Phonebook"&gt;
+    ...
+    &lt;/xsd:complexType&gt;
+----------------------------------------------------------------------
+
+If you use that schema, you'll have an error (`java.lang.ClassCastException: javax.xml.bind.JAXBElement cannot be cast to package.name.Phonebook`) when unmarshalling and an other (`unable to marshal type "package.name.Phonebook" as an element because it is missing an @XmlRootElement annotation`) when marshalling. You'll have to write the following java code to unmarshall and marshall without errors with the schema above :
+
+[source,java]
+
+-------------------------------------------------------------------------------------------------------
+phonebook  =
+     (Phonebook) ((JAXBElement)u.unmarshal( new FileInputStream( phonebookFilename ) )).getValue;
+
+     m.marshal( new JAXBElement( new QName("", "phonebook"), Phonebook.class, phonebook ), System.out);
+-------------------------------------------------------------------------------------------------------
+
+Instead, a better way to declare your schema (and have simplier java code) is :
+
+[source,xml]
+
+----------------------------------------------------------------------
+&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
+
+    &lt;xsd:element name="phonebook" &gt;;
+
+    &lt;xsd:complexType &gt;
+    ...
+    &lt;/xsd:complexType&gt;
+    &lt;/xsd:element&gt;
+----------------------------------------------------------------------
+
+The two others tips to knows will be the subjects of the next posts.
