@@ -61,7 +61,7 @@ Take the following schema, that does not generate the @XmlRootElement annotation
 [source,xml]
 
 ----------------------------------------------------------------------
-&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0" &gt;
 
     &lt;xsd:element name="phonebook" type="Phonebook" /&gt;;
