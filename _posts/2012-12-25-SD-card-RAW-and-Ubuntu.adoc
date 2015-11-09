@@ -6,14 +6,15 @@ I wanted to upload some photos on my Dell XPS 17, but encountered some issues to
 
 1. The SD card is not detected when inserting it in the reader.
 
- The trick is simple :
+The trick is simple :
 
- [source,bash]
- -------------------------------
- sudo su -l
- echo 1 > /sys/bus/pci/rescan
- -------------------------------
+[source,bash]
+-------------------------------
+sudo su -l
+echo 1 > /sys/bus/pci/rescan
+-------------------------------
 
+[start=2]
 2. RAW are not readable
 
 I had to actions to do it :
