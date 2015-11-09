@@ -8,43 +8,61 @@ But you can go further with JAXB. You can heavily customize JAXB with annotation
 
 A phonebook is made of contacts, so developing the mockup presented in part 1, we will add the contacts in our schema :
 
-[sourcecode language="xml"]
+[source,xml]
 
-maxOccurs="unbounded">
+-----------------------
+    <xsd:element name="phonebook"   >
 
-[/sourcecode]
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="contact" type="Contact" minOccurs="1"
+                maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    </xsd:element>
+-----------------------
 
 What JAXB will generate with this schema. A new class will be generated : `Contact`. It's what we wanted, but take a look at Phonebook class. There will be a new field and an associated get method :
 
-[sourcecode language="java"]
+[source,java]
 
-protected List contact;
-
-...
-
-public List getContact() \{
-
-if (contact == null) \{
-
-contact = new ArrayList();
-
-}
-
-return this.contact;
-
-}
-
-[/sourcecode]
+-----------------------
+    protected List<Contact> contact;
+    ...
+    public List<Contact> getContact() {
+        if (contact == null) {
+            contact = new ArrayList<Contact>();
+        }
+        return this.contact;
+    }
+-----------------------
 
 Not quite what we expected has the get method returns a list, so we expected the get method to be `getContacts` which is clearer : the method does not return one contact.
 
 To correct this we'll use annotations, to have a `Contact` class and a `getContacts` method :
 
-[sourcecode language="java"]
+[source,java]
 
-maxOccurs="unbounded">
+-----------------------
+    <xsd:element name="phonebook"   >
 
-[/sourcecode]
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="contact" type="Contact" minOccurs="1"
+                maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <jxb:property name="contacts"></jxb:property>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    </xsd:element>
+-----------------------
 
 You can use those annotations for more structural customisations :
 
