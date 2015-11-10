@@ -9,137 +9,101 @@ image::screenshot-23.jpg[image,title="Play! Eclipse plugin"]]
 
 The class will be very simple for this how-to :
 
-[code language="java"]
+[source,java]
 
+-----------------------
 package models;
 
 import play.*;
-
 import play.db.jpa.*;
 
 import javax.persistence.*;
-
 import java.util.*;
 
 @Entity
-
-public class Event extends Model \{
-
-public String status;
-
-public Date eventDate;
-
+public class Event extends Model {
+    public String status;
+    public Date eventDate;
 }
-
-[/code]
+-----------------------
 
 Then we add the link between Task and Event; add this property to Task :
 
-[code language="java"]
+[source,java]
 
-@OneToMany
-
-public List<Event> events;
-
-[/code]
+-----------------------
+    @OneToMany
+    public List<Event> events;
+-----------------------
 
 Now we will add a link in the current view to show the detail view, add a column with a html link :
 
-[code language="html"]
+[source,html]
 
-<td><a href="@\{task(task.id)}">&gt;</a></td>
-
-[/code]
+-----------------------
+            <td><a href=&quot;@{task(task.id)}&quot;>&gt;</a></td>
+-----------------------
 
 Now we have to had the controller action task in Application :
 
-[code language="java"]
+[source,java]
 
-public static void task(Long id) \{
-
-Task task = Task.findById(id);
-
-render(task);
-
-}
-
-[/code]
+-----------------------
+    public static void task(Long id) {
+        Task task = Task.findById(id);
+        render(task);
+    }
+-----------------------
 
 Last action is to write the task.html template. It will be very similar to the index template, except we will use the template tag on the _events_ property of the rendered task object :
 
-[code language="html"]
+[source,html]
 
-#\{extends 'main.html' /}
-
-#\{set title:'task history' /}
+-----------------------
+#{extends 'main.html' /}
+#{set title:'task history' /}
 
 <table>
+    <thead>
+        <tr>
+            <th class=&quot;event&quot;>status</th>
+            <th class=&quot;date&quot;>when</th>
+        </tr>
+    </thead>
+    <tbody>
+        #{list task.events, as:'event'}
 
-<thead>
+        
+        <tr class=&quot;event&quot; transferId=&quot;${event.id}&quot; >
+            <td id=&quot;status-${event.id}&quot;>${event.status}</td>
+            <td id=&quot;when-${event.id}&quot;>${event.eventDate}</td>
+        </tr>
 
-<tr>
-
-<th class="event">status</th>
-
-<th class="date">when</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-#\{list task.events, as:'event'}
-
-<tr class="event" transferId="$\{event.id}" >
-
-<td id="status-$\{event.id}">$\{event.status}</td>
-
-<td id="when-$\{event.id}">$\{event.eventDate}</td>
-
-</tr>
-
-#\{/list}
-
-<tr>
-
-#\{form @saveEvent(task.id)}
-
-<td><input type="text" name="event.status"></td>
-
-<td><input type="text" name="event.when"></td>
-
-<td><input type="submit" value="+"></td>
-
-#\{/form}
-
-</tr>
-
-</tbody>
-
+        #{/list}
+        <tr>
+            #{form @saveEvent(task.id)}
+            <td><input type=&quot;text&quot; name=&quot;event.status&quot;></td>
+            <td><input type=&quot;text&quot; name=&quot;event.when&quot;></td>
+            <td><input type=&quot;submit&quot; value=&quot;+&quot;></td>
+            #{/form}
+        </tr>
+    </tbody>
 </table>
-
-[/code]
+-----------------------
 
 The important part is the save action; here we pass the id of the master object as it will be used in the save action in the controller. So here is the save action in Application :
 
-[code language="java"]
+[source,java]
 
-public static void saveEvent(Long id, final Event event) \{
-
-Task task = Task.findById(id);
-
-event.save();
-
-task.events.add(event);
-
-task.save();
-
-task(id);
-
-}
-
-[/code]
+-----------------------
+    public static void saveEvent(Long id, final Event event) {
+        Task task = Task.findById(id);
+        event.save();
+        task.events.add(event);
+        task.save();
+        task(id);       
+    }
+-----------------------
 
 In the controller,
 
