@@ -6,11 +6,9 @@ In part 1, I explained how to mount the drive one time, but you'll have to comme
 
 So a better option is to use the UUID of the drive and set the auto mount option. To gert the UUID, launch http://gparted.sourceforge.net[gparted] again and right click on the partition. In the dialog box you'll have a item will the UUID of the partition. Just copy the value. Edit again /etc/fstab and set the line of mount point the the code below this time :
 
-[code language="text"]
+[source,text]
+UUID=<value copied>       /media/MyXFSDrive xfs user,auto 0 0
 
-UUID=&lt;value copied&gt;       /media/MyXFSDrive xfs user,auto 0 0
-
-[/code]
 
 Related articles
 
