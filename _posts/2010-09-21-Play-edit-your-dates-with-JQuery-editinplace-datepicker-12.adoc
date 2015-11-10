@@ -8,123 +8,88 @@ Here, I'll explain how to finish the job of ths sniplet (update the date picker 
 
 Create a Task model :
 
-[code language="java"]
+[source,java]
 
+-----------------------
 package models;
 
 import play.*;
-
 import play.db.jpa.*;
 
 import javax.persistence.*;
-
 import java.util.*;
 
 @Entity
-
-public class Task extends Model \{
-
-public String action;
-
-public Date due;
-
+public class Task extends Model {
+    public String action;
+    public Date due;
 }
-
-[/code]
+-----------------------
 
 Review the index method in Application
 
-[code language="java"]
+[source,java]
 
-public static void index() \{
-
-List tasks = Task.findAll();
-
-render(tasks);
-
-}
-
-[/code]
+-----------------------
+    public static void index() {
+        List tasks = Task.findAll();
+        render(tasks);
+    }
+-----------------------
 
 And list the tasks in a table (modifiy the template : view/index.html) with a form to add a new task (last line of the table)
 
-[code language="html"]
+[source,html]
 
-#\{extends 'main.html' /}
-
-#\{set title:'Home' /}
+-----------------------
+#{extends 'main.html' /}
+#{set title:'Home' /}
 
 <table>
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>Due date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    #{list tasks, as:'task'}
+        <tr>
+            <td>${task.action}</td>
+            <td>${task.due}</td>
+            <td>&gt;</td>
+        </tr>
 
-<thead>
-
-<tr>
-
-<th>Action</th>
-
-<th>Due date</th>
-
-<th></th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-#\{list tasks, as:'task'}
-
-<tr>
-
-<td>$\{task.action}</td>
-
-<td>$\{task.due}</td>
-
-<td>&gt;</td>
-
-</tr>
-
-#\{/list}
-
-<tr> #\{form @add()}
-
-<td><input type="text" name="task.action"></td>
-
-<td><input type="text" name="task.due"></td>
-
-<td><input type="submit" value="+"></td>
-
-#\{/form}
-
-</tr>
-
-</tbody>
-
+    #{/list}
+    <tr>              #{form @add()}
+            <td><input type=&quot;text&quot; name=&quot;task.action&quot;></td>
+            <td><input type=&quot;text&quot; name=&quot;task.due&quot;></td>
+            <td><input type=&quot;submit&quot; value=&quot;+&quot;></td>
+            #{/form}
+        </tr>
+    </tbody>
 </table>
-
-[/code]
+-----------------------
 
 And add the add action in Application
 
-[code language="java"]
+[source,java]
 
-public static void add(final Task task) \{
-
-task.save();
-
-index();
-
-}
-
-[/code]
+-----------------------
+    public static void add(final Task task) {
+        task.save();
+        index();
+    }
+-----------------------
 
 and don't forget to activate the database settings in conf/application.conf
 
-[code language="text"]
+[source,text]
 
+-----------------------
 db=mem
-
-[/code]
+-----------------------
 
 Now you have a basic play! application to save tasks.
 
@@ -132,11 +97,11 @@ image::screenshot-4.jpg[image,title="Tasks in action"]]
 
 Looking at the state, the date field is not well formated. Just replace the field showing the date with the following code and we'll just see the day part of the date without time.
 
-[code language="html"]
+[source,html]
 
-<td>$\{task.due.format('dd-MM-yyyy')}</td>
-
-[/code]
+-----------------------
+<td>${task.due.format('dd-MM-yyyy')}</td>
+-----------------------
 
 image::screenshot-5.jpg[image,title="Tasks with a formatted due date"]]
 
@@ -157,72 +122,56 @@ The page is well designed :
 Once you've downloaded the pack, get the script (jquery-ui-1.8.5.custom.min.js) from the js folder and put it on public/javascripts one of your application and get your theme folder (the whole folder) under css in the package and copy it to /public/stylesheets.
 
 Add the following lines just below the ones of JQuery (css and javascript ones) in app/views/main.html :
+<div>[source,html]
 
-[code language="html"]
-<link rel="stylesheet" type="text/css" media="screen" href="@\{'public/stylesheets/smoothness/jquery-ui-1.8.5.custom.css'}" />
-
-<script src="@\{'/public/javascripts/jquery-ui-1.8.5.custom.min.js'}" type="text/javascript" charset="utf-8"></script>
-
-[/code]
+-----------------------
+      <link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;@{'public/stylesheets/smoothness/jquery-ui-1.8.5.custom.css'}&quot; />
+        <script src=&quot;@{'/public/javascripts/jquery-ui-1.8.5.custom.min.js'}&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;></script>
+-----------------------
 
 Your main.html template should now look like this :
 
-[code language="html"]
+<div>[source,html]
+
+-----------------------
 <!DOCTYPE html>
 
 <html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;>
+        <link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;@{'/public/stylesheets/main.css'}&quot;>
+        <link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;@{'public/stylesheets/smoothness/jquery-ui-1.8.5.custom.css'}&quot; />
 
-<head>
-
-<title>#\{get 'title' /}</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-<link rel="stylesheet" type="text/css" media="screen" href="@\{'/public/stylesheets/main.css'}">
-
-<link rel="stylesheet" type="text/css" media="screen" href="@\{'public/stylesheets/smoothness/jquery-ui-1.8.5.custom.css'}" />
-
-#\{get 'moreStyles' /}
-
-<link rel="shortcut icon" type="image/png" href="@\{'/public/images/favicon.png'}">
-
-<script src="@\{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
-
-<script src="@\{'/public/javascripts/jquery-ui-1.8.5.custom.min.js'}" type="text/javascript" charset="utf-8"></script>
-
-#\{get 'moreScripts' /}
-
-</head>
-
-<body>
-
-#\{doLayout /}
-
-</body>
-
+        #{get 'moreStyles' /}
+        <link rel=&quot;shortcut icon&quot; type=&quot;image/png&quot; href=&quot;@{'/public/images/favicon.png'}&quot;>
+        <script src=&quot;@{'/public/javascripts/jquery-1.4.2.min.js'}&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;></script>
+        <script src=&quot;@{'/public/javascripts/jquery-ui-1.8.5.custom.min.js'}&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;></script>
+        #{get 'moreScripts' /}
+    </head>
+    <body>
+        #{doLayout /}
+    </body>
 </html>
-
-[/code]
+-----------------------
 
 Now we have to associate a datepicker with the field date in the form : first add a class tag the the field :
 
-[code language="html"]
+[source,html]
 
-<td><input class="due" type="text" name="task.due"></td>
-
-[/code]
+-----------------------
+            <td><input class=&quot;due&quot; type=&quot;text&quot; name=&quot;task.due&quot;></td>
+-----------------------
 
 and add the JQuery code to associate it with a datepicker :
 
-[code language="html"]
+[source,html]
 
-<script type="text/javascript" charset="utf-8">
-
-$(".due").datepicker(\{dateFormat:'dd-mm-yy', showAnim:'fadeIn'})
-
+-----------------------
+<script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;>
+        $(&quot;.due&quot;).datepicker({dateFormat:'dd-mm-yy', showAnim:'fadeIn'})
 </script>
-
-[/code]
+-----------------------
 
 Now you have the basic application with a datepicker.
 
