@@ -9,7 +9,7 @@ But before sending it back to consumer's service, I want to have my datas back o
 
 Get the packages to support XFS :
 
-[code,bash]
+[source,bash]
 > sudo apt-get install xfsprogs
 > sudo apt-get install xfsdump
 > sudo apt-get install gparted
@@ -23,13 +23,13 @@ You can use the drop down list on the top right to select your hard drive, then 
 
 So next step is  to edit /etc/fstab to specify the mount characteristic (filesystem type : xfs and associated http://en.wikipedia.org/wiki/Mount_%28computing%29[mount point] : /media/whatYouWant ) ; just add the line above
 
-[code,text]
+[source,text]
 /dev/sdd6    /media/MyXFSDrive xfs defaults 0 0
 
 
 No create the mount point for your drive and mount it :
 
-[code,bash]
+[source,bash]
 > sudo mkdir/media/MyXFSDrive
 > sudo mount /dev/sdd6
 
