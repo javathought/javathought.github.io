@@ -1,5 +1,6 @@
 = Nice borders for lightroom
 :published_at: 2011-06-26
+:hp-tags: lightroom
 
 http://www.tipsquirrel.com/index.php/2010/09/5-creative-borders-for-lightroom/
 
