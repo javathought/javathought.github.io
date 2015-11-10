@@ -13,100 +13,65 @@ So here is the code of our new cell renderer. It inherits of DefaultTableRendere
 * the row is selected : then apply default background for selected rows
 * the row is even or not : apply an alternate background color
 
-[sourcecode language="java"]
+[source,java]
 
+-----------------------
 import javax.swing.*;
-
 import javax.swing.table.*;
-
 import java.awt.*;
-
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 
 /**
+ * This is just a basic extension of the DefaultTableCellRender from the current L&F
+ */
+public class AlternateCellRenderer extends DefaultTableRenderer {
 
-* This is just a basic extension of the DefaultTableCellRender from the current L&F
+    private TableCellRenderer cellRenderer;
 
-*/
+    public AlternateCellRenderer(TableCellRenderer cellRenderer) {
+        if (cellRenderer == this || cellRenderer == null) {
+            throw new IllegalArgumentException();
+        }
+        this.cellRenderer = cellRenderer;
+    }
 
-public class AlternateCellRenderer extends DefaultTableRenderer \{
-
-private TableCellRenderer cellRenderer;
-
-public AlternateCellRenderer(TableCellRenderer cellRenderer) \{
-
-if (cellRenderer == this || cellRenderer == null) \{
-
-throw new IllegalArgumentException();
-
+    /**
+     * Fetch the component which renders the cell ordinarily
+     * @param JTable The current JTable the cell is in
+     * @param Object The value in the cell
+     * @param boolean If the cell is in the selected row
+     * @param boolean If the cell is in focus
+     * @param int The row number of the cell
+     * @param int The column number of the cell
+     * @return Component
+     */
+    public Component getTableCellRendererComponent(JTable tbl, Object v, boolean isSelected, boolean isFocused, int row, int col) {
+        Component c = cellRenderer.getTableCellRendererComponent(tbl, v, isSelected, isFocused, row, col);
+        if (isSelected) {
+            c.setBackground(
+                    UIManager.getLookAndFeelDefaults().getColor("Table.selectionBackground"));
+        } else if ((row % 2) == 0 && !isSelected) {
+            c.setBackground(
+                    UIManager.getLookAndFeelDefaults().getColor("ScrollBar.thumb")
+                    );
+        } else {
+            c.setBackground(new Color((float) 1.0, (float) 1.0, (float) 1.0));
+        }
+        return c;
+    }
 }
-
-this.cellRenderer = cellRenderer;
-
-}
-
-/**
-
-* Fetch the component which renders the cell ordinarily
-
-* @param JTable The current JTable the cell is in
-
-* @param Object The value in the cell
-
-* @param boolean If the cell is in the selected row
-
-* @param boolean If the cell is in focus
-
-* @param int The row number of the cell
-
-* @param int The column number of the cell
-
-* @return Component
-
-*/
-
-public Component getTableCellRendererComponent(JTable tbl, Object v, boolean isSelected, boolean isFocused, int row, int col) \{
-
-Component c = cellRenderer.getTableCellRendererComponent(tbl, v, isSelected, isFocused, row, col);
-
-if (isSelected) \{
-
-c.setBackground(
-
-UIManager.getLookAndFeelDefaults().getColor("Table.selectionBackground"));
-
-} else if ((row % 2) == 0 && !isSelected) \{
-
-c.setBackground(
-
-UIManager.getLookAndFeelDefaults().getColor("ScrollBar.thumb")
-
-);
-
-} else \{
-
-c.setBackground(new Color((float) 1.0, (float) 1.0, (float) 1.0));
-
-}
-
-return c;
-
-}
-
-}
-
-[/sourcecode]
+-----------------------
 
 Then all we have to do to use this cell renderer is to get existing cell renderers from the table, apply our decorator on them and set this new renderers to the JTable.
 
 Look at the second one : we keep the behaviour of the cells showing booleans as we apply our new renderer upon the existing one : the check boxes are kept to show booleans values in the JTable.
 
-[sourcecode language="java"]
+[source,java]
+
+-----------------------
 
 eTable1.setDefaultRenderer(Object.class, new AlternateCellRenderer(eTable1.getDefaultRenderer(Object.class)));
-
 eTable1.setDefaultRenderer(Boolean.class, new AlternateCellRenderer(eTable1.getDefaultRenderer(Boolean.class)));
-
-[/sourcecode]
+-----------------------
 
 image::jtableh.png[CellRenderer Decorator in action,title="JTableH"]
