@@ -10,59 +10,39 @@ Typically you'll pass an issue to the form when editing an existing one, and no 
 * you pass an issue object to the render on issue() method (edition)
 * you handle behaviour of your form in the groovy template, particully managing default value which is not trivial for drop down list for example
 
-[code language="java"]
+[source,java]
 
-public static void newIssue(String identifier) \{
+-----------------------
+    public static void newIssue(String identifier) {
+            List<Tracker> trackers = Tracker.find("order by position asc").fetch();
+            Project project = Project.find("identifier", identifier).first();
+            List<User> users = User.find("order by login").fetch();
+            List<State> states = State.find("order by position").fetch();
+            List<Enumeration> priorities = Enumeration.find("byType", "IssuePriority").fetch();
+            render("@issue", trackers, project, users, states, priorities);
+    }
 
-List<Tracker> trackers = Tracker.find("order by position asc").fetch();
+    public static void issue(Long id) {
+            Issue issue = Issue.findById(id);
+            Project project = issue.project;
+            List<Tracker> trackers = Tracker.find("order by position asc").fetch();
+            List<User> users = User.find("order by login").fetch();
+            List<State> states = State.find("order by position").fetch();
+            List<Enumeration> priorities = Enumeration.find("byType", "IssuePriority").fetch();
+            render(issue, project, trackers, users, states, priorities);
+           }
+-----------------------
 
-Project project = Project.find("identifier", identifier).first();
+[source,html]
 
-List<User> users = User.find("order by login").fetch();
-
-List<State> states = State.find("order by position").fetch();
-
-List<Enumeration> priorities = Enumeration.find("byType", "IssuePriority").fetch();
-
-render("@issue", trackers, project, users, states, priorities);
-
-}
-
-public static void issue(Long id) \{
-
-Issue issue = Issue.findById(id);
-
-Project project = issue.project;
-
-List<Tracker> trackers = Tracker.find("order by position asc").fetch();
-
-List<User> users = User.find("order by login").fetch();
-
-List<State> states = State.find("order by position").fetch();
-
-List<Enumeration> priorities = Enumeration.find("byType", "IssuePriority").fetch();
-
-render(issue, project, trackers, users, states, priorities);
-
-}
-
-[/code]
-
-[code language="html"]
-
-#\{if issue?.priority?.id}
-
-#\{select 'priorityId', items:priorities, valueProperty:'id', labelProperty:'name', id:'priority', value:"$\{issue?.priority?.id}" /}
-
-#\{/if}
-
-#\{else}
-
-#\{select 'priorityId', items:priorities, valueProperty:'id', labelProperty:'name', id:'priority', value:"2" /}
-
-#\{/else}
-
-[/code]
+-----------------------
+    #{if issue?.priority?.id}
+    #{select 'priorityId', items:priorities, valueProperty:'id', labelProperty:'name', id:'priority', value:"${issue?.priority?.id}" /}
+    #{/if}
+    #{else}
+    #{select 'priorityId', items:priorities, valueProperty:'id', labelProperty:'name', id:'priority', value:"2" /}
+    #{/else}
+-----------------------
 
 This is not the better way to handle the form :
 
@@ -76,67 +56,55 @@ The good pattern is to create a new instance of the object in the model class :
 
 The example below show the Issue model with management of default values that can be modified in others forms :
 
-[code language="java"]
+[source,java]
 
-public Issue(Project project) \{
+-----------------------
+        public Issue(Project project) {
+         this.project = project;
+                this.state = State.find("isDefault = ?", true).first();
 
-this.project = project;
+                this.priority = Enumeration.find("type = ? and is_default = ?", Enumeration.ISSUE_PRIORITY_TYPE, true).first();
 
-this.state = State.find("isDefault = ?", true).first();
-
-this.priority = Enumeration.find("type = ? and is_default = ?", Enumeration.ISSUE_PRIORITY_TYPE, true).first();
-
-}
-
-[/code]
+        }
+-----------------------
 
 Now the difference between the method of creation and edition in the controller are just different by the initialisation of the issue object passed to the renderer :
 
 1.  on edition, find the object by id (passed by the url)
 2.  on creation, create a new issue
 
-[code language="java"]
+[source,java]
 
-public static void newIssue(String identifier) \{
+-----------------------
+    public static void newIssue(String identifier) {
+        Project project = Project.find("identifier", identifier).first();
+        Issue issue = new Issue(project);
+        
+        List<Tracker> trackers = Tracker.find("order by position asc").fetch();
+        List<User> users = User.find("login <> 'root' order by login").fetch();
+        List<State> states = State.find("order by position").fetch();
+        List<Enumeration> priorities = Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch();
+        
+        render("@issue", issue, trackers, users, states, priorities);
+    }
 
-Project project = Project.find("identifier", identifier).first();
+    public static void editIssue(Long id) {
+        Issue issue = Issue.findById(id);
 
-Issue issue = new Issue(project);
-
-List<Tracker> trackers = Tracker.find("order by position asc").fetch();
-
-List<User> users = User.find("login <> 'root' order by login").fetch();
-
-List<State> states = State.find("order by position").fetch();
-
-List<Enumeration> priorities = Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch();
-
-render("@issue", issue, trackers, users, states, priorities);
-
-}
-
-public static void editIssue(Long id) \{
-
-Issue issue = Issue.findById(id);
-
-List<Tracker> trackers = Tracker.find("order by position asc").fetch();
-
-List<User> users = User.find("login <> 'root' order by login").fetch();
-
-List<State> states = State.find("order by position").fetch();
-
-List<Enumeration> priorities = Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch();
-
-render("@issue", issue, trackers, users, states, priorities);
-
-}
-
-[/code]
+        List<Tracker> trackers = Tracker.find("order by position asc").fetch();
+        List<User> users = User.find("login <> 'root' order by login").fetch();
+        List<State> states = State.find("order by position").fetch();
+        List<Enumeration> priorities = Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch();
+        
+        render("@issue", issue, trackers, users, states, priorities);
+    }
+-----------------------
 
 Then the code for the drop down list in groovy is just *1 line of code* now !
 
-[code language="html"]
+[source,html]
 
-#\{select 'issue.priority.id', items:priorities, valueProperty:'id', labelProperty:'name', id:'priority', value:"$\{issue?.priority?.id}" /}
+-----------------------
 
-[/code]
+#{select 'issue.priority.id', items:priorities, valueProperty:'id', labelProperty:'name', id:'priority', value:"${issue?.priority?.id}" /}
+-----------------------
