@@ -1,8 +1,7 @@
 = Ubuntu, XFS and Buffalo NAS
 :published_at: 2011-06-18
-:hp-tags: GParted, Hard disk drive, NAS, ubuntu, XFS
 
-image::300px-Hdd.jpg[Image of a Western Digital 250Gb SATA Hard Dri...,title="Image of a Western Digital 250Gb SATA Hard Dri..."]]
+[caption id="" align="alignright" width="300" caption="Image via Wikipedia"]http://commons.wikipedia.org/wiki/File:Hdd.jpg[image:http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Hdd.jpg/300px-Hdd.jpg[Image of a Western Digital 250Gb SATA Hard Dri...,title="Image of a Western Digital 250Gb SATA Hard Dri..."][/caption]
 
 I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But my Buffallo crashed a disk for the second time (the same one,  I think it's corrupted and I'll try to have it replaced by the support).
 
@@ -22,7 +21,7 @@ Get the packages to support XFS :
 
 Now you have to identify the partition to mount : use gparted
 
-image::screenshot-dev-sdd-gparted.png?w=300[image,title="Screenshot--dev-sdd - GParted"]]
+[caption id="attachment_363" align="aligncenter" width="300" caption="Gparted utility"]http://javathought.files.wordpress.com/2011/06/screenshot-dev-sdd-gparted.png[image:http://javathought.files.wordpress.com/2011/06/screenshot-dev-sdd-gparted.png?w=300[image,title="Screenshot--dev-sdd - GParted"][/caption]
 
 You can use the drop down list on the top right to select your hard drive, then you'll see the list of partition; just identify your partition with XFS filesystem (/dev/sdd6 in my case).
 
