@@ -35,7 +35,7 @@
     <meta property="og:description" content="So, continue this tutorial. First we&amp;#8217;ll add JQuery edit in place to our task action. Download it from the google code site and extract it from the lib folder of the zip file. Copy it ito the javascripts..." />
     <meta property="og:url" content="https://javathought.github.io/2010/10/01/Play-edit-your-dates-with-JQuery-editinplace-datepicker-22.html" />
     <meta property="article:published_time" content="2010-09-30T22:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-10T00:14:12.990Z" />
+    <meta property="article:modified_time" content="2015-11-10T00:14:59.353Z" />
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Play! edit your dates with JQuery (editinplace + datepicker) 2/2" />
@@ -57,7 +57,7 @@
     "headline": "Play! edit your dates with JQuery (editinplace + datepicker) 2/2",
     "url": "https://javathought.github.io/2010/10/01/Play-edit-your-dates-with-JQuery-editinplace-datepicker-22.html",
     "datePublished": "2010-09-30T22:00:00.000Z",
-    "dateModified": "2015-11-10T00:14:12.990Z",
+    "dateModified": "2015-11-10T00:14:59.353Z",
     "description": "So, continue this tutorial. First we&amp;#8217;ll add JQuery edit in place to our task action. Download it from the google code site and extract it from the lib folder of the zip file. Copy it ito the javascripts..."
 }
     </script>
@@ -174,50 +174,34 @@
 <div class="paragraph">
 <p>We can now add an editable field to our project. First modify main.html to include the script, adding this line :</p>
 </div>
-<div class="paragraph">
-<p>&lt;script src="@\{'public/javascripts/jquery.editinplace.js'}" type="text/javascript" charset="utf-8"&gt;&lt;/script&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">        &lt;script src="@{'public/javascripts/jquery.editinplace.js'}" type="text/javascript" charset="utf-8"&gt;&lt;/script&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>Then modify the templacte index.html. We will add some class tag to identify the field on which to apply edit in place capability. We will also an an id on the tag (it will be explained below). Is his the news record template :</p>
 </div>
-<div class="paragraph">
-<p>&lt;tr class="task"&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">        &lt;tr class="task"&gt;
+            &lt;td class="editable"  id="action-${task.id}"&gt;${task.action}&lt;/td&gt;
+            &lt;td&gt;${task.due?.format('dd-MM-yyyy')}&lt;/td&gt;
+            &lt;td&gt;&amp;gt;&lt;/td&gt;
+        &lt;/tr&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>&lt;td class="editable" id="action-$\{task.id}"&gt;$\{task.action}&lt;/td&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;td&gt;$\{task.due?.format('dd-MM-yyyy')}&lt;/td&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;td&gt;&gt;&lt;/td&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;/tr&gt;</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>We&#8217;ve also tagged the <em>tr</em> tag : a goog practice to anticipate the presence of other datas in rows int the same screen. Next step is to apply the capability to the field, with a default callback function (no save to the model), in the script section of the template :</p>
 </div>
-<div class="paragraph">
-<p>$(".task td.editable").editInPlace(\{</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">         // In place edition
+        $(".task td.editable").editInPlace({
+            bg_over: 'transparent',
+            callback: function(unused, enteredText) { return enteredText; }
+        });</code></pre>
 </div>
-<div class="paragraph">
-<p>bg_over: 'transparent',</p>
-</div>
-<div class="paragraph">
-<p>callback: function(unused, enteredText) \{ return enteredText; }</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>Try the modify an action in a row : it&#8217;s ok but refresh the screen, the previous value is showned and your modification is lost.But we want to save our changes to the model (and so to be persistence). So we will modify the callback function to save data with AJAX.</p>
@@ -244,56 +228,29 @@
 <div class="paragraph">
 <p>Here is the new script code :</p>
 </div>
-<div class="paragraph">
-<p>$(".task td.editable").editInPlace(\{</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">        // In place edition
+        $(".task td.editable").editInPlace({
+            bg_over: 'transparent',
+            callback: function(el, enteredText, o) {
+                var m = /([a-z]+)-(\d+)/.exec(el), data = {}
+                data['task.id'] = m[2]
+                data['task.' + m[1]] = enteredText
+
+                // Save result
+                $.ajax({
+                    url: '@{add()}',
+                    type: 'POST',
+                    data: data,
+                    success: function() {$('#' + el).html(n)},
+                    error: function() {$('#' + el).html(o)}
+                })
+
+                return true
+            }
+        });</code></pre>
 </div>
-<div class="paragraph">
-<p>bg_over: 'transparent',</p>
-</div>
-<div class="paragraph">
-<p>callback: function(el, enteredText, o) \{</p>
-</div>
-<div class="paragraph">
-<p>var m = /(<span class="a-z">)-(\d</span>)/.exec(el), data = \{}</p>
-</div>
-<div class="paragraph">
-<p>data['task.id'] = m[2]</p>
-</div>
-<div class="paragraph">
-<p>data['task.' + m[1]] = enteredText</p>
-</div>
-<div class="paragraph">
-<p>$.ajax(\{</p>
-</div>
-<div class="paragraph">
-<p>url: '@\{add()}',</p>
-</div>
-<div class="paragraph">
-<p>type: 'POST',</p>
-</div>
-<div class="paragraph">
-<p>data: data,</p>
-</div>
-<div class="paragraph">
-<p>success: function() \{$('#' + el).html(n)},</p>
-</div>
-<div class="paragraph">
-<p>error: function() \{$('#' + el).html(o)}</p>
-</div>
-<div class="paragraph">
-<p>})</p>
-</div>
-<div class="paragraph">
-<p>return true</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>A little explaination of the callback function :</p>
@@ -329,68 +286,36 @@
 <div class="paragraph">
 <p>First we add a class to the date field, different from the previous (<em>editable</em>) as we will have an additionnal action from the standard editable behaviour (refresh the datepicker value when the date is update) :</p>
 </div>
-<div class="paragraph">
-<p>&lt;td class="date-editable" id="due-$\{task.id}"&gt;$\{task.due?.format('dd-MM-yyyy')}&lt;/td&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;td class="date-editable" id="due-${task.id}"&gt;${task.due?.format('dd-MM-yyyy')}&lt;/td&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>and make it editable</p>
 </div>
-<div class="paragraph">
-<p>$(".task td.date-editable").editInPlace(\{</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">    $(".task td.date-editable").editInPlace({
+        bg_over: 'transparent',
+    element_id: 'element_id',
+    callback: function(el, n, o) {
+            var m = /([a-z]+)-(\d+)/.exec(el), data = {}
+            data['task.id'] = m[2]
+            data['task.' + m[1]] = n
+
+            // Save result
+            $.ajax({
+                url: '@{add()}',
+                type: 'POST',
+                data: data,
+                success: function() {$('#' + el).html(n)},
+                error: function() {$('#' + el).html(o)}
+            })
+            return true
+        }
+    });</code></pre>
 </div>
-<div class="paragraph">
-<p>bg_over: 'transparent',</p>
-</div>
-<div class="paragraph">
-<p>element_id: 'element_id',</p>
-</div>
-<div class="paragraph">
-<p>callback: function(el, n, o) \{</p>
-</div>
-<div class="paragraph">
-<p>var m = /(<span class="a-z">)-(\d</span>)/.exec(el), data = \{}</p>
-</div>
-<div class="paragraph">
-<p>data['task.id'] = m[2]</p>
-</div>
-<div class="paragraph">
-<p>data['task.' + m[1]] = n</p>
-</div>
-<div class="paragraph">
-<p>$.ajax(\{</p>
-</div>
-<div class="paragraph">
-<p>url: '@\{add()}',</p>
-</div>
-<div class="paragraph">
-<p>type: 'POST',</p>
-</div>
-<div class="paragraph">
-<p>data: data,</p>
-</div>
-<div class="paragraph">
-<p>success: function() \{$('#' + el).html(n)},</p>
-</div>
-<div class="paragraph">
-<p>error: function() \{$('#' + el).html(o)}</p>
-</div>
-<div class="paragraph">
-<p>})</p>
-</div>
-<div class="paragraph">
-<p>return true</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>Here is the new behaviour :</p>
@@ -401,77 +326,42 @@
 <div class="paragraph">
 <p>Now add the datepicker; So we will replace the column value <em>&gt;</em> with an icon to call the datepicker :</p>
 </div>
-<div class="paragraph">
-<p>&lt;td&gt; &lt;input type="hidden" class="datepicker" id="datepicker-$\{task.id}" value="$\{task.due?.format('dd-MM-yyyy')}" /&gt;&lt;/td&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;td&gt;  &lt;input type="hidden" class="datepicker" id="datepicker-${task.id}" value="${task.due?.format('dd-MM-yyyy')}" /&gt;&lt;/td&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>and add the associated JQuery code :</p>
 </div>
-<div class="paragraph">
-<p>$(".datepicker").datepicker(\{dateFormat:'dd-mm-yy', showAnim:'fadeIn',</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">        $(".datepicker").datepicker({dateFormat:'dd-mm-yy', showAnim:'fadeIn',
+            showOn: 'button',
+            buttonImage: '/public/images/calendar.png',
+            buttonImageOnly: true,
+
+        onClose: function(dateText, inst){
+            var m = /([a-z]+)-(\d+)/.exec($(this).attr('id'));
+
+            sp = $('#due-'+m[2]); // take the editInPlace widget
+            sp.text(dateText);
+
+                        // Make the Ajax call : should fire blur on origibal field
+            var data = {};
+            data['task.id'] = m[2];
+            data['task.due'] = dateText;
+            $.ajax({
+                url: '@{add()}',
+                 type: 'POST',
+                data: data,
+                success: function() {$('#' + el).html(n)},
+                error: function() {$('#' + el).html(o)}
+            });
+            }
+
+        })</code></pre>
 </div>
-<div class="paragraph">
-<p>showOn: 'button',</p>
-</div>
-<div class="paragraph">
-<p>buttonImage: '/public/images/calendar.png',</p>
-</div>
-<div class="paragraph">
-<p>buttonImageOnly: true,</p>
-</div>
-<div class="paragraph">
-<p>onClose: function(dateText, inst)\{</p>
-</div>
-<div class="paragraph">
-<p>var m = /(<span class="a-z">)-(\d</span>)/.exec($(this).attr('id'));</p>
-</div>
-<div class="paragraph">
-<p>sp = $('#due-'+m[2]); // take the editInPlace widget</p>
-</div>
-<div class="paragraph">
-<p>sp.text(dateText);</p>
-</div>
-<div class="paragraph">
-<p>var data = \{};</p>
-</div>
-<div class="paragraph">
-<p>data['task.id'] = m[2];</p>
-</div>
-<div class="paragraph">
-<p>data['task.due'] = dateText;</p>
-</div>
-<div class="paragraph">
-<p>$.ajax(\{</p>
-</div>
-<div class="paragraph">
-<p>url: '@\{add()}',</p>
-</div>
-<div class="paragraph">
-<p>type: 'POST',</p>
-</div>
-<div class="paragraph">
-<p>data: data,</p>
-</div>
-<div class="paragraph">
-<p>success: function() \{$('#' + el).html(n)},</p>
-</div>
-<div class="paragraph">
-<p>error: function() \{$('#' + el).html(o)}</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>})</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>After copying the value selected in the date picker to the original date field, I make an ajax call.</p>
@@ -479,17 +369,12 @@
 <div class="paragraph">
 <p>On this datepicker, we should not make an ajax call, but update the date field and click then blur to activate the ajax call on the field value (and so write once the ajax call). But I have some problems make it run it this how-to, though it works prefectly in one of my projects. Here the code of my prject when it runs :</p>
 </div>
-<div class="paragraph">
-<p>sp = $('#due-'+m[2]); // take the editInPlace widget</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">            sp = $('#due-'+m[2]); // take the editInPlace widget
+            sp.text(dateText).click(); // set the date and trigger a click
+            $(':input', sp).blur();</code></pre>
 </div>
-<div class="paragraph">
-<p>sp.text(dateText).click(); // set the date and trigger a click</p>
-</div>
-<div class="paragraph">
-<p>$(':input', sp).blur();</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>The code is far shorter and factorized. I&#8217;ve post event if I can&#8217;t make it run on my how-to project to share it and I&#8217;ll updated this post when I&#8217;ll find the problem.</p>
