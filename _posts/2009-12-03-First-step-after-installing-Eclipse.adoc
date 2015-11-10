@@ -17,15 +17,21 @@ Don't forget to set the encoding parameter to your javac javadoc target in your 
 [source,xml]
 
 -----------------------
-<javac srcdir=&quot;${src.dir}&quot; destdir=&quot;${build.dir}&quot; encoding=&quot;UTF-8&quot; >
+<javac srcdir="${src.dir}" destdir="${build.dir}" encoding="UTF-8" >
 <classpath>
-<fileset dir=&quot;${lib.dir}&quot;>
-<include name=&quot;**/*.jar&quot;/>
+<fileset dir="${lib.dir}">
+<include name="**/*.jar"/>
 </fileset>
 </classpath>
 </javac>
 
-<javadoc encoding=&quot;UTF-8&quot; .../>
+<javadoc encoding="UTF-8" .../>
+
+
+
+
+
+
 
 -----------------------
 
