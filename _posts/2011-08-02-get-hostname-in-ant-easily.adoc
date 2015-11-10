@@ -4,10 +4,8 @@
 
 After searching a while, here is the best way I found to get the hostname in a propert. Just use exec task :
 
-[code language="xml"]
+[source,xml]
+<exec dir="${basedir}" executable="hostname" outputproperty="host.name">
 
-<exec dir="$\{basedir}" executable="hostname" outputproperty="host.name">
 
-[/code]
-
-The trick is the attribute outputpropety of the exec task. You can then use $\{host.name} variable to use the hostname in your ant scripts.
+The trick is the attribute outputpropety of the exec task. You can then use ${host.name} variable to use the hostname in your ant scripts.
