@@ -5,22 +5,24 @@ To make tests on my application, I needed a ftp server. On my previous desktop w
 
 Just go to "**Control panel**" then "**Programs**" and "**Turn windows features on or off**". You'll just have to go down to "**Internet Information Services**" (or IIS) and select *FTP Server* AND **IIS management console**. See the screenshot below (in french) :
 
-image::win7_ftp1.png?w=300[image,title="Win7_ftp"]]
+image::win7_ftp1.png?w=300[image,title="Win7_ftp"]
 
 Then you have to administrate your IIS : in control panel, click **System and Security**, and then click *Administrative Tools* and launch **IIS Manager**. There just add a FTP site (right click on the *Sites* folder).
 
-image::win7_ftp_iismanager.png?w=300[image,title="Win7_ftp_IISManager"]]
+image::win7_ftp_iismanager.png?w=300[image,title="Win7_ftp_IISManager"]
 
-\1. Enter a name for the site and the file path to the directory that will host your site
+1. Enter a name for the site and the file path to the directory that will host your site
 
-image::win7_ftp_site1.png?w=300[image,title="Win7_ftp_site1"]]
+image::win7_ftp_site1.png?w=300[image,title="Win7_ftp_site1"]
 
-\2. Enter the properties for the connection to the site
+[start=2]
+2. Enter the properties for the connection to the site
 
-image::win7_ftp_site2.png?w=300[image,title="Win7_ftp_site2"]]
+image::win7_ftp_site2.png?w=300[image,title="Win7_ftp_site2"]
 
-\3. Enter the authentifications rules (authentification mode, anonymous connection, read/write access)
+[start=3]
+3. Enter the authentifications rules (authentification mode, anonymous connection, read/write access)
 
-image::win7_ftp_site3.png?w=300[image,title="Win7_ftp_site3"]]
+image::win7_ftp_site3.png?w=300[image,title="Win7_ftp_site3"]
 
 And you're gone with your ftp site : no download, run as a service; the hard part is to know it's included in Windows 7 and where to find it.
