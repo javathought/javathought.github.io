@@ -2,7 +2,7 @@
 :published_at: 2011-08-07
 :hp-tags: Android, contact pick, Force close, Programming
 
-image::Android-logo.jpg[Android robot logo.,title="Android robot logo."]]
+image::Android-logo.jpg[Android robot logo.,title="Android robot logo."]
 
 If you encountered an error  in this chapter, calling the managedQuery function, the easy to find http://p2p.wrox.com/book-professional-android-2-application-development/82392-chapter-5-contact-picker-example.html[correction is mentioned here] on editor "p2p" (programmer to programmer) site.
 
