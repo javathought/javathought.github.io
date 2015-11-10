@@ -6,10 +6,12 @@ I installed ubuntu 11.04 server but the keyboard was 'us'. Not quite efficient w
 
 Searching on the web, it's often said to use :
 
+[source,bash]
 dpkg-reconfigure console-setup
 
 But in fact, I didn't found a keyboard option.
 
 Just launch :
 
+[source,bash]
 sudo loadkeys fr
