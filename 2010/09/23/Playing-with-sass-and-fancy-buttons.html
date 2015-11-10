@@ -35,7 +35,7 @@
     <meta property="og:description" content="Before giving the second part of [my last post, a quick how-to to add great looking buttons in your applications with sass (an extension of CSS3) and fancy-buttons (an easy way to design CSS buttons in seconds) . there a sass..." />
     <meta property="og:url" content="https://javathought.github.io/2010/09/23/Playing-with-sass-and-fancy-buttons.html" />
     <meta property="article:published_time" content="2010-09-22T22:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-10T00:11:33.258Z" />
+    <meta property="article:modified_time" content="2015-11-10T00:11:49.930Z" />
     <meta property="article:tag" content="play framework" />
     <meta property="article:tag" content="sass" />
     
@@ -59,7 +59,7 @@
     "headline": "Playing with sass and fancy-buttons",
     "url": "https://javathought.github.io/2010/09/23/Playing-with-sass-and-fancy-buttons.html",
     "datePublished": "2010-09-22T22:00:00.000Z",
-    "dateModified": "2015-11-10T00:11:33.258Z",
+    "dateModified": "2015-11-10T00:11:49.930Z",
     "keywords": "play framework,  sass",
     "description": "Before giving the second part of [my last post, a quick how-to to add great looking buttons in your applications with sass (an extension of CSS3) and fancy-buttons (an easy way to design CSS buttons in seconds) . there a sass..."
 }
@@ -168,11 +168,10 @@
 <div class="paragraph">
 <p>there a sass module in play. Just type the following line to get the module. It comes with fancy-buttons embedded.</p>
 </div>
-<div class="paragraph">
-<p>play install sass</p>
+<div class="listingblock">
+<div class="content">
+<pre>play install sass</pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>Don&#8217;t forget to run eclipsify (or the command of your IDE) again and refresh Eclipse (your IDE). I&#8217;ll make this how-to on my datepicker project (from previous post).</p>
@@ -180,11 +179,10 @@
 <div class="paragraph">
 <p>Add the module to your application in conf/application.conf :</p>
 </div>
-<div class="paragraph">
-<p>module.sass=$\{play.path}/modules/sass-head</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-ini" data-lang="ini">module.sass=${play.path}/modules/sass-head</code></pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>Not you just have two files to modify.</p>
@@ -192,17 +190,13 @@
 <div class="paragraph">
 <p>Create the sass stylesheet (main.sass) in /public/stylesheets. Import fancy-buttons and "style" your submit button :</p>
 </div>
-<div class="paragraph">
-<p>@import fancy_buttons.sass</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-css" data-lang="css">@import fancy_buttons.sass
+
+input[type=&amp;quot;submit&amp;quot;]
+    +fancy-button</code></pre>
 </div>
-<div class="paragraph">
-<p>input[type="submit"]</p>
-</div>
-<div class="paragraph">
-<p>+fancy-button</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>Really simple, isn&#8217;t it ?</p>
@@ -210,11 +204,10 @@
 <div class="paragraph">
 <p>Add the call to the stylesheet in main.html :</p>
 </div>
-<div class="paragraph">
-<p>&lt;link rel="stylesheet" href="@\{'public/stylesheets/main.sass'}" type="text/css"&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;@{'public/stylesheets/main.sass'}&amp;quot; type=&amp;quot;text/css&amp;quot;&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>And, <em>voilà</em> :</p>
