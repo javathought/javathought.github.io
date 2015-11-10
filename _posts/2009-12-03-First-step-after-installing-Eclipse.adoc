@@ -14,24 +14,25 @@ Then select Other and choose UTF-8.
 
 Don't forget to set the encoding parameter to your javac javadoc target in your ant tasks :
 
-[sourcecode language="xml"]
+[source,xml]
 
-<javac srcdir="$\{src.dir}" destdir="$\{build.dir}" encoding="UTF-8" >
-
+-----------------------
+<javac srcdir=&quot;${src.dir}&quot; destdir=&quot;${build.dir}&quot; encoding=&quot;UTF-8&quot; >
 <classpath>
-
-<fileset dir="$\{lib.dir}">
-
-<include name="**/*.jar"/>
-
+<fileset dir=&quot;${lib.dir}&quot;>
+<include name=&quot;**/*.jar&quot;/>
 </fileset>
-
 </classpath>
-
 </javac>
 
-<javadoc encoding="UTF-8" .../>
+<javadoc encoding=&quot;UTF-8&quot; .../>
 
-[/sourcecode]
+
+
+
+
+
+
+-----------------------
 
 That's all.
