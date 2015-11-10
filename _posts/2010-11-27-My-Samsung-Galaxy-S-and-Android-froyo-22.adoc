@@ -2,7 +2,7 @@
 :published_at: 2010-11-27
 :hp-tags: froyo, Galaxy S
 
-image::Android-logo.jpg[Android robot logo.,title="Android robot logo."]]
+image::Android-logo.jpg[Android robot logo.,title="Android robot logo."]
 
 I've just upgraded my android phone with the froyo 2.2 version.
 
@@ -10,11 +10,11 @@ Though you can see the http://developer.android.com/sdk/android-2.2-highlights.
 
 The first one is the stamp on sms, e-mail with the numbber of unread items.
 
-image::device-1.png?w=180[image,title="TouchWiz home screen"]]
+image::device-1.png?w=180[image,title="TouchWiz home screen"]
 
 The management of the seven home screens is also reviewed : with the pinch gesture, you can have a view of the 7 small screen you can arrange with drag and drop and delete dragging to the  dust bin.
 
-image::device-16.png?w=180[image,title="device-16"]]
+image::device-16.png?w=180[image,title="device-16"]
 
 On my first home screen, I've put :
 
@@ -23,15 +23,15 @@ On my first home screen, I've put :
 
 There's some new standard applications too :
 
-image::device-2b.png?w=180[image,title="Home screen"]]
+image::device-2b.png?w=180[image,title="Home screen"]
 
-image::device-3.png?w=180[image,title="a new application"]]
+image::device-3.png?w=180[image,title="a new application"]
 
-image::device-15.png?w=180[image,title="the main application management screen"]]
+image::device-15.png?w=180[image,title="the main application management screen"]
 
-image::device-14.png?w=180[image,title="move to SD-Card"]]
+image::device-14.png?w=180[image,title="move to SD-Card"]
 
-image::device-5.png?w=180[image,title="unavailable service"]]
+image::device-5.png?w=180[image,title="unavailable service"]
 
 Yes, Press Reader is new and not "online" for the moment.
 
@@ -39,36 +39,36 @@ The management of applications has changed too :
 
  
 
-image::device-4.png?w=180[image,title="Suppress an application"]]
+image::device-4.png?w=180[image,title="Suppress an application"]
 
 and the market comes with his new features :
 
  
 
-image::device-12.png?w=180[image,title="batch upgrade"]]
+image::device-12.png?w=180[image,title="batch upgrade"]
 
-image::device-13.png?w=180[image,title="Auto upgrade"]]
+image::device-13.png?w=180[image,title="Auto upgrade"]
 
 A great enhancement is the new feature of text selection, copy/cut/paste :
 
-image::device-7.png?w=180[image,title="Text selection"]]
+image::device-7.png?w=180[image,title="Text selection"]
 
-image::device-8.png?w=180[image,title="drag to select"]]
+image::device-8.png?w=180[image,title="drag to select"]
 
 Once you have already made a copy or cut, there's also  a paste icon available.
 
 The newq notification bar have new toggle buttons :
 
-image::device-9.png?w=180[image,title="new buttons"]]
+image::device-9.png?w=180[image,title="new buttons"]
 
 The goggle enhanced search tool :
 
-image::device-11.png?w=180[image,title="google search"]]
+image::device-11.png?w=180[image,title="google search"]
 
 It's nothing but a little change in the colors :
 
-image::device-10.png?w=180[image,title="popup dialog"]]
+image::device-10.png?w=180[image,title="popup dialog"]
 
 And some more colors again :
 
-image::device-6.png?w=180[image,title="new menu colors"]]
+image::device-6.png?w=180[image,title="new menu colors"]
