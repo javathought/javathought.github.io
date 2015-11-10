@@ -41,7 +41,7 @@ Now we will add a link in the current view to show the detail view, add a column
 [source,html]
 
 -----------------------
-            <td><a href=&quot;@{task(task.id)}&quot;>&gt;</a></td>
+            <td><a href="@{task(task.id)}">&gt;</a></td>
 -----------------------
 
 Now we have to had the controller action task in Application :
@@ -66,25 +66,25 @@ Last action is to write the task.html template. It will be very similar to the i
 <table>
     <thead>
         <tr>
-            <th class=&quot;event&quot;>status</th>
-            <th class=&quot;date&quot;>when</th>
+            <th class="event">status</th>
+            <th class="date">when</th>
         </tr>
     </thead>
     <tbody>
         #{list task.events, as:'event'}
 
         
-        <tr class=&quot;event&quot; transferId=&quot;${event.id}&quot; >
-            <td id=&quot;status-${event.id}&quot;>${event.status}</td>
-            <td id=&quot;when-${event.id}&quot;>${event.eventDate}</td>
+        <tr class="event" transferId="${event.id}" >
+            <td id="status-${event.id}">${event.status}</td>
+            <td id="when-${event.id}">${event.eventDate}</td>
         </tr>
 
         #{/list}
         <tr>
             #{form @saveEvent(task.id)}
-            <td><input type=&quot;text&quot; name=&quot;event.status&quot;></td>
-            <td><input type=&quot;text&quot; name=&quot;event.when&quot;></td>
-            <td><input type=&quot;submit&quot; value=&quot;+&quot;></td>
+            <td><input type="text" name="event.status"></td>
+            <td><input type="text" name="event.when"></td>
+            <td><input type="submit" value="+"></td>
             #{/form}
         </tr>
     </tbody>
