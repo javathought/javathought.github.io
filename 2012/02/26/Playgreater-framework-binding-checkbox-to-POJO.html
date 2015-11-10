@@ -35,7 +35,7 @@
     <meta property="og:description" content="I&amp;#8217;ve been quite a long time to find the good way to bind checkboxes in my views to boolean properties of my POJO. The only way I was able to handle the checkboxes was to pass explicitly the..." />
     <meta property="og:url" content="https://javathought.github.io/2012/02/26/Playgreater-framework-binding-checkbox-to-POJO.html" />
     <meta property="article:published_time" content="2012-02-25T23:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-10T23:55:04.582Z" />
+    <meta property="article:modified_time" content="2015-11-10T23:55:23.984Z" />
     <meta property="article:tag" content="boolean field" />
     <meta property="article:tag" content="controller code" />
     <meta property="article:tag" content="data binding" />
@@ -61,7 +61,7 @@
     "headline": "Play!&gt; framework : binding checkbox to POJO",
     "url": "https://javathought.github.io/2012/02/26/Playgreater-framework-binding-checkbox-to-POJO.html",
     "datePublished": "2012-02-25T23:00:00.000Z",
-    "dateModified": "2015-11-10T23:55:04.582Z",
+    "dateModified": "2015-11-10T23:55:23.984Z",
     "keywords": "boolean field,  controller code,  data binding,  play framework",
     "description": "I&amp;#8217;ve been quite a long time to find the good way to bind checkboxes in my views to boolean properties of my POJO. The only way I was able to handle the checkboxes was to pass explicitly the..."
 }
@@ -167,32 +167,22 @@
       <div class="paragraph">
 <p>I&#8217;ve been quite a long time to find the good way to bind checkboxes in my views to boolean properties of my POJO. The only way I was able to handle the checkboxes was to pass explicitly the field to the save method of the controller and explicitly set the property to the value of the argument in the controller. Otherwise, only changes from unset to set were save to the model.</p>
 </div>
-<div class="paragraph">
-<p>#\{form @Domains.save(isPublic), id:'form', method:'POST', enctype:'multipart/form-data'}</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">    #{form @Domains.save(isPublic), id:'form', method:'POST', enctype:'multipart/form-data'}
+    ...
+    &lt;input type="checkbox" id="domain_isPublic" name="isPublic" ${domain?.isPublic ? 'checked':''} /&gt;
+    ...
+    #{form}</code></pre>
 </div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<p>&lt;input type="checkbox" id="domain_isPublic" name="isPublic" $\{domain?.isPublic ? 'checked':''} /&gt;</p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<p>#{form}</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>and this additional line is present in the <em>save</em> of the controller :</p>
 </div>
-<div class="paragraph">
-<p>domain.isPublic = isPublic;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    domain.isPublic = isPublic;</code></pre>
 </div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>I finally found the solution in <a href="http://groups.google.com/group/play-framework/browse_thread/thread/1f2810b981776bc1">this discussion of the play-framework group</a>. As said by</p>
@@ -200,26 +190,15 @@
 <div class="paragraph">
 <p>Guillaume Bort, an hidden field must be added <strong>after</strong> the checkbox field to have the binding done when the checkbox is unset : when unset, the value is null and so no binding is done. So the hidden field is used to binf the false value.</p>
 </div>
-<div class="paragraph">
-<p>#\{form @Domains.save(), id:'form', method:'POST', enctype:'multipart/form-data'}</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">    #{form @Domains.save(), id:'form', method:'POST', enctype:'multipart/form-data'}
+        ...
+    &lt;input type="checkbox" id="domain_isPublic" name="domain.isPublic" value="true" ${domain?.isPublic ? 'checked':''} /&gt;
+    &lt;input type="hidden" name="domain.isPublic" value="false" /&gt;
+    ...
+    #{form}</code></pre>
 </div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<p>&lt;input type="checkbox" id="domain_isPublic" name="domain.isPublic" value="true" $\{domain?.isPublic ? 'checked':''} /&gt;</p>
-</div>
-<div class="paragraph">
-<p>&lt;input type="hidden" name="domain.isPublic" value="false" /&gt;</p>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<p>#{form}</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>And you can now remove the setting of the boolean field in your controller.</p>
