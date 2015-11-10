@@ -32,14 +32,14 @@
     <meta property="og:site_name" content="Java Thoughts" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Ubuntu, XFS and Buffalo NAS" />
-    <meta property="og:description" content="Image of a Western Digital 250Gb SATA Hard Dri&amp;#8230;&amp;#8203; I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But my Buffallo..." />
+    <meta property="og:description" content="Figure 1. Image of a Western Digital 250Gb SATA Hard Dri&amp;#8230;&amp;#8203; I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But..." />
     <meta property="og:url" content="https://javathought.github.io/2011/06/18/Ubuntu-XFS-and-Buffalo-NAS.html" />
     <meta property="article:published_time" content="2011-06-17T22:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-10T23:32:38.099Z" />
+    <meta property="article:modified_time" content="2015-11-10T23:34:53.364Z" />
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Ubuntu, XFS and Buffalo NAS" />
-    <meta name="twitter:description" content="Image of a Western Digital 250Gb SATA Hard Dri&amp;#8230;&amp;#8203; I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But my Buffallo..." />
+    <meta name="twitter:description" content="Figure 1. Image of a Western Digital 250Gb SATA Hard Dri&amp;#8230;&amp;#8203; I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But..." />
     <meta name="twitter:url" content="https://javathought.github.io/2011/06/18/Ubuntu-XFS-and-Buffalo-NAS.html" />
     
     <script type="application/ld+json">
@@ -57,8 +57,8 @@
     "headline": "Ubuntu, XFS and Buffalo NAS",
     "url": "https://javathought.github.io/2011/06/18/Ubuntu-XFS-and-Buffalo-NAS.html",
     "datePublished": "2011-06-17T22:00:00.000Z",
-    "dateModified": "2015-11-10T23:32:38.099Z",
-    "description": "Image of a Western Digital 250Gb SATA Hard Dri&amp;#8230;&amp;#8203; I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But my Buffallo..."
+    "dateModified": "2015-11-10T23:34:53.364Z",
+    "description": "Figure 1. Image of a Western Digital 250Gb SATA Hard Dri&amp;#8230;&amp;#8203; I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But..."
 }
     </script>
 
@@ -159,8 +159,13 @@
     </header>
 
     <section class="post">
-      <div class="paragraph">
-<div class="title">Image of a Western Digital 250Gb SATA Hard Dri&#8230;&#8203;</div>
+      <div class="imageblock">
+<div class="content">
+<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Hdd.jpg/300px-Hdd.jpg" alt="Image of a Western Digital 250Gb SATA Hard Dri...">
+</div>
+<div class="title">Figure 1. Image of a Western Digital 250Gb SATA Hard Dri&#8230;&#8203;</div>
+</div>
+<div class="paragraph">
 <p>I use a NAS as my main drive to maintain my datas shared against my computers (and to not have to make copies when changing it). But my Buffallo crashed a disk for the second time (the same one,  I think it&#8217;s corrupted and I&#8217;ll try to have it replaced by the support).</p>
 </div>
 <div class="paragraph">
@@ -181,8 +186,13 @@ sudo apt-get install gparted</p>
 <div class="paragraph">
 <p>Now you have to identify the partition to mount : use gparted</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="/images/screenshot-dev-sdd-gparted.png" alt="image">
+</div>
+<div class="title">Figure 2. Screenshot&#8212;&#8203;dev-sdd - GParted</div>
+</div>
 <div class="paragraph">
-<div class="title">Screenshot&#8212;&#8203;dev-sdd - GParted</div>
 <p>You can use the drop down list on the top right to select your hard drive, then you&#8217;ll see the list of partition; just identify your partition with XFS filesystem (/dev/sdd6 in my case).</p>
 </div>
 <div class="paragraph">
