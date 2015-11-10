@@ -8,43 +8,42 @@ there a sass module in play. Just type the following line to get the module. It 
 
 [code laguage="ksh"]
 
+-----------------------
 play install sass
-
-[/code]
+-----------------------
 
 Don't forget to run eclipsify (or the command of your IDE) again and refresh Eclipse (your IDE). I'll make this how-to on my datepicker project (from previous post).
 
 Add the module to your application in conf/application.conf :
 
-[code language="ini"]
+[source,ini]
 
-module.sass=$\{play.path}/modules/sass-head
-
-[/code]
+-----------------------
+module.sass=${play.path}/modules/sass-head
+-----------------------
 
 Not you just have two files to modify.
 
 Create the sass stylesheet (main.sass) in /public/stylesheets. Import fancy-buttons and "style" your submit button :
 
-[code language="css"]
+[source,css]
 
+-----------------------
 @import fancy_buttons.sass
 
-input[type="submit"]
-
-+fancy-button
-
-[/code]
+input[type=&quot;submit&quot;]
+    +fancy-button
+-----------------------
 
 Really simple, isn't it ?
 
 Add the call to the stylesheet in main.html :
 
-[code language="html"]
+[source,html]
 
-<link rel="stylesheet" href="@\{'public/stylesheets/main.sass'}" type="text/css">
-
-[/code]
+-----------------------
+<link rel=&quot;stylesheet&quot; href=&quot;@{'public/stylesheets/main.sass'}&quot; type=&quot;text/css&quot;>
+-----------------------
 
 And, _voilà_ :
 
