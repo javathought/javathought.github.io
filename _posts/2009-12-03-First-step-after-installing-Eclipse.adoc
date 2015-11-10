@@ -27,12 +27,6 @@ Don't forget to set the encoding parameter to your javac javadoc target in your 
 
 <javadoc encoding=&quot;UTF-8&quot; .../>
 
-
-
-
-
-
-
 -----------------------
 
 That's all.
