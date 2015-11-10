@@ -47,6 +47,6 @@ Add the call to the stylesheet in main.html :
 
 And, _voilà_ :
 
-image::screenshot-12.jpg[image,title="A form with fancy-buttons"]]
+image::screenshot-12.jpg[image,title="A form with fancy-buttons"]
 
 I'll let your change the look : http://brandonmathis.com/projects/fancy-buttons/[see more on author site].
