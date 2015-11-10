@@ -12,4 +12,6 @@ My personal home on my http://en.wikipedia.org/wiki/Samsung_Galaxy_S[Galaxy S] (
 
 - Screen 3 : Smooth Calendar - Games icons (from iPhone theme) resized by me - Go LauncherImage folders - Dektop Visualizer (contact link) - 4 icons for apps by me
 
-http://banks.free.fr/images/Home1-Screen1.png[image:http://banks.free.fr/images/Home1-Screen1.png[image,title="Screen 1"]]http://banks.free.fr/images/Home1-Screen2.png[image:http://banks.free.fr/images/Home1-Screen2.png[image,title="Screen 2"]]http://banks.free.fr/images/Home1-Screen3.png[image:http://banks.free.fr/images/Home1-Screen3.png[image,title="Screen3"]]
+image::http://banks.free.fr/images/Home1-Screen1.png[image,title="Screen 1"]
+image::http://banks.free.fr/images/Home1-Screen2.png[image,title="Screen 2"]
+image::http://banks.free.fr/images/Home1-Screen3.png[image,title="Screen 3"]
