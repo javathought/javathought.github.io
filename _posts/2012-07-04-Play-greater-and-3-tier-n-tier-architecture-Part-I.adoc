@@ -15,68 +15,53 @@ image::n-tier.png[image,title="n-tier e-commerce web site"]] An e-commerce n-tie
 In these 2 cases, the top most level of the application are very similar ; it calls services to other tiers. In the case of a 3-tier application, you'll have also the Logic tier to develop.
 
 the Logic tier
---------------
+-----------------------
 
 Building a logic tier with http://www.playframework.org[Play! framework] is really easy. All you have to do is use the appropriate view to deliver a service (render as xml or json for example). The easiest os to render as json, as there's no template to code, just a call to `renderJSON`.
 
 So the work is on the Presentation tier
 
 the Presentation tier
----------------------
+-----------------------
 
 This tier will be explained on a service returning the list of accounts (see http://javathought.github.io/2012/06/24/play-json-how-to-select-fields-to-expose-exclusionstrategy/[this article on Json and Java] about the model). One possibility, as the services of the logic tier is performed, is to make an Ajax application, with javascript calls to the logic tier (with JQuery for example).
 
 The code will then be somethong similar to this : a part in the view to present the action
 
-[code language="html"]
+[source,html]
 
+-----------------------
 <div id="accounts" class="btn primary">Get accounts</div>
-
 <div id="accounts_list">
-
-[/code]
+-----------------------
 
 And a JQuery code to perform the request and render the response :
 
-[code language="javascript"]
+[source,javascript]
 
-$("#accounts").click(function()\{
+-----------------------
+$("#accounts").click(function(){
 
-$('#accounts_list').html('<p><img src="@\{'/public/images/ajax-loader.gif'}" width="220" height="19" /></p>');
+$('#accounts_list').html('<p><img src="@{'/public/images/ajax-loader.gif'}" width="220" height="19" /></p>');
 
-$.getJSON('http://localhost:9011/api/accounts', function(accounts) \{
-
+$.getJSON('http://localhost:9011/api/accounts', function(accounts) {
 // $("#results").empty();
-
 var textToInsert = [];
-
 var i = 0;
-
 $("#accounts_list").empty();
-
 $("#accounts_list").append('<table id="account_table" class="table-bordered table-condensed table-striped"> ' +
-
 '<thead><tr><th>Account number</th><th>Balance</th><th>Label</th></tr></thead><tbody></tbody></table>');
 
-$.each(accounts, function(title, acc) \{
-
+$.each(accounts, function(title, acc) {
 console.log(acc);
-
 //$("#results").append('<p>'+acc.number+'</p>');
-
 textToInsert[i++] = '<tr><td ><a href="#" class="acc_ref" onclick="account_details('+ acc.id +')" >'+acc.number+'</a></td><td>'+
-
 acc.balance+'</td><td>'+acc.label+'</td></tr>';
-
 });
-
 $("#account_table").append(textToInsert.join(''));
-
 });
-
 });
-
-[/code]
+-----------------------
 
 As you can see, the code is verbose, not easily maintainable and it will be heavy to do this for all the services in the Logic tier (or the services performed by others applications).
 
