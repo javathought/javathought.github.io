@@ -35,7 +35,7 @@
     <meta property="og:description" content="In this post I write about a pattern to avoid code duplication for rendering the same objects (like combo boxes and so) in different views (a view to create an item or a view to edit existing ones). It has..." />
     <meta property="og:url" content="https://javathought.github.io/2012/12/11/Playgreater-framework-design-pattern-2-reviewed.html" />
     <meta property="article:published_time" content="2012-12-10T23:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-11T00:24:56.571Z" />
+    <meta property="article:modified_time" content="2015-11-11T00:25:21.804Z" />
     <meta property="article:tag" content="design patterns" />
     <meta property="article:tag" content="play framework" />
     
@@ -59,7 +59,7 @@
     "headline": "Play!&gt; framework design pattern #2 reviewed",
     "url": "https://javathought.github.io/2012/12/11/Playgreater-framework-design-pattern-2-reviewed.html",
     "datePublished": "2012-12-10T23:00:00.000Z",
-    "dateModified": "2015-11-11T00:24:56.571Z",
+    "dateModified": "2015-11-11T00:25:21.804Z",
     "keywords": "design patterns,  play framework",
     "description": "In this post I write about a pattern to avoid code duplication for rendering the same objects (like combo boxes and so) in different views (a view to create an item or a view to edit existing ones). It has..."
 }
@@ -181,101 +181,45 @@
 <div class="paragraph">
 <p>So here is the example updated to enable rendering the objects on view of different datas of on different templates of the same datas</p>
 </div>
-<div class="paragraph">
-<p>@SuppressWarnings("unused")</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">    @SuppressWarnings("unused")
+    @Before(only={"newIssue", "editIssue"})
+    private static void loadCombos() {
+        renderArgs.put("trackers", Tracker.find("order by position asc").fetch());
+        renderArgs.put("users", User.find("login &lt;&gt; 'root' order by login").fetch());
+        renderArgs.put("states", State.find("order by position").fetch());
+        renderArgs.put("priorities", Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch());
+    }
+
+    @SuppressWarnings("unused")
+    @Before(only={"myIssues"})
+    private static void checkAccess() {
+        if (Security.connected() == null)
+            try {
+                Secure.login();
+            } catch (Throwable e) {
+                Logger.error(e, "Error loading Login page");
+            }
+    }
+
+    public static void newIssue(String identifier) {
+        Project project = Project.find("identifier", identifier).first();
+        Issue issue = new Issue(project);
+        render("@issue", issue);er
+    }
+
+    public static void editIssue(Long id) {
+        Issue issue = Issue.findById(id);
+
+        if (! issue.project.isVisible()) {
+            render("@deny", issue);
+        } else {
+            render("@issue", issue);
+        }
+
+    }</code></pre>
 </div>
-<div class="paragraph">
-<p>@Before(only=\{"newIssue", "editIssue"})</p>
-</div>
-<div class="paragraph">
-<p>private static void loadCombos() \{</p>
-</div>
-<div class="paragraph">
-<p>renderArgs.put("trackers", Tracker.find("order by position asc").fetch());</p>
-</div>
-<div class="paragraph">
-<p>renderArgs.put("users", User.find("login &lt;&gt; 'root' order by login").fetch());</p>
-</div>
-<div class="paragraph">
-<p>renderArgs.put("states", State.find("order by position").fetch());</p>
-</div>
-<div class="paragraph">
-<p>renderArgs.put("priorities", Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch());</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>@SuppressWarnings("unused")</p>
-</div>
-<div class="paragraph">
-<p>@Before(only=\{"myIssues"})</p>
-</div>
-<div class="paragraph">
-<p>private static void checkAccess() \{</p>
-</div>
-<div class="paragraph">
-<p>if (Security.connected() == null)</p>
-</div>
-<div class="paragraph">
-<p>try \{</p>
-</div>
-<div class="paragraph">
-<p>Secure.login();</p>
-</div>
-<div class="paragraph">
-<p>} catch (Throwable e) \{</p>
-</div>
-<div class="paragraph">
-<p>Logger.error(e, "Error loading Login page");</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void newIssue(String identifier) \{</p>
-</div>
-<div class="paragraph">
-<p>Project project = Project.find("identifier", identifier).first();</p>
-</div>
-<div class="paragraph">
-<p>Issue issue = new Issue(project);</p>
-</div>
-<div class="paragraph">
-<p>render("@issue", issue);er</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>public static void editIssue(Long id) \{</p>
-</div>
-<div class="paragraph">
-<p>Issue issue = Issue.findById(id);</p>
-</div>
-<div class="paragraph">
-<p>if (! issue.project.isVisible()) \{</p>
-</div>
-<div class="paragraph">
-<p>render("@deny", issue);</p>
-</div>
-<div class="paragraph">
-<p>} else \{</p>
-</div>
-<div class="paragraph">
-<p>render("@issue", issue);</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>}</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>In the example, due to ACL, if the user have no rights to view an issue, an "Access denied" page is shown in place of the standard view to edit the issue.</p>
