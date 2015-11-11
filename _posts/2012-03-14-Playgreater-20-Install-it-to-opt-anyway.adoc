@@ -16,17 +16,12 @@ WHY ?
 
 So how do you share the installation between users ? How do you ensure nobody broke the installation ? I don't like that choice. Here are the commands to still install to `/opt` (or other irectory of you choice).
 
-[code language="bash"]
+[source,bash]
 
-groupadd play
-
-sudo chgrp play play-2.0
-
-sudo chmod -R g+w play-2.0/
-
-sudo usermod -a -G play username
-
-[/code]
+> groupadd play
+> sudo chgrp play play-2.0
+> sudo chmod -R g+w play-2.0/
+> sudo usermod -a -G play username
 
 What I'd like from the play team :
 
