@@ -35,7 +35,7 @@
     <meta property="og:description" content="Play!► is based on the MVC application model. This model, as named, is an application model, but in an enterprise ecosystem, you&amp;#8217;ll have to integrate your application with the Information System, and apply 3-tier physical architecture, or n-tier..." />
     <meta property="og:url" content="https://javathought.github.io/2012/07/04/Play-greater-and-3-tier-n-tier-architecture-Part-I.html" />
     <meta property="article:published_time" content="2012-07-03T22:00:00.000Z" />
-    <meta property="article:modified_time" content="2015-11-11T00:16:05.852Z" />
+    <meta property="article:modified_time" content="2015-11-11T00:16:34.079Z" />
     <meta property="article:tag" content="AJAX" />
     <meta property="article:tag" content="JQuery" />
     <meta property="article:tag" content="json" />
@@ -62,7 +62,7 @@
     "headline": "Play !&gt; and 3-tier, n-tier architecture - Part I",
     "url": "https://javathought.github.io/2012/07/04/Play-greater-and-3-tier-n-tier-architecture-Part-I.html",
     "datePublished": "2012-07-03T22:00:00.000Z",
-    "dateModified": "2015-11-11T00:16:05.852Z",
+    "dateModified": "2015-11-11T00:16:34.079Z",
     "keywords": "AJAX,  JQuery,  json,  Multitier architecture,  play framework",
     "description": "Play!► is based on the MVC application model. This model, as named, is an application model, but in an enterprise ecosystem, you&amp;#8217;ll have to integrate your application with the Information System, and apply 3-tier physical architecture, or n-tier..."
 }
@@ -165,9 +165,7 @@
     </header>
 
     <section class="post tag-AJAX tag-JQuery tag-json tag-Multitier-architecture tag-play-framework">
-      <div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
+      <div class="paragraph">
 <p>Play!► is based on the <a href="http://www.playframework.org/documentation/1.2.4/main#mvc">MVC application model</a>. This model, as named, is an application model, but in an enterprise ecosystem, you&#8217;ll have to integrate your application with the Information System, and apply 3-tier physical architecture, or <a href="http://en.wikipedia.org/wiki/Multitier_architecture">n-tier architecture</a></p>
 </div>
 <div class="paragraph">
@@ -185,90 +183,57 @@
 <div class="paragraph">
 <p>In these 2 cases, the top most level of the application are very similar ; it calls services to other tiers. In the case of a 3-tier application, you&#8217;ll have also the Logic tier to develop.</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_logic_tier">the Logic tier</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>Building a logic tier with <a href="http://www.playframework.org">Play! framework</a> is really easy. All you have to do is use the appropriate view to deliver a service (render as xml or json for example). The easiest os to render as json, as there&#8217;s no template to code, just a call to <code>renderJSON</code>.</p>
+<p>the Logic tier</p>
 </div>
-<div class="paragraph">
-<p>So the work is on the Presentation tier</p>
+<div class="listingblock">
+<div class="content">
+<pre>Building a logic tier with http://www.playframework.org[Play! framework] is really easy. All you have to do is use the appropriate view to deliver a service (render as xml or json for example). The easiest os to render as json, as there's no template to code, just a call to `renderJSON`.
+
+So the work is on the Presentation tier
+
+the Presentation tier</pre>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_the_presentation_tier">the Presentation tier</h2>
-<div class="sectionbody">
 <div class="paragraph">
 <p>This tier will be explained on a service returning the list of accounts (see <a href="http://javathought.github.io/2012/06/24/play-json-how-to-select-fields-to-expose-exclusionstrategy/">this article on Json and Java</a> about the model). One possibility, as the services of the logic tier is performed, is to make an Ajax application, with javascript calls to the logic tier (with JQuery for example).</p>
 </div>
 <div class="paragraph">
 <p>The code will then be somethong similar to this : a part in the view to present the action</p>
 </div>
-<div class="paragraph">
-<p>&lt;div id="accounts" class="btn primary"&gt;Get accounts&lt;/div&gt;</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;div id="accounts" class="btn primary"&gt;Get accounts&lt;/div&gt;
+&lt;div id="accounts_list"&gt;</code></pre>
 </div>
-<div class="paragraph">
-<p>&lt;div id="accounts_list"&gt;</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>And a JQuery code to perform the request and render the response :</p>
 </div>
-<div class="paragraph">
-<p>$("#accounts").click(function()\{</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">$("#accounts").click(function(){
+
+$('#accounts_list').html('&lt;p&gt;&lt;img src="@{'/public/images/ajax-loader.gif'}" width="220" height="19" /&gt;&lt;/p&gt;');
+
+$.getJSON('http://localhost:9011/api/accounts', function(accounts) {
+// $("#results").empty();
+var textToInsert = [];
+var i = 0;
+$("#accounts_list").empty();
+$("#accounts_list").append('&lt;table id="account_table" class="table-bordered table-condensed table-striped"&gt; ' +
+'&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Account number&lt;/th&gt;&lt;th&gt;Balance&lt;/th&gt;&lt;th&gt;Label&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;/table&gt;');
+
+$.each(accounts, function(title, acc) {
+console.log(acc);
+//$("#results").append('&lt;p&gt;'+acc.number+'&lt;/p&gt;');
+textToInsert[i++] = '&lt;tr&gt;&lt;td &gt;&lt;a href="#" class="acc_ref" onclick="account_details('+ acc.id +')" &gt;'+acc.number+'&lt;/a&gt;&lt;/td&gt;&lt;td&gt;'+
+acc.balance+'&lt;/td&gt;&lt;td&gt;'+acc.label+'&lt;/td&gt;&lt;/tr&gt;';
+});
+$("#account_table").append(textToInsert.join(''));
+});
+});</code></pre>
 </div>
-<div class="paragraph">
-<p>$('#accounts_list').html('&lt;p&gt;&lt;img src="@\{'/public/images/ajax-loader.gif'}" width="220" height="19" /&gt;&lt;/p&gt;');</p>
-</div>
-<div class="paragraph">
-<p>$.getJSON('http://localhost:9011/api/accounts', function(accounts) \{</p>
-</div>
-<div class="paragraph">
-<p>var textToInsert = [];</p>
-</div>
-<div class="paragraph">
-<p>var i = 0;</p>
-</div>
-<div class="paragraph">
-<p>$("#accounts_list").empty();</p>
-</div>
-<div class="paragraph">
-<p>$("#accounts_list").append('&lt;table id="account_table" class="table-bordered table-condensed table-striped"&gt; '<br></p>
-</div>
-<div class="paragraph">
-<p>'&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Account number&lt;/th&gt;&lt;th&gt;Balance&lt;/th&gt;&lt;th&gt;Label&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;/tbody&gt;&lt;/table&gt;');</p>
-</div>
-<div class="paragraph">
-<p>$.each(accounts, function(title, acc) \{</p>
-</div>
-<div class="paragraph">
-<p>console.log(acc);</p>
-</div>
-<div class="paragraph">
-<p>textToInsert[i+] = '&lt;tr&gt;&lt;td &gt;&lt;a href="#" class="acc_ref" onclick="account_details(' acc.id ')" &gt;'+acc.number'&lt;/a&gt;&lt;/td&gt;&lt;td&gt;'+</p>
-</div>
-<div class="paragraph">
-<p>acc.balance+'&lt;/td&gt;&lt;td&gt;'acc.label'&lt;/td&gt;&lt;/tr&gt;';</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>$("#account_table").append(textToInsert.join(''));</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>});</p>
-</div>
-<div class="paragraph">
-<p>[/code]</p>
 </div>
 <div class="paragraph">
 <p>As you can see, the code is verbose, not easily maintainable and it will be heavy to do this for all the services in the Logic tier (or the services performed by others applications).</p>
@@ -281,8 +246,6 @@
 </div>
 <div class="paragraph">
 <p>The <a href="http://javathought.github.io/2012/07/04/play-and-3-tier-n-tier-architecture-part-ii/">part II</a> will explain how to do the Presentation tier with the MVC application model of Play! framework and respect the 3-tier architecture with no need of CORS.</p>
-</div>
-</div>
 </div>
     </section>
 
