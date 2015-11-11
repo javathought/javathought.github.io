@@ -8,31 +8,29 @@ As we saw, the implementation of the *Logic tier* is easy with Play!. In this im
 
 The *Presentation tier* will also be relatively easy; the Logic tier will be considered as the model of the Presentation tier : the diagram below illustrated the architecture.
 
-image::3tier_play.png[image,title="3tier_play"]] Play! on a 3-tier architecture
+image::3tier_play.png[image,title="3tier_play"] Play! on a 3-tier architecture
 
 Instead of making calls to a classic Play! model (such as <code>Account.findAll()</code>), the  controller will  call the REST API of the logic tier, and render a view as a response :
 
-[code language="java"]
+[source,java]
 
-public static void accounts() \{
+-----------------------
 
-String url = "http://localhost:9011/api/accounts";
-
-HttpResponse response = WS.url(url).get();
-
+public static void accounts() {
+ String url = "http://localhost:9011/api/accounts";
+ HttpResponse response = WS.url(url).get();
 JsonElement accounts = response.getJson();
 
 render(accounts);
-
-[/code]
+-----------------------
 
 The view code will be a classic html template code. There's just a trick, as strings will be surrounded by quotes ("). The code will be <code>$\{object.property.getAsString()}</code> instead of <code>$\{object.property.getAsString()}</code>.
 
-[code language="groovy"]
+[source,groovy]
 
-$\{account.number.getAsString()}
-
-[/code]
+-----------------------
+${account.number.getAsString()}
+-----------------------
 
 And that's all. Really simple to make a 3-tier application with Play!
 
