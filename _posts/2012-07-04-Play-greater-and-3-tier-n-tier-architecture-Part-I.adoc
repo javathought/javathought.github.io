@@ -4,13 +4,15 @@
 
 Play!► is based on the http://www.playframework.org/documentation/1.2.4/main#mvc[MVC application model]. This model, as named, is an application model, but in an enterprise ecosystem, you'll have to integrate your application with the Information System, and apply 3-tier physical architecture, or http://en.wikipedia.org/wiki/Multitier_architecture[n-tier architecture]
 
-image::3tier.png[image,title="3tier"] The 3-tier architecture
+image::3tier.png[image,title="3tier"] 
+The 3-tier architecture
 
 The 3-tier architecture can be imposed by architects and/or http://en.wikipedia.org/wiki/Chief_information_security_officer[CISO] for scalability and security reasons. The 3-tier is briefly described in the diagram below, each tier having to be hosted in a separated server. As you can see, there's no exchange between the Presentation tier and the Data tier.
 
 You'll can also have to build a n-tier application, as your application has to be integrates differents service of the enterprise, such as legacy database and so one.  An e-commerce web site for example, the service provided to the client will need the services of a Stock application (the products available), a Billing application (to charge the client), an Order application (to prepare and send the order).
 
-image::n-tier.png[image,title="n-tier e-commerce web site"] An e-commerce n-tier architecture
+image::n-tier.png[image,title="n-tier e-commerce web site"] 
+An e-commerce n-tier architecture
 
 In these 2 cases, the top most level of the application are very similar ; it calls services to other tiers. In the case of a 3-tier application, you'll have also the Logic tier to develop.
 
