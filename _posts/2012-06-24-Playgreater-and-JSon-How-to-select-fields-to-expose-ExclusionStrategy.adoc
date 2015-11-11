@@ -8,185 +8,135 @@ Here a sample model example that could occurs in a bank application :
 
 A client is specified with this model, that includes the password of the client.
 
-[code language="java"]
+[source,java]
 
+-----------------------
 @Entity
-
-public class Client extends Model \{
-
-public String firstname;
-
-public String lastname;
-
-public String password;
-
-public String toString() \{
-
-return firstname + " " + lastname;
-
+public class Client extends Model {
+    public String firstname;
+    public String lastname;
+    public  String password;
+    
+    public String toString() {
+        return firstname + " " + lastname;
+    }
 }
-
-}
-
-[/code]
+-----------------------
 
 This client has accounts in the bank, so a simple model would be :
 
-[code language="java"]
+[source,java]
 
+-----------------------
 @Entity
-
-public class Account extends Model \{
-
-@ManyToOne
-
-public Client owner;
-
-public String number;
-
-public Double balance;
-
-public String label;
-
-public String toString() \{
-
-return number;
-
+public class Account extends Model {
+    @ManyToOne
+    public Client owner;
+    public String number;
+    public Double balance;
+    public String label;
+    
+    public String toString() {
+        return number;
+    }
 }
-
-}
-
-[/code]
+-----------------------
 
 One of the first service of the application when a client connects to the application is to show the list of his accounts :
 
 The route is :
 
-[code]
-
-GET /api/accounts Operations.listAccounts
-
-[/code]
+[code] GET /api/accounts Operations.listAccounts
 
 And the code of the controller is :
 
-[code language="java"]
+[source,java]
 
-public class Operations extends Controller \{
-
-public static void listAccounts() \{
-
-List<Account> accounts = Account.find("order by number").fetch();
-
-renderJSON(accounts);
-
-}
+-----------------------
+public class Operations extends Controller {
+    public static void listAccounts() {
+        List<Account> accounts = Account.find("order by number").fetch();
+        renderJSON(accounts);
+    }
 
 }
-
-[/code]
+-----------------------
 
 This code will expose the following json datas :
 
-[code]
-
-[\{"owner":\{"firstname":"xxx","lastname":"xxx","password":"yyyy","id":1},"number":"001","balance":999.99,"label":"ACCOUNT X","id":1},...]
-
-[/code]
+[code] [\{"owner":\{"firstname":"xxx","lastname":"xxx","password":"yyyy","id":1},"number":"001","balance":999.99,"label":"ACCOUNT X","id":1},...]
 
 Oh, the password is visible.
 
 So what we will do is to extend Play! with a new Controller class that will use add a Strategy to gson :
 
-[code language="java"]
+[source,java]
 
+-----------------------
 package ext;
 
 import play.mvc.Controller;
-
 import play.mvc.Util;
-
 import play.mvc.results.RenderJson;
 
 import com.google.gson.Gson;
-
 import com.google.gson.GsonBuilder;
 
-public abstract class NoExposeStrategyController extends Controller \{
 
-private static final Gson gson;
+public abstract class NoExposeStrategyController extends Controller {
+    private static final Gson gson;
 
-static \{
+    static {
 
-gson = new GsonBuilder()
+        gson = new GsonBuilder()
+        .addSerializationExclusionStrategy(new NoExposeExclusionStrategy())  
+        .create();
 
-.addSerializationExclusionStrategy(new NoExposeExclusionStrategy())
+    }
 
-.create();
-
+    @Util 
+    public static void renderJSON(Object object) {
+        throw new RenderJson(gson.toJson(object));
+    }
 }
-
-@Util
-
-public static void renderJSON(Object object) \{
-
-throw new RenderJson(gson.toJson(object));
-
-}
-
-}
-
-[/code]
+-----------------------
 
 Now, we will wrtie this strategy. The goal is to exclude fiels annoted (we will use the tag @NoExpose) in the json output.
 
-[code language="java"]
+[source,java]
 
+-----------------------
 package ext;
 
 import java.lang.annotation.ElementType;
-
 import java.lang.annotation.Retention;
-
 import java.lang.annotation.RetentionPolicy;
-
 import java.lang.annotation.Target;
 
 import com.google.gson.ExclusionStrategy;
-
 import com.google.gson.FieldAttributes;
 
-public class NoExposeExclusionStrategy implements ExclusionStrategy \{
+public class NoExposeExclusionStrategy implements ExclusionStrategy {
 
-@Retention(RetentionPolicy.RUNTIME)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.FIELD })
+    public @interface NoExpose {
+        // Field tag only annotation
+    }
 
-@Target(\{ ElementType.FIELD })
+    public NoExposeExclusionStrategy() {
+    }
 
-public @interface NoExpose \{
+    public boolean shouldSkipClass(Class<?> clazz) {
+        return (false);
+    }
 
-// Field tag only annotation
-
-}
-
-public NoExposeExclusionStrategy() \{
-
-}
-
-public boolean shouldSkipClass(Class<?> clazz) \{
-
-return (false);
-
-}
-
-public boolean shouldSkipField(FieldAttributes f) \{
-
-return f.getAnnotation(NoExpose.class) != null;
+    public boolean shouldSkipField(FieldAttributes f) {
+        return f.getAnnotation(NoExpose.class) != null;
+    }
 
 }
-
-}
-
-[/code]
+-----------------------
 
 You can notice that with exclude fields, but that we can also exclude Classes. This can also be very interesting to exclude a model (so all datas of a particular table).
 
@@ -194,20 +144,17 @@ The main code is done. All we have to do now is just two basic actions.
 
 - change the declaration of our controller(s) :
 
-[code language="java"]
+[source,java]
 
-public class Operations extends NoExposeStrategyController \{
-
-[/code]
+-----------------------
+public class Operations extends NoExposeStrategyController {
+-----------------------
 
 -annotate the fields we want to exclude :
 
-[code language="java"]
+[source,java]
 
-@NoExpose
-
-public String password;
-
-[/code]
-
-
+-----------------------
+    @NoExpose   
+    public  String password;
+-----------------------
