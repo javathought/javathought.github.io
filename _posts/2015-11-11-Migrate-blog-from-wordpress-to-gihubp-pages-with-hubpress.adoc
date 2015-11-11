@@ -1,0 +1,21 @@
+= Migrate blog from wordpress to gihubp pages with hubpress
+:published_at: 2015-11-11
+:hp-tags: blog, wordpress, gh-pages, github, hubpress
+
+This is done : I've migrated my blog from wordpress.com to gh-pages. It's under link:http://hubpress.io/[hubpress].
+
+I've it with the help of this link:https://github.com/binout/wordpress-exit[conversion tool], but link:https://github.com/javathought/wordpress-exit[modified it] a little to add : 
+
+* management of tags (line :hp-tags are generated, not the case in the original tool)
+* management of images link (there are modified ot link to images if there are also migration to images folder on github)
+* management of blocks of codes (those blocks are modified to generate [source,<langage>] markup, not done before
+* modify the export to import the comments in link:https://disqus.com/[disqus] with threads linking to gh-pages (and generate link in hubpress format : ended with .html when wordpress posts have no extension.
+
+The tool is not perfect but as it has to be used only one time, it's enough to migrate the blog with less manually operations after the migration :
+
+- some posts url are not the same on special characters in titles between wordpress and hubpress (for example 2/3 in title will have a 2-3 url in wordpress and 23 in hubpress: you'll have to modify those (you can use disqus mapping tool : https://<account>.disqus.com/admin/tools/migrate-map/?p=migrate).
+- not all images are recognized
+- this is more a hubpress bug, but my last version for managing source code blocks, hubpress freezes on admin page if I push the generated asciidoc pages. I'll have to manually create a post and copy-paste the generated post. It's still faster to convert those posts with the last version rather then pushing files generated with previous version.
+
+The last thing to do is to log in your hubpress admin page and publish your posts one by one, and the migration is done.
+
