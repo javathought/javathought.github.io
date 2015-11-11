@@ -46,7 +46,8 @@ One of the first service of the application when a client connects to the applic
 
 The route is :
 
-[code] GET /api/accounts Operations.listAccounts
+[source] 
+GET /api/accounts Operations.listAccounts
 
 And the code of the controller is :
 
@@ -64,7 +65,8 @@ public class Operations extends Controller {
 
 This code will expose the following json datas :
 
-[code] [\{"owner":\{"firstname":"xxx","lastname":"xxx","password":"yyyy","id":1},"number":"001","balance":999.99,"label":"ACCOUNT X","id":1},...]
+[source] 
+[\{"owner":\{"firstname":"xxx","lastname":"xxx","password":"yyyy","id":1},"number":"001","balance":999.99,"label":"ACCOUNT X","id":1},...]
 
 Oh, the password is visible.
 
