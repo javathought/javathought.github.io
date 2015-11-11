@@ -1,4 +1,4 @@
-= Play! & JSon : How-to select fields to expose (ExclusionStrategy)
+= Play!> & JSon : How-to select fields to expose (ExclusionStrategy)
 :published_at: 2012-06-24
 :hp-tags: ExclusionStrategy, json, play framework
 
