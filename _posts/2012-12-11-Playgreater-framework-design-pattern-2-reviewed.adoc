@@ -11,70 +11,45 @@ To enable the two behaviours, the use of the `render` method, that needed to ide
 
 So here is the example updated to enable rendering the objects on view of different datas of on different templates of the same datas
 
-[code language="java"]
+[source,java]
 
-@SuppressWarnings("unused")
+-----------------------
+    @SuppressWarnings("unused")
+    @Before(only={"newIssue", "editIssue"})
+    private static void loadCombos() {
+        renderArgs.put("trackers", Tracker.find("order by position asc").fetch());
+        renderArgs.put("users", User.find("login <> 'root' order by login").fetch());
+        renderArgs.put("states", State.find("order by position").fetch());
+        renderArgs.put("priorities", Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch());      
+    }
 
-@Before(only=\{"newIssue", "editIssue"})
+    @SuppressWarnings("unused")
+    @Before(only={"myIssues"})
+    private static void checkAccess() {
+        if (Security.connected() == null)
+            try {
+                Secure.login();
+            } catch (Throwable e) {
+                Logger.error(e, "Error loading Login page");
+            }
+    }
+    
+    public static void newIssue(String identifier) {
+        Project project = Project.find("identifier", identifier).first();
+        Issue issue = new Issue(project);
+        render("@issue", issue);er
+    }
 
-private static void loadCombos() \{
+    public static void editIssue(Long id) {
+        Issue issue = Issue.findById(id);
+        
+        if (! issue.project.isVisible()) {
+            render("@deny", issue);
+        } else {
+            render("@issue", issue);
+        }
 
-renderArgs.put("trackers", Tracker.find("order by position asc").fetch());
-
-renderArgs.put("users", User.find("login <> 'root' order by login").fetch());
-
-renderArgs.put("states", State.find("order by position").fetch());
-
-renderArgs.put("priorities", Enumeration.find("byType", Enumeration.ISSUE_PRIORITY_TYPE).fetch());
-
-}
-
-@SuppressWarnings("unused")
-
-@Before(only=\{"myIssues"})
-
-private static void checkAccess() \{
-
-if (Security.connected() == null)
-
-try \{
-
-Secure.login();
-
-} catch (Throwable e) \{
-
-Logger.error(e, "Error loading Login page");
-
-}
-
-}
-
-public static void newIssue(String identifier) \{
-
-Project project = Project.find("identifier", identifier).first();
-
-Issue issue = new Issue(project);
-
-render("@issue", issue);er
-
-}
-
-public static void editIssue(Long id) \{
-
-Issue issue = Issue.findById(id);
-
-if (! issue.project.isVisible()) \{
-
-render("@deny", issue);
-
-} else \{
-
-render("@issue", issue);
-
-}
-
-}
-
-[/code]
+    }
+-----------------------
 
 In the example, due to ACL, if the user have no rights to view an issue, an "Access denied" page is shown in place of the standard view to edit the issue.
