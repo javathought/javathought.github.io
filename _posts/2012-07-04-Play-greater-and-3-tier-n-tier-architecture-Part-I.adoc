@@ -16,15 +16,13 @@ An e-commerce n-tier architecture
 
 In these 2 cases, the top most level of the application are very similar ; it calls services to other tiers. In the case of a 3-tier application, you'll have also the Logic tier to develop.
 
-the Logic tier
------------------------
+== the Logic tier
 
 Building a logic tier with http://www.playframework.org[Play! framework] is really easy. All you have to do is use the appropriate view to deliver a service (render as xml or json for example). The easiest os to render as json, as there's no template to code, just a call to `renderJSON`.
 
 So the work is on the Presentation tier
 
-the Presentation tier
------------------------
+== the Presentation tier
 
 This tier will be explained on a service returning the list of accounts (see http://javathought.github.io/2012/06/24/play-json-how-to-select-fields-to-expose-exclusionstrategy/[this article on Json and Java] about the model). One possibility, as the services of the logic tier is performed, is to make an Ajax application, with javascript calls to the logic tier (with JQuery for example).
 
