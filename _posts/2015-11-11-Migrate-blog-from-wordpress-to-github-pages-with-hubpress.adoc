@@ -1,4 +1,4 @@
-= Migrate blog from wordpress to gihubp pages with hubpress
+= Migrate blog from wordpress to github pages with hubpress
 :published_at: 2015-11-11
 :hp-tags: blog, wordpress, gh-pages, github, hubpress
 
