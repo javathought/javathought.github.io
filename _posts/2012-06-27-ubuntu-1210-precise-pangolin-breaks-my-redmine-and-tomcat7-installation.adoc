@@ -6,16 +6,16 @@ My redmine installation was broken when I installed Precise pangolin. The home s
 
 So the action about ruby was easy :
 
-[code language="bash"]
+[source,bash]
 
+-----------------------
 sudo gem install --remote rake
-
-[/code]
+-----------------------
 
 For tomcat 7, I had a previous manual installation on ubuntu 11. As tomcat 7 is embedded with precise pangolin, I just had to copy the file missing fomr my previous manual installation :
 
-[code language="bash"]
+[source,bash]
 
+-----------------------
 sudo cp /opt/tomcat7/conf/tomcat-users.xml /etc/tomcat7
-
-[/code]
+-----------------------
