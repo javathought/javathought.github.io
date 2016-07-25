@@ -1,0 +1,16 @@
+= Pokemon Go and devloper mode on android (make it run on Wiko Highway 4G) : fictive positions
+:published_at: 2016-07-25
+:hp-tags: pokemon go, android, wiko, higway
+
+Pokemon Go is available in France and I started plying with, very well on LG G3.
+
+But my wife can't play on her Wiko Highway 4G, the game "was not" able to locate the phone by GPS. I didn't found why until I asked myself 
+and try to "hack" the game on my phone with "devloper mode" and "fictive positions". The result is clear : the developers have well done their work and detect the
+activation of the "fictive positions" in the developer mode. So you can't play and found pokemons. 
+
+As the result was the same on the wiko, I suspected the "fictive positions" were enabled by default on that phone. An it's the case :
+
+I activated the developer mode (go in the parameters > about the phone > click 4 times on the "build number"), then go back and enter in the "developer mode" new menu. The "fictives positions" were activated by default. So I unchecked the mark and retry the game. 
+
+And tada, the game works well now :D
+
