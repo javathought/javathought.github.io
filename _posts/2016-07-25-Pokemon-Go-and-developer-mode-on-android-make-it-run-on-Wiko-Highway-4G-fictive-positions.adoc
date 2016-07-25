@@ -1,4 +1,4 @@
-= Pokemon Go and devloper mode on android (make it run on Wiko Highway 4G) : fictive positions
+= Pokemon Go and developer mode on android (make it run on Wiko Highway 4G) : fictive positions
 :published_at: 2016-07-25
 :hp-tags: pokemon go, android, wiko, higway
 
