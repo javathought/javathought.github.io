@@ -1,0 +1,10 @@
+= Living documentation : a maven plugin
+:published_at: 2016-11-16
+:hp-tags: java, maven, plugin, documentation
+
+After DevoxxFr 2016 and the talk from Cyrille Martraire (link:cyriux[https://twitter.com/cyriux]) I decided to implement the principles on my projects and began to code documentation generators based on the source publish by Cyrille on github. 
+So did Benoît Prioux (link:cyriux[https://twitter.com/binout]) the same talk from Cyrille at Bdx/IO 2015. And he made a talk of his living documenation toolbox (https://binout.github.io/bdxio-2016/livingdoc-toolbox.pdf) at Bdx/IO 2016. 
+
+Benoît initiated a github organisation with "A curated list of stuff about Awesome Living Documentation" and a maven plugin. And I joined him, and Cyrille too. So we're developing a maven plugin implementing Cyrille's principles for living documentation. 
+
+I also recommend link:Cyrille's book[https://leanpub.com/livingdocumentation]. You can also see link:his talk at Devoxx 2016 on YouTube[https://www.youtube.com/watch?v=Tw-wcps7WqU].
