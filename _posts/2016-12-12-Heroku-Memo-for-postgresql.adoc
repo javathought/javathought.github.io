@@ -1,4 +1,4 @@
-= Heroku : Memo for postresql
+= Heroku : Memo for postgresql
 :published_at: 2016-12-12
 :hp-tags: play, heroku, postgresql
 
