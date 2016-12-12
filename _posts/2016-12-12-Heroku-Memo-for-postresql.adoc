@@ -1,0 +1,13 @@
+= Heroku : Memo for postresql
+:published_at: 2016-12-12
+:hp-tags: play, heroku, postgresql
+
+A little memo to configuration for local testing play2 application develop for Heroku with a PostgreSQL database. 
+
+As the documentation on heroku site didn't work, here is the `DATABASE_URL` value I use on my env.
+
+`export DATABASE_URL=jdbc:postgresql://localhost/$(whoami)`
+
+And to manually start a local PostgreSQL database (if not automatically started)
+
+`pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start`
