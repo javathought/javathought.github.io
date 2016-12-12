@@ -1,6 +1,6 @@
 = Heroku : Memo for postgresql
 :published_at: 2016-12-12
-:hp-tags: play, heroku, postgresql
+:hp-tags: playframework, heroku, postgresql
 
 A little memo to configuration for local testing play2 application develop for Heroku with a PostgreSQL database. 
 
