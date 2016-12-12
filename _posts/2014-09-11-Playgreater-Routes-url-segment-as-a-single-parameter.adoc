@@ -1,6 +1,6 @@
 = Play!> Routes : url segment as a single parameter
 :published_at: 2014-09-11
-:hp-tags: playframework, REST, routes
+:hp-tags: play framework, REST, routes
 
 This post is mainly a note for myself.
 
