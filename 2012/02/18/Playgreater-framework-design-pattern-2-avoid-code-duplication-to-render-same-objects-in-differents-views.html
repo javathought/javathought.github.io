@@ -25,23 +25,23 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <link href="/apple-touch-icon-precomposed.png" rel="apple-touch-icon">
 
-    <link rel="stylesheet" type="text/css" href="//javathought.github.io/themes/uno/assets/css/uno.css?v=1.0.0" />
+    <link rel="stylesheet" type="text/css" href="//javathought.github.io/themes/uno/assets/css/uno.css?v=1489091834011" />
 
     <link rel="canonical" href="https://javathought.github.io/2012/02/18/Playgreater-framework-design-pattern-2-avoid-code-duplication-to-render-same-objects-in-differents-views.html" />
+    <meta name="referrer" content="origin" />
     
     <meta property="og:site_name" content="Java Thoughts" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Play!&gt; framework design pattern #2 : avoid code duplication to render same objects in differents views" />
-    <meta property="og:description" content="If you have common code in your controllers to render objects in differents views, you&amp;#8217;ll duplicate your code to instanciate your java objects in each method and pass them to the render method. The goal of this pattern..." />
+    <meta property="og:description" content="If you have common code in your controllers to render objects in differents views, you&amp;#8217;ll duplicate your code to instanciate your java objects in each method and pass them to the render method. The goal of this pattern is to avoid code duplication using the @Before/@After annotations" />
     <meta property="og:url" content="https://javathought.github.io/2012/02/18/Playgreater-framework-design-pattern-2-avoid-code-duplication-to-render-same-objects-in-differents-views.html" />
-    <meta property="article:published_time" content="2012-02-17T23:00:00.000Z" />
-    <meta property="article:modified_time" content="2017-01-31T22:20:15.418Z" />
+    <meta property="article:published_time" content="2012-02-18T00:00:00.000Z" />
     <meta property="article:tag" content="design patterns" />
-    <meta property="article:tag" content="play framework" />
+    <meta property="article:tag" content=" play framework" />
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Play!&gt; framework design pattern #2 : avoid code duplication to render same objects in differents views" />
-    <meta name="twitter:description" content="If you have common code in your controllers to render objects in differents views, you&amp;#8217;ll duplicate your code to instanciate your java objects in each method and pass them to the render method. The goal of this pattern..." />
+    <meta name="twitter:description" content="If you have common code in your controllers to render objects in differents views, you&amp;#8217;ll duplicate your code to instanciate your java objects in each method and pass them to the render method. The goal of this pattern is to avoid code duplication using the @Before/@After annotations" />
     <meta name="twitter:url" content="https://javathought.github.io/2012/02/18/Playgreater-framework-design-pattern-2-avoid-code-duplication-to-render-same-objects-in-differents-views.html" />
     
     <script type="application/ld+json">
@@ -51,23 +51,21 @@
     "publisher": "Java Thoughts",
     "author": {
         "@type": "Person",
-        "name": null,
-        "image": "https://avatars.githubusercontent.com/u/1075135?v=3",
-        "url": "undefined/author/undefined",
+        "name": "javathought",
+        "image": "https://avatars3.githubusercontent.com/u/1075135?v=3",
+        "url": "https://javathought.github.io/author/javathought/",
         "sameAs": "http://javathought.github.io/"
     },
     "headline": "Play!&gt; framework design pattern #2 : avoid code duplication to render same objects in differents views",
     "url": "https://javathought.github.io/2012/02/18/Playgreater-framework-design-pattern-2-avoid-code-duplication-to-render-same-objects-in-differents-views.html",
-    "datePublished": "2012-02-17T23:00:00.000Z",
-    "dateModified": "2017-01-31T22:20:15.418Z",
+    "datePublished": "2012-02-18T00:00:00.000Z",
     "keywords": "design patterns,  play framework",
-    "description": "If you have common code in your controllers to render objects in differents views, you&amp;#8217;ll duplicate your code to instanciate your java objects in each method and pass them to the render method. The goal of this pattern..."
+    "description": "If you have common code in your controllers to render objects in differents views, you&amp;#8217;ll duplicate your code to instanciate your java objects in each method and pass them to the render method. The goal of this pattern is to avoid code duplication using the @Before/@After annotations"
 }
     </script>
 
-    <meta name="generator" content="Ghost ?" />
-    <link rel="alternate" type="application/rss+xml" title="Java Thoughts" href="https://javathought.github.io/rss" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
+    <meta name="generator" content="HubPress" />
+    <link rel="alternate" type="application/rss+xml" title="Java Thoughts" href="https://javathought.github.io/rss/" />
 
 </head>
 <body class="post-template tag-design-patterns tag-play-framework no-js">
@@ -83,7 +81,7 @@
         <div class="panel-main__inner panel-inverted">
         <div class="panel-main__content">
     
-            <a href="https://javathought.github.io" title="link to homepage for Java Thoughts"><img src="https://avatars2.githubusercontent.com/u/1075135?v=3&amp;s=460" width="80" alt="Java Thoughts logo" class="panel-cover__logo logo" /></a>
+            <a href="https://javathought.github.io" title="link to homepage for Java Thoughts"><img src="https://avatars2.githubusercontent.com/u/1075135?v&#x3D;3&amp;s&#x3D;460" width="80" alt="Java Thoughts logo" class="panel-cover__logo logo" /></a>
             <h1 class="panel-cover__title panel-title"><a href="https://javathought.github.io" title="link to homepage for Java Thoughts">Java Thoughts</a></h1>
             <hr class="panel-cover__divider" />
             <p class="panel-cover__description">Just another Java blog.</p>
@@ -155,8 +153,8 @@
 
     <header class="post-header">
       <div class="post-meta">
-        <time datetime="18 Feb 2012" class="post-meta__date date">18 Feb 2012</time> &#8226; <span class="post-meta__tags tags">on <a href="https://javathought.github.io/tag/design-patterns">design patterns</a>, <a href="https://javathought.github.io/tag/play-framework"> play framework</a></span>
-        <span class="post-meta__author author"><img src="https://avatars.githubusercontent.com/u/1075135?v=3" alt="profile image for " class="avatar post-meta__avatar" /> by </span>
+        <time datetime="18 Feb 2012" class="post-meta__date date">18 Feb 2012</time> &#8226; <span class="post-meta__tags tags">on <a href="https://javathought.github.io/tag/design-patterns/">design patterns</a>, <a href="https://javathought.github.io/tag/play-framework/"> play framework</a></span>
+        <span class="post-meta__author author"><img src="https://avatars3.githubusercontent.com/u/1075135?v&#x3D;3" alt="profile image for javathought" class="avatar post-meta__avatar" /> by javathought</span>
       </div>
       <h1 class="post-title">Play!&gt; framework design pattern #2 : avoid code duplication to render same objects in differents views</h1>
     </header>
@@ -244,10 +242,12 @@
           });
         });
 
-        hljs.initHighlightingOnLoad();      
+        hljs.initHighlightingOnLoad();
       </script>
+       
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
-    <script type="text/javascript" src="//javathought.github.io/themes/uno/assets/js/main.js?v=1.0.0"></script>
+    <script type="text/javascript" src="//javathought.github.io/themes/uno/assets/js/main.js?v=1489091834011"></script>
     
     <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
