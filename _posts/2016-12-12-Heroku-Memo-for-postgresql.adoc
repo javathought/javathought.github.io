@@ -4,7 +4,7 @@
 
 A little memo to configuration for local testing play2 application develop for Heroku with a PostgreSQL database. 
 
-As the documentation on heroku site didn't work, here is the `DATABASE_URL` value I use on my env.
+As the documentation on heroku site didn't work, here is the `DATABASE_URL` value I use on my env. 
 
 `export DATABASE_URL=jdbc:postgresql://localhost/$(whoami)`
 
